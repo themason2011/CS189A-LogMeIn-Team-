@@ -1,0 +1,42 @@
+
+*::after,
+*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing:inherit; /*change the box model so the border and paddings are not adding to total width and height*/
+
+}
+
+html{
+    font-size:10px;
+}
+
+body{
+    box-sizing:border-box;
+
+
+}
+
+.header{
+    height:95vh;
+    background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.805),rgba(40, 180, 133, 0.805));
+    background:cover;
+    background-position:top;
+    clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+    position:relative;
+
+}
+
+.Logo{
+    font-size: 3rem;
+    display:inline-block;
+    margin: 0px 2rem;
+}
+.menu{
+    float:right;
+    display: inline-block;
+    font-size: 2rem;
+}
+.menu-item{
+    margin: 0px 2rem;
+}
