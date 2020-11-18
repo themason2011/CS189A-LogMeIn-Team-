@@ -4,14 +4,14 @@ import './css/index.css';
 import './css/App.css';
 import './css/style.css';
 
-import App from './components/App';
-import Nav from'./components/navigation';
+import App from './App';
+ 
 
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Nav />
+    <App />
   </React.StrictMode>,
   document.getElementById('body')
 );

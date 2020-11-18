@@ -17,7 +17,43 @@ body{
 
 }
 
-.header{
+
+.camera{
+    height:20vh;
+    
+
+}
+.camera-personal{
+    background-color: red;
+    height:20vh;
+    display:inline-block;
+
+
+}
+.camera-participants{
+    display:inline-block;
+    background-color: blue;
+
+}
+.dominant{
+    height:60vh;
+    background-color: green;
+}
+.tool{
+    
+    height:20vh;
+    background-color: lightblue;
+}
+.tools{
+    display:inline-block;
+}
+
+
+
+
+/*Code below is the login page css that we starte*/
+
+/* .header{
     height:95vh;
     background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.805),rgba(40, 180, 133, 0.805));
     background:cover;
@@ -39,4 +75,4 @@ body{
 }
 .menu-item{
     margin: 0px 2rem;
-}
+} */
