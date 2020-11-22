@@ -1,20 +1,20 @@
 'use strict';
 
 const fs = require('fs');
-const axios = require('axios').default;
+const axios = require('axios');
 
 // Add a valid subscription key and endpoint to your environment variables.
 //NOTE: YOU MUST RUN THE FOLLOWING:
-// set COGNITIVE_SERVICE_KEY=053718cf44924eb1a7b9078cd0ba14ec
-// set COGNITIVE_SERVICE_ENDPOINT=https://cscapstone.cognitiveservices.azure.com/
+//set COGNITIVE_SERVICE_KEY='3f511205b82741fbbca3f0ea54cef7de'
+//set COGNITIVE_SERVICE_ENDPOINT='https://juans-test.cognitiveservices.azure.com/'
 // TO GET THE NEXT TO LINES TO WORK. WHEN WORKING WITH SERVER, JUST COPY THE KEYS IN HERE
-let subscriptionKey = process.env['COGNITIVE_SERVICE_KEY']
-let endpoint = process.env['COGNITIVE_SERVICE_ENDPOINT'] + '/face/v1.0/detect'
+var subscriptionKey = process.env['3f511205b82741fbbca3f0ea54cef7de']
+var endpoint = process.env['https://juans-test.cognitiveservices.azure.com'] + '/face/v1.0/detect'
 
 // Optionally, replace with your own image URL (for example a .jpg or .png URL).
 let imageUrl = "https://docs.microsoft.com/en-us/learn/data-ai-cert/identify-faces-with-computer-vision/media/clo19_ubisoft_azure_068.png"
 
-fs.readFile('C:/Users/Mason/Downloads/portrait-young-attractive-cheerful-woman-smiling-happy-face-human-expressions-emotions-close-up-pretty-caucasian-154077607.jpg', (err, imageStream) => {
+fs.readFile('/Users/juanmartinez/Downloads/cropped.jpg', (err, imageStream) => {
     if (err) throw err;
     
     // Send a POST request

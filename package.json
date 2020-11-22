@@ -7,7 +7,8 @@
     "build": "npm-run-all build:*",
     "build:examples": "npm-run-all build:examples:*",
     "build:examples:dominantspeaker": "copyfiles -f examples/dominantspeaker/src/helpers.js examples/dominantspeaker/public && browserify examples/dominantspeaker/src/index.js > examples/dominantspeaker/public/index.js",
-    "build:examples:localvideosnapshot": "copyfiles -f examples/localvideosnapshot/src/helpers.js examples/localvideosnapshot/public && browserify examples/localvideosnapshot/src/index.js > examples/localvideosnapshot/public/index.js",    "build:quickstart": "browserify quickstart/src/index.js > quickstart/public/index.js",
+    "build:examples:localvideosnapshot": "copyfiles -f examples/localvideosnapshot/src/helpers.js examples/localvideosnapshot/public && browserify examples/localvideosnapshot/src/index.js > examples/localvideosnapshot/public/index.js",
+    "build:quickstart": "browserify quickstart/src/index.js > quickstart/public/index.js",
     "clean": "npm-run-all clean:*",
     "clean:examples": "npm-run-all clean:examples:*",
     "clean:examples:dominantspeaker": "rimraf examples/dominantspeaker/public/index.js examples/dominantspeaker/public/helpers.js",
@@ -37,6 +38,8 @@
   "dependencies": {
     "@google-cloud/language": "^4.2.1",
     "@google-cloud/speech": "^4.1.4",
+    "axios": "^0.21.0",
+    "canvas-to-image": "^2.2.0",
     "dotenv": "^4.0.0",
     "express": "^4.15.2",
     "prismjs": "^1.6.0",
