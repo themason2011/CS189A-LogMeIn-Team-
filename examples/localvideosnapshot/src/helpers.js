@@ -1,7 +1,7 @@
 'use strict';
 
 var Video = require('twilio-video');
-
+var fs = require('fs');
 /**
  * Display local video in the given HTMLVideoElement.
  * @param {HTMLVideoElement} video
@@ -23,6 +23,14 @@ function takeLocalVideoSnapshot(video, canvas) {
   var context = canvas.getContext('2d');
   context.clearRect(0, 0, canvas.width, canvas.height);
   context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  console.log("tester");
+  canvas.download = "test.png";
+  canvas.toBlob(function(blob){
+    canvas.href = URL.createObjectURL(blob);
+    console.log(blob);
+    console.log(canvas.href); // this line should be here
+  },'image/png');
+  canvas.click()
 }
 
 module.exports.displayLocalVideo = displayLocalVideo;
