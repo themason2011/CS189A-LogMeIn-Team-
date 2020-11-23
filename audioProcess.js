@@ -5,7 +5,7 @@ const fs = require('fs');
 async function main() {
     const client = new speech.SpeechClient();
     const client2 = new language.LanguageServiceClient();
-    const filename = './resources/barrack.mp3';
+    const filename = './resources/trump.wav';
 
     const file = fs.readFileSync(filename);
     const audioBytes = file.toString('base64');
@@ -14,19 +14,19 @@ async function main() {
         content: audioBytes
     };
 
+     const config = {
+         encoding: 'LINEAR16',
+         sampleRateHertz: 48000,
+         languageCode: 'en-US',
+         audioChannelCount: 2
+
+     };
+
     // const config = {
-    //     encoding: 'LINEAR16',
-    //     sampleRateHertz: 48000,
-    //     languageCode: 'en-US',
-    //     audioChannelCount: 2
-
+    //     encoding: 'MP3',
+    //     sampleRateHertz:48000,
+    //     languageCode: 'en-US'
     // };
-
-    const config = {
-        encoding: 'MP3',
-        sampleRateHertz:48000,
-        languageCode: 'en-US'
-    };
 
     const request = {
         audio: audio,

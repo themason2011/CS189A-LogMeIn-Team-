@@ -8,6 +8,7 @@ var takeLocalVideoSnapshot = helpers.takeLocalVideoSnapshot;
 
 var canvas = document.querySelector('canvas#snapshot');
 var takeSnapshot = document.querySelector('button#takesnapshot');
+var takeAudioSnapshot = document.querySelector('button#takeaudiosnap');
 var video = document.querySelector('video#videoinputpreview');
 
 // Set the canvas size to the video size.
@@ -28,6 +29,9 @@ displayLocalVideo(video).then(function() {
     setCanvasSizeToVideo(canvas, video);
     takeLocalVideoSnapshot(video, canvas);
   };
+  takeAudioSnapshot.onclick = function() {
+    console.log("this is for audio clip");
+  }
 });
 
 // Resize the canvas to the video size whenever window is resized.
