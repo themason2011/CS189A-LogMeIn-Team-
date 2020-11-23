@@ -6,8 +6,8 @@ const axios = require('axios').default;
 function ProcessImage(image)    {
     // Add a valid subscription key and endpoint to your environment variables.
     //NOTE: YOU MUST RUN THE FOLLOWING:
-    subscriptionKey='053718cf44924eb1a7b9078cd0ba14ec';
-    endpoint='https://cscapstone.cognitiveservices.azure.com/face/v1.0/detect';
+    const subscriptionKey='053718cf44924eb1a7b9078cd0ba14ec';
+    const endpoint='https://cscapstone.cognitiveservices.azure.com/face/v1.0/detect';
     // TO GET THE NEXT TO LINES TO WORK. WHEN WORKING WITH SERVER, JUST COPY THE KEYS IN HERE
     // let subscriptionKey = process.env['COGNITIVE_SERVICE_KEY']
     // let endpoint = process.env['COGNITIVE_SERVICE_ENDPOINT'] + '/face/v1.0/detect'
