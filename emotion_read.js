@@ -15,7 +15,7 @@ function ProcessImage(image)    {
     // Optionally, replace with your own image URL (for example a .jpg or .png URL).
     let imageUrl = "https://docs.microsoft.com/en-us/learn/data-ai-cert/identify-faces-with-computer-vision/media/clo19_ubisoft_azure_068.png"
 
-    fs.readFile('image', (err, imageStream) => {
+    fs.readFile(image, (err, imageStream) => {
         if (err) throw err;
         
         // Send a POST request
