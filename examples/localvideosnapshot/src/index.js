@@ -3,6 +3,7 @@
 var Prism = require('prismjs');
 var getSnippet = require('../../util/getsnippet');
 var helpers = require('./helpers');
+const img_process = require('../../../emotion_read.js');
 var displayLocalVideo = helpers.displayLocalVideo;
 var takeLocalVideoSnapshot = helpers.takeLocalVideoSnapshot;
 
@@ -27,7 +28,8 @@ displayLocalVideo(video).then(function() {
   // Display a snapshot of the LocalVideoTrack on the canvas.
   takeSnapshot.onclick = function() {
     setCanvasSizeToVideo(canvas, video);
-    takeLocalVideoSnapshot(video, canvas);
+    console.log(img_process.ProcessImage(takeLocalVideoSnapshot(video, canvas)));
+
   };
   takeAudioSnapshot.onclick = function() {
     console.log("this is for audio clip");

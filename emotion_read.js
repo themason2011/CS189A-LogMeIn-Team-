@@ -6,8 +6,10 @@ const axios = require('axios').default;
 function ProcessImage(image)    {
     // Add a valid subscription key and endpoint to your environment variables.
     //NOTE: YOU MUST RUN THE FOLLOWING:
-    const subscriptionKey='053718cf44924eb1a7b9078cd0ba14ec';
-    const endpoint='https://cscapstone.cognitiveservices.azure.com/face/v1.0/detect';
+    const fs = require('fs');
+    const axios = require('axios').default;
+    const subscriptionKey='3f511205b82741fbbca3f0ea54cef7de';
+    const endpoint='https://juans-test.cognitiveservices.azure.com/face/v1.0/detect';
     // TO GET THE NEXT TO LINES TO WORK. WHEN WORKING WITH SERVER, JUST COPY THE KEYS IN HERE
     // let subscriptionKey = process.env['COGNITIVE_SERVICE_KEY']
     // let endpoint = process.env['COGNITIVE_SERVICE_ENDPOINT'] + '/face/v1.0/detect'
@@ -15,44 +17,34 @@ function ProcessImage(image)    {
     // Optionally, replace with your own image URL (for example a .jpg or .png URL).
     let imageUrl = "https://docs.microsoft.com/en-us/learn/data-ai-cert/identify-faces-with-computer-vision/media/clo19_ubisoft_azure_068.png"
 
-    fs.readFile(image, (err, imageStream) => {
-        if (err) throw err;
-        
-        // Send a POST request
-        axios({
-            method: 'post',
-            url: endpoint,
-            headers : {
-                'Content-Type' : 'application/octet-stream',
-                'Ocp-Apim-Subscription-Key': subscriptionKey
-            },
-            params : {
-                detectionModel: 'detection_01',
-                returnFaceAttributes: 'emotion',
-                returnFaceId: true
-            },
-            data: imageStream
-        }).then(function (response) {
-            // console.log('Status text: ' + response.status)
-            // console.log('Status text: ' + response.statusText)
-            // console.log()
-            // console.log(response.data[0].faceAttributes.emotion)
+    //const imageBuffer = fs.readFileSync('testing.png');
+    // Request parameters.
+    const params = {
+        'returnFaceId': 'true',
+        'returnFaceLandmarks': 'false',
+        'returnFaceAttributes': 'age,gender,headPose,smile,facialHair,glasses,' +
+            'emotion,hair,makeup,occlusion,accessories,blur,exposure,noise'
+    };
 
-            let prediction, max_val = 0;
+    const options = {
+        uri: uriBase,
+        qs: params,
+        body: image,
+        headers: {
+            'Content-Type': 'application/javascript',
+            'Ocp-Apim-Subscription-Key' : subscriptionKey
+        }
+    };
 
-            for(const [key, value] of Object.entries(response.data[0].faceAttributes.emotion)) {
-                if(value > max_val) {
-                    max_val = value;
-                    prediction = key;
-                }
-            }
-
-            console.log("The predicted emotion is: " + prediction);
-
-        }).catch(function (error) {
-            console.log(error)
-        });
-    });
+    request.post(options, (error, response, body) => {
+    if (error) {
+        console.log('Error: ', error);
+        return;
+    }
+    let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
+    console.log('JSON Response\n');
+    console.log(jsonResponse);
+    }); 
 }
 
 module.exports = { ProcessImage };
