@@ -23,7 +23,8 @@ function takeLocalVideoSnapshot(video, canvas) {
   var context = canvas.getContext('2d');
   context.clearRect(0, 0, canvas.width, canvas.height);
   context.drawImage(video, 0, 0, canvas.width, canvas.height)
-  canvasToImage(canvas);
+  var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+  return image;
 }
 
 module.exports.displayLocalVideo = displayLocalVideo;
