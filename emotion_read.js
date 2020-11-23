@@ -6,11 +6,11 @@ const axios = require('axios').default;
 function ProcessImage(image)    {
     // Add a valid subscription key and endpoint to your environment variables.
     //NOTE: YOU MUST RUN THE FOLLOWING:
-    // set COGNITIVE_SERVICE_KEY=053718cf44924eb1a7b9078cd0ba14ec
-    // set COGNITIVE_SERVICE_ENDPOINT=https://cscapstone.cognitiveservices.azure.com/
+    const subscriptionKey='053718cf44924eb1a7b9078cd0ba14ec';
+    const endpoint='https://cscapstone.cognitiveservices.azure.com/face/v1.0/detect';
     // TO GET THE NEXT TO LINES TO WORK. WHEN WORKING WITH SERVER, JUST COPY THE KEYS IN HERE
-    let subscriptionKey = process.env['COGNITIVE_SERVICE_KEY']
-    let endpoint = process.env['COGNITIVE_SERVICE_ENDPOINT'] + '/face/v1.0/detect'
+    // let subscriptionKey = process.env['COGNITIVE_SERVICE_KEY']
+    // let endpoint = process.env['COGNITIVE_SERVICE_ENDPOINT'] + '/face/v1.0/detect'
 
     // Optionally, replace with your own image URL (for example a .jpg or .png URL).
     let imageUrl = "https://docs.microsoft.com/en-us/learn/data-ai-cert/identify-faces-with-computer-vision/media/clo19_ubisoft_azure_068.png"
