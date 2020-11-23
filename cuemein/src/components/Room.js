@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Video from 'twilio-video';
 import User from './User';
+import {Container, Row, Col} from 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Room = ({ meetingname, token, logout }) => {
   const [room, setRoom] = useState(null);
@@ -53,7 +55,7 @@ const Room = ({ meetingname, token, logout }) => {
         {room ? (
           <User
             key={room.localParticipant.sid}
-            participant={room.localParticipant}
+            user={room.localParticipant}
           />
         ) : (
           ''
