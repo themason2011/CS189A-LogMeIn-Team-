@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "capstoneprojectlogmein",
+  "private_key_id": "db9bc70f56eaf0d071b9108cf03aadf26874250d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDDizNlcSwH4aFm\nIgziu0FRkprrZ+p3s0kvP5w0ArkL+Ruuwm6S1enNWiwyGRGAgwWB8aFddeq7fWrW\n1HiJHkDVHygmma2fIVCnN3mT8/jiAmsgj5yvzI1SuHaz0Eewy57yldL12B4RVKfP\niVr7wYL73efemJ/ZcD52HF7PttF0cQO/FeUcdZT11bQyH97k1L22eOre0EvJxLSi\nPyWN6Qxj5Uling0hlbZdu4RSh6D+YuSc/OyYO/qOc5W/dxDnDfKdLmXs9vrhD98+\nBG6oZg9O+0zzPbwB6TuzS25BNWzmP0n9uj0TNJK1bL6MoZCDZhD2K2T+gaZHjfKk\nyRxATLy9AgMBAAECggEAEjFE9JrhGxGbm74uvzhnNRDj72NRXdYVCLuNC4y2TR4d\nvHZT5b7Xm/aX9og9B90IueRyXBjgoBVkx3xog29IXluh92dkTxIBKDGB0ulHnjVV\n5Kdfzz5DZq8JQiTuSo1DKjQUtrEm6PtcinMvvwzrpAWq8Rt3gboO4Zu1mXMbjQ7d\nt/i7i76JwHkG3nqoVItMDsrw/RyCNCHNfv5OK4xbSA4PNxwq0emPEWHJX7yNzHD+\nFXreatej3LJyh1OrcWbaA74Pzx6ECNIed7B+nfKN91e5PK64j/T+AUaDidn+nfQb\nVlc1Sc4/AmP0E8dxJiNGlY77nJVxi2dSqT+rH1TY0QKBgQD8eMYnP1qP/HDPBXw0\nTBWO6brsRmVCMCJqDGrlKBeoEQDOBAhZoum4F+1x2m8DXCd4fuGeaB1m/1g/ULyn\nKDx3N9N8HwKpflt2UwfQtxBmK/55oOI1zmjfjG4V8gfAg9zTXL/lvDWmax5sRs83\nIxEDNJ0sAlqHCe1Vpl9KkNIJMQKBgQDGRsPPxZGcBNWKSN0HB/vWh9fLLl8pxs+O\nuhJM2k6viQJCffweaL/qoCpOEUZugSUzOj/2sMM3arEabD4fbUoyGDvfdTP5Exex\n6IrtNwjvRLHK+xyxMrDdtbYQcfZpEnxwy4II83y4pD3n+Z2zlzYXEs5xmbl4R1z9\n6nITJFFJTQKBgDLb2X76gjHTNp5dioG2eflKGD+Uhr1omOYoDjiPdQSEOFdH9K6p\n5M8S8uAmkopovALH/Ic+jf27nnlSuE4sCtIxSscMMCsYqzAQ1dgzqHgMkLzLrgYM\nyI+P6HU/RlR/u7JQUs/itCQMHBrPwNpok/rDVI4TA02EsGy6kSOiPM1hAoGAIC/2\ns7D//VLvk35Wm0CZim8NAgfqHO8QXLwqIl3CLk7Qlhi7p/gbR6xukbPOOjwu3M0U\n+ygg2MsyKvbtcs6cH9u9RH5TTJjj3NbCTtYDVkxRjIENXFq9SZCpGKxXcyE0IF95\nIZjdY2AOSK1GA5SFjGNaLijlafgzyWiY0jCwHXUCgYEA9KM4siPHNQrh+t+/XcEk\niwfTXZ2NIpF/lRpYbiVAyKsGQ9jt25BV+0Oxlp3wlg4qYXXSz37RMQt7ngjbgwFf\nPnXQZLRu0PTOX46DVs/Aw8hMbLzhbfgT6kW2rA4GMhwE3/rJMBUNf4tHs3jfvxyM\n0UFR/rMGVlX9fwcmm4rasqs=\n-----END PRIVATE KEY-----\n",
+  "client_email": "juanmendozamartinez@capstoneprojectlogmein.iam.gserviceaccount.com",
+  "client_id": "101400487048811151743",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/juanmendozamartinez%40capstoneprojectlogmein.iam.gserviceaccount.com"
+}
