@@ -49,18 +49,25 @@ const Room = ({ meetingname, token, logout }) => {
 
   return (
     <div className="room">
+      <Container fluid="true">
+        <Row>
+          <Col className="local-participant">
+            {room ? (
+              <User
+                key={room.localParticipant.sid}
+                user={room.localParticipant}
+              />
+            ) : (
+              ''
+            )}
+          </Col>
+          <Col xs={9} className="camera-participant">
+                    Camera Participants
+          </Col>
+        </Row>
+      </Container>
       <h2>Room: {meetingname}</h2>
       <button onClick={logout}>Log out</button>
-      <div className="local-participant">
-        {room ? (
-          <User
-            key={room.localParticipant.sid}
-            user={room.localParticipant}
-          />
-        ) : (
-          ''
-        )}
-      </div>
       <h3>Remote Participants</h3>
       <div className="remote-participants">{remoteParticipants}</div>
     </div>
