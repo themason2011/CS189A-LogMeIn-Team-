@@ -44,7 +44,7 @@ const Room = ({ meetingname, token, logout }) => {
   }, [meetingname, token]);
 
   const remoteParticipants = user.map(user => (
-    <User key={user.sid} participant={user} />
+    <User key={user.sid} user={user} />
   ));
 
   return (
