@@ -9,59 +9,81 @@
 
 html{
     font-size:10px;
+
+    
 }
 
 body{
     box-sizing:border-box;
-
-
 }
 
-
-.camera{
-    height:20vh;
+.cameras{
+    height:19vh;
+}
+.participants{
+    /* background-color: rgb(131, 130, 130); */
     
-
 }
-.camera-personal{
-    background-color: red;
-    height:20vh;
-    display:inline-block;
 
+.local-participant{
+    display: flex;
+    flex-direction: row;
+    /* background-color: rgb(131, 130, 130); */
+    justify-content: center;
+    border-right: 0.1rem solid rgb(245, 88, 88);
+    border-left: 0.1rem solid rgb(245, 88, 88);
+    border-top: 0.1rem solid rgb(245, 88, 88);
+    margin: 0 1.5rem;
+}
+.local-participant-camera{
+    padding: 0.2rem 0.2rem;
+}
 
-}
-.camera-participants{
-    display:inline-block;
-    background-color: blue;
-
-}
-.dominant{
-    height:60vh;
-    background-color: green;
-}
-.tool{
+.remote-participants{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     
-    height:20vh;
-    background-color: lightblue;
-}
-.tools{
-    display:inline-block;
 }
 
+.remote-participants-camera{
+    padding: 0.5rem 0.5rem;
+}
 .participant{
     position:relative;
 
 }
-
 .participant-name{
     position: absolute;
     top: 8px;
-    left:0;
+    left:1.5rem;
     margin: 0;
-    padding: 0.5em 0.5em 0.5em 2em;
-    background: rgba(47, 242, 242, 0.8);
+    padding: 0.5rem 0.5rem 0.5rem 2rem;
+    background: rgb(245, 88, 88);
     font-size: 16px;
     line-height: 1;
+}
+.control{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: 2rem;
+
+}
+.dominant{
+    height:65vh;
+    border: 0.1rem solid  rgb(245, 88, 88);
+    /* background-color: rgb(131, 130, 130); */
+}
+.menu{
+    border: 0.1rem solid  rgb(245, 88, 88);
+    /* background-color: rgb(131, 130, 130); */
+    height: 16vh;
+}
+.buttons{
+    font-size: 2rem;
+    display:flex;
+    flex-direction: column;
 }
 
 

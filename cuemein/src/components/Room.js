@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Video from 'twilio-video';
 import User from './User';
-import {Container, Row, Col} from 'react-bootstrap'
+import {Container, Row, Col, Button} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Room = ({ meetingname, token, logout }) => {
+const Room = ({ meetingname, token, logout, test }) => {
   const [room, setRoom] = useState(null);
   const [user, setUser] = useState([]);
 
@@ -44,32 +44,55 @@ const Room = ({ meetingname, token, logout }) => {
   }, [meetingname, token]);
 
   const remoteParticipants = user.map(user => (
-    <User key={user.sid} user={user} />
+    <Col className="remote-participants-camera">
+      <User key={user.sid} user={user} />
+    </Col>
+
   ));
 
   return (
     <div className="room">
-      <Container fluid="true">
-        <Row>
-          <Col className="local-participant">
+      <Container className="cameras" fluid="true">
+        <Row className="participants">
+          <Col xs="auto" className="local-participant">
             {room ? (
-              <User
-                key={room.localParticipant.sid}
-                user={room.localParticipant}
-              />
+              <div className="local-participant-camera">
+                <User
+                  key={room.localParticipant.sid}
+                  user={room.localParticipant}
+                />
+              </div>
             ) : (
               ''
             )}
           </Col>
-          <Col xs={9} className="camera-participant">
-                    Camera Participants
+          <Col xs="auto" className="remote-participants">
+            <Row>
+                {remoteParticipants}
+            </Row>
           </Col>
         </Row>
       </Container>
-      <h2>Room: {meetingname}</h2>
-      <button onClick={logout}>Log out</button>
-      <h3>Remote Participants</h3>
-      <div className="remote-participants">{remoteParticipants}</div>
+      <Container fluid className="dominant">
+
+      </Container>
+      <Container fluid className="menu">
+        <Row>
+          <h2>Room Name: {meetingname}</h2>
+        </Row>
+        <Row>
+              <Col className="buttons"sm={2}>
+              <Button variant="danger" onClick={logout}>LOG OUT</Button>
+              <Button variant="primary" onClick={test}>SENTIMENT ANALYSIS</Button>
+              </Col>
+              <Col sm={10}>
+              </Col>
+        </Row>
+      
+      </Container>
+    
+      
+      
     </div>
   );
 };

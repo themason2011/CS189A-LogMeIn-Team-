@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import {Container, Row, Col} from 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const User = ({ user }) => {
   const [videoTracks, setVideoTracks] = useState([]);
@@ -63,11 +65,11 @@ const User = ({ user }) => {
   }, [audioTracks]);
 
   return (
-    <div className="participant">
+    <Container className="participant">
       <h3 className="participant-name">{user.identity}</h3>
-      <video width="320" height="240" ref={videoref} autoPlay={true} />
+      <video height="150" ref={videoref} autoPlay={true} />
       <audio ref={audioref} autoPlay={true} muted={true} />
-    </div>
+    </Container>
   );
 };
 

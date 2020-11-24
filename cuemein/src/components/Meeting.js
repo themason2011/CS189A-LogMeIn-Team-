@@ -7,6 +7,7 @@ const Meeting = () => {
   const [username, setUsername] = useState('');
   const [meetingname, setRoomName] = useState('');
   const [token, setToken] = useState(null);
+  const [emotion, setEmotion] = useState(null)
 
   const roomname_change= useCallback(event => {
     setRoomName(event.target.value);
@@ -40,10 +41,14 @@ const Meeting = () => {
     setToken(null);
   }, []);
 
+  const test = useCallback(event => {
+    console.log("test button")
+  },[])
+
   let result;
   if (token) {
     result = (
-      <Room meetingname={meetingname} token={token} logout={logout} />
+      <Room meetingname={meetingname} token={token} logout={logout} test={test}/>
     );
   } else {
     result = (
