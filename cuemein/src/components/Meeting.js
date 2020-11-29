@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import ControlPanel from './ControlPanel';
-import Lobby from './ControlPanel';
 import Room from './Room';
 
 const Meeting = () => {

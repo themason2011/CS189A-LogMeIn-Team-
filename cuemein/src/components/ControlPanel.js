@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container, Row, Col} from 'react-bootstrap'
+import {Container, Row, Col, Form, Button} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ControlPanel = ({
@@ -10,9 +10,26 @@ const ControlPanel = ({
   handleSubmit
 }) => {
   return (
-    <Container fluid> 
+    <Container className="controlpanel" fluid> 
       <Row className="control">
-        <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
+          <Form>
+            <Form.Label className="meeting">Enter a Meeting</Form.Label>
+
+            <Form.Group>
+            <Form.Label className="name">Name:</Form.Label>
+            <Form.Control className="inputname" size="lg" type="name" value={username}  onChange={handleUsernameChange} placeholder="Enter Name" />
+            </Form.Group>
+
+            <Form.Group>
+            <Form.Label className="meetingname">Meeting name:</Form.Label>
+            <Form.Control className="inputmeetingname" size="lg" type="meetingname"  value={roomName}  onChange={handleRoomNameChange} placeholder="Enter Meeting Name" />
+            </Form.Group>
+
+            <Button variant="primary" type="submit">Submit</Button>
+          </Form>
+      </form>
+        {/* <form onSubmit={handleSubmit}>
           <h1>Enter a Meeting</h1>
           <div>
             <label htmlFor="name">Name:</label>
@@ -36,7 +53,7 @@ const ControlPanel = ({
             />
           </div>
           <button type="submit">Submit</button>
-        </form>
+        </form> */}
       </Row>
     </Container>
   );

@@ -87,7 +87,9 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
           </Col>
         </Row>
       </Container>
-      <Container fluid className="dominant">
+      <Container fluid>
+        <Row className="dominant">
+        <Col ></Col>
         {dominant ? (
             <DominantUser
                   key={dominant.sid}
@@ -95,8 +97,12 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
                 />
 
         ): (
-          ''
+          <Col fluid className="dominant-default">
+
+          </Col>
         )}
+        <Col></Col>
+        </Row>
       </Container>
       <Container fluid className="menu">
         <Row>

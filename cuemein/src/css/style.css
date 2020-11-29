@@ -17,6 +17,24 @@ body{
     box-sizing:border-box;
 }
 
+.control{
+    position:absolute;
+    bottom: 50%;
+    left: 40%;
+}
+
+.meeting{
+    font-size:4rem;
+}
+
+.meetingname{
+    font-size:3rem;
+}
+
+.name{
+    font-size:3rem;
+}
+
 .cameras{
     height:16vh;
 }
@@ -44,7 +62,7 @@ body{
 }
 
 .remote-participants-camera{
-    padding: 0.5rem 0.5rem;
+    padding: 0.2rem 0.2rem;
 }
 .participant{
     position:relative;
@@ -52,14 +70,12 @@ body{
 }
 .hoverclass .participant-name{
     position: absolute;
-    top: 2px;
-    left:1.7rem;
     margin: 0;
     padding: 0.5rem 0.5rem 0.5rem 2rem;
     background: rgb(245, 88, 88);
-    font-size: 10px;
+    font-size: 1rem;
     line-height: 1;
-    opacity: 80%;
+    opacity: 70%;
     visibility: hidden;
 }
 .hoverclass:hover .participant-name{
@@ -75,6 +91,7 @@ body{
 
 }
 .dominant{
+    background-color:  rgb(233, 233, 233);
     position:relative;
     display:flex;
     flex-direction:row;
@@ -84,7 +101,29 @@ body{
 }
 .dominant-camera{
     position:absolute;
-    left:25%;
+    height:63vh;
+    width:100%;
+}
+.dominant-default{
+    width:100%;
+    height:63vh;
+    background-image: url("../img/ph.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.hoverclass .dominant-name{
+    position: absolute;
+    margin: 0;
+    padding: 0.5rem 0.5rem 0.5rem 2rem;
+    background: rgb(245, 88, 88);
+    font-size: 3rem;
+    line-height: 1;
+    opacity: 70%;
+    visibility: hidden;
+}
+.hoverclass:hover .dominant-name{
+    visibility: visible;
+
 }
 .menu{
     /* background-color: rgb(131, 130, 130); */

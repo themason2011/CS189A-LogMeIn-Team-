@@ -65,11 +65,13 @@ const DominantUser = ({ user }) => {
   }, [audioTracks]);
 
   return (
-    <div className="dominant-camera">
-      <h3 className="participant-name">{user.identity}</h3>
-      <video width="100%" ref={videoref} autoPlay={true} />
+    <Col className="dominant-camera">
+      <span className="hoverclass">
+      <h3 className="dominant-name">{user.identity}</h3>
+      <video className="participant-video" height="100%" ref={videoref} autoPlay={true} />
+      </span>
       <audio ref={audioref} autoPlay={true} muted />
-    </div>
+    </Col>
   );
 };
 
