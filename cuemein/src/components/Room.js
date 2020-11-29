@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Video from 'twilio-video';
 import User from './User';
+import DominantUser from './DominantUser';
 import {Container, Row, Col, Button} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Room = ({ meetingname, token, logout, test }) => {
+const Room = ({ meetingname, token,emotion,logout, test}) => {
   const [room, setRoom] = useState(null);
   const [user, setUser] = useState([]);
+  const [dominant, setDominant] = useState(null)
 
   useEffect(() => {
     const participantConnected = user => {
@@ -19,13 +21,23 @@ const Room = ({ meetingname, token, logout, test }) => {
       );
     };
 
+    const participantDominantSpeaker = user => {
+      setDominant(user);
+      console.log("new dominant speaker")
+    }
+
     Video.connect(token, {
-      name: meetingname
+      name: meetingname,
+      audio: {name:'microphone'},
+      video: {name:'camera'},
+      dominantSpeaker:true
     }).then(room => {
       setRoom(room);
       room.on('participantConnected', participantConnected);
       room.on('participantDisconnected', participantDisconnected);
+      room.on('dominantSpeakerChanged', participantDominantSpeaker);
       room.participants.forEach(participantConnected);
+      
     });
 
     return () => {
@@ -47,8 +59,10 @@ const Room = ({ meetingname, token, logout, test }) => {
     <Col className="remote-participants-camera">
       <User key={user.sid} user={user} />
     </Col>
-
   ));
+
+
+
 
   return (
     <div className="room">
@@ -74,16 +88,23 @@ const Room = ({ meetingname, token, logout, test }) => {
         </Row>
       </Container>
       <Container fluid className="dominant">
+        {dominant ? (
+            <DominantUser
+                  key={dominant.sid}
+                  user={dominant}
+                />
 
+        ): (
+          ''
+        )}
       </Container>
       <Container fluid className="menu">
         <Row>
-          <h2>Room Name: {meetingname}</h2>
+          <h2>Meeting Name: {meetingname}</h2>
         </Row>
         <Row>
               <Col className="buttons"sm={2}>
               <Button variant="danger" onClick={logout}>LOG OUT</Button>
-              <Button variant="primary" onClick={test}>SENTIMENT ANALYSIS</Button>
               </Col>
               <Col sm={10}>
               </Col>

@@ -13,7 +13,7 @@ const ControlPanel = ({
     <Container fluid> 
       <Row className="control">
         <form onSubmit={handleSubmit}>
-          <h1>Enter a room</h1>
+          <h1>Enter a Meeting</h1>
           <div>
             <label htmlFor="name">Name:</label>
             <input
@@ -26,7 +26,7 @@ const ControlPanel = ({
           </div>
 
           <div>
-            <label htmlFor="room">Room name:</label>
+            <label htmlFor="room">Meeting name:</label>
             <input
               type="text"
               id="room"

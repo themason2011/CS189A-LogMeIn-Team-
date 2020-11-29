@@ -18,7 +18,7 @@ body{
 }
 
 .cameras{
-    height:19vh;
+    height:16vh;
 }
 .participants{
     /* background-color: rgb(131, 130, 130); */
@@ -30,9 +30,6 @@ body{
     flex-direction: row;
     /* background-color: rgb(131, 130, 130); */
     justify-content: center;
-    border-right: 0.1rem solid rgb(245, 88, 88);
-    border-left: 0.1rem solid rgb(245, 88, 88);
-    border-top: 0.1rem solid rgb(245, 88, 88);
     margin: 0 1.5rem;
 }
 .local-participant-camera{
@@ -53,16 +50,23 @@ body{
     position:relative;
 
 }
-.participant-name{
+.hoverclass .participant-name{
     position: absolute;
-    top: 8px;
-    left:1.5rem;
+    top: 2px;
+    left:1.7rem;
     margin: 0;
     padding: 0.5rem 0.5rem 0.5rem 2rem;
     background: rgb(245, 88, 88);
-    font-size: 16px;
+    font-size: 10px;
     line-height: 1;
+    opacity: 80%;
+    visibility: hidden;
 }
+.hoverclass:hover .participant-name{
+    visibility: visible;
+
+}
+
 .control{
     display: flex;
     flex-direction: row;
@@ -71,17 +75,22 @@ body{
 
 }
 .dominant{
+    position:relative;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
     height:65vh;
-    border: 0.1rem solid  rgb(245, 88, 88);
     /* background-color: rgb(131, 130, 130); */
 }
+.dominant-camera{
+    position:absolute;
+    left:25%;
+}
 .menu{
-    border: 0.1rem solid  rgb(245, 88, 88);
     /* background-color: rgb(131, 130, 130); */
     height: 16vh;
 }
 .buttons{
-    font-size: 2rem;
     display:flex;
     flex-direction: column;
 }

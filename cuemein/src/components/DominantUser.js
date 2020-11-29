@@ -1,31 +1,13 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import {Container, Row, Col, Button} from 'react-bootstrap'
+import React, { useState, useEffect, useRef } from "react";
+import {Container, Row, Col} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const User = ({ user }) => {
+const DominantUser = ({ user }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
-  const [emotion, setEmotion] = useState(null);
-
 
   const videoref = useRef();
   const audioref = useRef();
-
-  const test = useCallback(
-    async event => {
-      event.preventDefault();
-      const data = await fetch('/video/emotion', {
-        method: 'POST',
-        body:JSON.stringify({
-          identity:user
-        }),
-        headers: {
-          'Content-Type':'application/json'
-        }
-      }).then(res => res.json());
-      setEmotion(data)
-      console.log(data)
-    },[emotion]);
 
   const trackpubsToTracks = (trackMap) =>
     Array.from(trackMap.values())
@@ -83,19 +65,12 @@ const User = ({ user }) => {
   }, [audioTracks]);
 
   return (
-    <div className="user-camera">
-      <span className="hoverclass">
+    <div className="dominant-camera">
       <h3 className="participant-name">{user.identity}</h3>
-      <video className="participant-video" height="120" ref={videoref} autoPlay={true} />
-      </span>
-      <audio ref={audioref} autoPlay={true} muted/>
-      {emotion ? (
-          emotion.emotion
-        ): (
-          ''
-        )}
+      <video width="100%" ref={videoref} autoPlay={true} />
+      <audio ref={audioref} autoPlay={true} muted />
     </div>
   );
 };
 
-export default User;
+export default DominantUser;

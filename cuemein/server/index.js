@@ -38,6 +38,10 @@ app.post('/video/token', (req, res) => {
   sendTokenResponse(token, res);
 });
 
+app.post('/video/emotion', (req, res) => {
+  res.send(JSON.stringify({emotion:"happy"}))
+})
+
 app.listen(3001, () =>
   console.log('Express server is running on localhost:5000')
 );
