@@ -28,8 +28,6 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
 
     Video.connect(token, {
       name: meetingname,
-      audio: {name:'microphone'},
-      video: {name:'camera'},
       dominantSpeaker:true
     }).then(room => {
       setRoom(room);

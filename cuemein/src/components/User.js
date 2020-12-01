@@ -6,6 +6,7 @@ const User = ({ user }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
   const [emotion, setEmotion] = useState(null);
+  const [emotion_style, setEmotion_Style] = useState("participant-video");
 
 
   const videoref = useRef();
@@ -23,8 +24,17 @@ const User = ({ user }) => {
           'Content-Type':'application/json'
         }
       }).then(res => res.json());
-      setEmotion(data)
-      console.log(data)
+      if(data.emotion == 'happy'){
+        setEmotion_Style('participant-video-happy');
+      }
+      else if(data.emotion == 'angry'){
+        setEmotion_Style('participant-video-angry');
+      }
+      else if(data.emotion == 'sad'){
+        setEmotion_Style('participant=video-sad');
+      }
+      setEmotion(data);
+      console.log(data);
     },[emotion]);
 
   const trackpubsToTracks = (trackMap) =>
@@ -86,14 +96,10 @@ const User = ({ user }) => {
     <div className="user-camera">
       <span className="hoverclass">
       <h3 className="participant-name">{user.identity}</h3>
-      <video className="participant-video" height="120" ref={videoref} autoPlay={true} />
+      <video className={emotion_style} height="120" ref={videoref} autoPlay={true} />
       </span>
-      <audio ref={audioref} autoPlay={true} muted/>
-      {emotion ? (
-          emotion.emotion
-        ): (
-          ''
-        )}
+      <audio ref={audioref} autoPlay={true}/>
+      <Button className="btn-user" variant="primary" onClick={test}>test</Button>
     </div>
   );
 };

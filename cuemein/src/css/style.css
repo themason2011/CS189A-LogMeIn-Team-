@@ -83,6 +83,31 @@ body{
 
 }
 
+
+.hoverclass:hover .participant-video{
+    border:0.2rem solid black;
+}
+
+.hoverclass:hover .participant-video-happy{
+    border:0.4rem solid rgb(4, 221, 4);
+}
+
+.hoverclass:hover .participant-video-angry{
+    border:0.4rem solid rgb(255, 4, 4);
+}
+
+.hoverclass:hover .participant-video-sad{
+    border:0.4rem solid rgb(0, 255, 255);
+}
+
+.btn-user{
+    position: absolute;
+    left:1.8rem;
+    bottom:0.5rem;
+    opacity:70%;
+
+}
+
 .control{
     display: flex;
     flex-direction: row;
@@ -100,7 +125,7 @@ body{
     /* background-color: rgb(131, 130, 130); */
 }
 .dominant-camera{
-    position:absolute;
+    position:relative;
     height:63vh;
     width:100%;
 }
@@ -125,6 +150,15 @@ body{
     visibility: visible;
 
 }
+
+.btn-dominant{
+    position: absolute;
+    left:1.5rem;
+    bottom:0;
+    opacity:70%;
+
+}
+
 .menu{
     /* background-color: rgb(131, 130, 130); */
     height: 16vh;
