@@ -1,41 +1,41 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import {Container, Row, Col, Button} from 'react-bootstrap'
+import React, { useState, useEffect, useRef } from "react";
+// import {Container, Row, Col, Button} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const User = ({ user }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
-  const [emotion, setEmotion] = useState(null);
-  const [emotion_style, setEmotion_Style] = useState("participant-video");
+  // const [emotion, setEmotion] = useState(null);
+  // const [emotion_style, setEmotion_Style] = useState("participant-video");
 
 
   const videoref = useRef();
   const audioref = useRef();
 
-  const test = useCallback(
-    async event => {
-      event.preventDefault();
-      const data = await fetch('/video/emotion', {
-        method: 'POST',
-        body:JSON.stringify({
-          identity:user
-        }),
-        headers: {
-          'Content-Type':'application/json'
-        }
-      }).then(res => res.json());
-      if(data.emotion == 'happy'){
-        setEmotion_Style('participant-video-happy');
-      }
-      else if(data.emotion == 'angry'){
-        setEmotion_Style('participant-video-angry');
-      }
-      else if(data.emotion == 'sad'){
-        setEmotion_Style('participant=video-sad');
-      }
-      setEmotion(data);
-      console.log(data);
-    },[emotion]);
+  // const test = useCallback(
+  //   async event => {
+  //     event.preventDefault();
+  //     const data = await fetch('/video/emotion', {
+  //       method: 'POST',
+  //       body:JSON.stringify({
+  //         identity:user
+  //       }),
+  //       headers: {
+  //         'Content-Type':'application/json'
+  //       }
+  //     }).then(res => res.json());
+  //     if(data.emotion == 'happy'){
+  //       setEmotion_Style('participant-video-happy');
+  //     }
+  //     else if(data.emotion == 'angry'){
+  //       setEmotion_Style('participant-video-angry');
+  //     }
+  //     else if(data.emotion == 'sad'){
+  //       setEmotion_Style('participant=video-sad');
+  //     }
+  //     setEmotion(data);
+  //     console.log(data);
+  //   },[emotion]);
 
   const trackpubsToTracks = (trackMap) =>
     Array.from(trackMap.values())
@@ -96,10 +96,9 @@ const User = ({ user }) => {
     <div className="user-camera">
       <span className="hoverclass">
       <h3 className="participant-name">{user.identity}</h3>
-      <video className={emotion_style} height="120" ref={videoref} autoPlay={true} />
+      <video className={"participant-video"} height="120" ref={videoref} autoPlay={true} />
       </span>
-      <audio ref={audioref} autoPlay={true}/>
-      <Button className="btn-user" variant="primary" onClick={test}>test</Button>
+      <audio ref={audioref} autoPlay={true} muted/>
     </div>
   );
 };

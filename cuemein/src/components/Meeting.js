@@ -6,7 +6,6 @@ const Meeting = () => {
   const [username, setUsername] = useState('');
   const [meetingname, setRoomName] = useState('');
   const [token, setToken] = useState(null);
-  const [emotion, setEmotion] = useState(null)
 
   const roomname_change= useCallback(event => {
     setRoomName(event.target.value);
@@ -33,34 +32,18 @@ const Meeting = () => {
       }).then(res => res.json());
       setToken(data.token);
     },
-    [meetingname, username]
-  );
+    [meetingname, username]);
 
   const logout = useCallback(event => {
     setToken(null);
-  }, []);
+  },[]);
 
-  const test = useCallback(
-    async event => {
-      event.preventDefault();
-      const data = await fetch('/video/emotion', {
-        method: 'POST',
-        body:JSON.stringify({
-          identity:username,
-          room:meetingname
-        }),
-        headers: {
-          'Content-Type':'application/json'
-        }
-      }).then(res => res.json());
-      setEmotion(data)
-      console.log(data)
-    },[emotion]);
+
 
   let result;
   if (token) {
     result = (
-      <Room meetingname={meetingname} token={token} emotion={emotion} logout={logout} test={test}/>
+      <Room meetingname={meetingname} token={token} logout={logout} />
     );
   } else {
     result = (

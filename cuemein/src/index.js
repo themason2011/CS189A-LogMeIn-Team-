@@ -8,11 +8,7 @@ import App from './App';
  
 
 // import reportWebVitals from './reportWebVitals';
-import { Twilio } from 'twilio';
 
-
-const container = document.getElementById('video-container');
-const button = document.getElementById('get-video');
 
 // button.addEventListener('click', () => {
 //   Twilio.Video.createLocalVideoTrack().then(track => {

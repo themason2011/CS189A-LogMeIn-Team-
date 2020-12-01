@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import {Container, Row, Col, Button} from 'react-bootstrap'
+import { Row,Col, Button} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const DominantUser = ({ user }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
-  const [emotion, setEmotion] = useState(null);
+  const [emotion, setEmotion] = useState("-");
   const [emotion_style, setEmotion_Style] = useState("participant-video");
 
 
@@ -24,18 +24,17 @@ const DominantUser = ({ user }) => {
           'Content-Type':'application/json'
         }
       }).then(res => res.json());
-      if(data.emotion == 'happy'){
+      if(data.emotion === 'happy'){
         setEmotion_Style('participant-video-happy');
       }
-      else if(data.emotion == 'angry'){
+      else if(data.emotion === 'angry'){
         setEmotion_Style('participant-video-angry');
       }
-      else if(data.emotion == 'sad'){
+      else if(data.emotion === 'sad'){
         setEmotion_Style('participant=video-sad');
       }
       setEmotion(data);
-      console.log(data);
-    },[emotion]);
+    },[user]);
 
   const trackpubsToTracks = (trackMap) =>
     Array.from(trackMap.values())
@@ -93,13 +92,19 @@ const DominantUser = ({ user }) => {
   }, [audioTracks]);
 
   return (
-    <Col className="dominant-camera">
+    <Col >
+      <Row className="dominant-camera">
       <span className="hoverclass">
-      <h3 className="dominant-name">{user.identity}</h3>
       <video className={emotion_style} height="100%" ref={videoref} autoPlay={true} />
+      <h3 className="dominant-name">{user.identity}</h3>
+      <h2 className={"dominant-emotion"+emotion.emotion}>{emotion.emotion}</h2>
       </span>
-      <audio ref={audioref} autoPlay={true} />
-      <Button className="btn-dominant" variant="primary" onClick={test}>test</Button>
+      <audio ref={audioref} autoPlay={true} muted/>
+      </Row>
+
+      <Row>
+      <Button className="btn-dominant btn btn-outline-info" onClick={test}>Sentiment Analysis</Button>
+      </Row>
     </Col>
   );
 };
