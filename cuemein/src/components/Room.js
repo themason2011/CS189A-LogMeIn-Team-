@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Video from 'twilio-video';
 import User from './User';
 import DominantUser from './DominantUser';
-import {Container, Row, Col, Button} from 'react-bootstrap'
+import {Container, Row, Col, Button, Navbar, Nav} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Room = ({ meetingname, token,emotion,logout, test}) => {
@@ -64,6 +64,16 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
 
   return (
     <div className="room">
+      <Nav className="navbar navbar-inverse">
+        <div className="container-fluid">
+          <Nav.Item className="mr-auto">
+            <Navbar.Brand>Room Name: {meetingname}</Navbar.Brand>
+          </Nav.Item>
+          <Nav.Item className="ml-auto">
+            <Button variant="danger" onClick={logout}>LOG OUT</Button>
+          </Nav.Item>       
+        </div>
+        </Nav>
       <Container className="cameras" fluid="true">
         <Row className="participants">
           <Col xs="auto" className="local-participant">
@@ -102,7 +112,7 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
           <Col></Col>
         </Row>
       </Container>
-      <Container fluid className="menu">
+      {/* <Container fluid className="menu"> 
         <Row>
           <h2>Meeting Name: {meetingname}</h2>
         </Row>
@@ -114,7 +124,7 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
               </Col>
         </Row>
       
-      </Container>
+        </Container> */}
     
       
       

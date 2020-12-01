@@ -185,6 +185,9 @@ body{
     flex-direction: column;
 }
 
+.navbar {
+    background-color: rgb(140, 140, 140)
+}
 
 
 

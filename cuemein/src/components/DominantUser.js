@@ -101,10 +101,13 @@ const DominantUser = ({ user }) => {
       </span>
       <audio ref={audioref} autoPlay={true} muted/>
       </Row>
-
-      <Row>
-      <Button className="btn-dominant btn btn-outline-info" onClick={test}>Sentiment Analysis</Button>
-      </Row>
+      <div class="container">
+        <div class="row justify-content-md-center">
+          <div class = "col-md-auto">
+            <button type="button" class="btn btn-outline-info" onClick={test}>Sentiment Analysis</button>
+          </div>
+        </div>
+      </div>
     </Col>
   );
 };
