@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
 const { videoToken } = require('./tokens');
+const ImageProcessor = require('./image-processor');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -39,7 +40,8 @@ app.post('/video/token', (req, res) => {
 });
 
 app.post('/video/emotion', (req, res) => {
-  res.send(JSON.stringify({emotion:"happy"}))
+  const prediction = ImageProcessor.ProcessImage();
+  res.send(JSON.stringify({emotion: prediction}));
 })
 
 app.listen(3001, () =>
