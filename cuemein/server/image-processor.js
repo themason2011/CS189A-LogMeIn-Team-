@@ -3,7 +3,7 @@
 const fs = require('fs');
 const axios = require('axios').default;
 
-function ProcessImage(image)    {
+async function ProcessImage(image) {
     // Add a valid subscription key and endpoint to your environment variables.
     //NOTE: YOU MUST RUN THE FOLLOWING:
     // set COGNITIVE_SERVICE_KEY=053718cf44924eb1a7b9078cd0ba14ec
@@ -16,7 +16,7 @@ function ProcessImage(image)    {
     let imageUrl = "https://docs.microsoft.com/en-us/learn/data-ai-cert/identify-faces-with-computer-vision/media/clo19_ubisoft_azure_068.png"
     
     // Send a POST request
-    axios({
+    return await axios({
         method: 'post',
         url: endpoint,
         headers : {
@@ -31,24 +31,25 @@ function ProcessImage(image)    {
         data: {
             url: imageUrl
         }
-    }).then(function (response) {
+        }).then(function (response) {
 
-        let prediction, max_val = 0;
+            let prediction, max_val = 0;
 
-        for(const [key, value] of Object.entries(response.data[0].faceAttributes.emotion)) {
-            if(value > max_val) {
-                max_val = value;
-                prediction = key;
+            for(const [key, value] of Object.entries(response.data[0].faceAttributes.emotion)) {
+                if(value > max_val) {
+                    max_val = value;
+                    prediction = key;
+                }
             }
-        }
 
-        console.log("The predicted emotion is: " + prediction);
+            // console.log("The predicted emotion is: " + prediction);
 
-        return prediction.toString();
+            return prediction;
 
-    }).catch(function (error) {
-        console.log(error)
-    });
+        }).catch(function (error) {
+            console.log(error)
+            return error;
+        });
 }
 
 module.exports = { ProcessImage };

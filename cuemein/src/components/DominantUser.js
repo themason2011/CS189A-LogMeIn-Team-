@@ -109,7 +109,7 @@ const DominantUser = ({ user }) => {
         <h3 className="dominant-name">{user.identity}</h3>
           {emoji}
         </span>
-        <audio ref={audioref} autoPlay={true} muted/>
+        <audio ref={audioref} autoPlay={true}/>
         <div className = "col-md-auto">
           <button type="button" className="btn btn-outline-info sentimentbtn" onClick={test}>Sentiment Analysis</button>
         </div>

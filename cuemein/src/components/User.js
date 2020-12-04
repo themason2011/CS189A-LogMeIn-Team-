@@ -98,7 +98,7 @@ const User = ({ user }) => {
       <h3 className="participant-name">{user.identity}</h3>
       <video className={"participant-video"} height="120" ref={videoref} autoPlay={true} />
       </span>
-      <audio ref={audioref} autoPlay={true} muted/>
+      <audio ref={audioref} autoPlay={true}/>
     </div>
   );
 };

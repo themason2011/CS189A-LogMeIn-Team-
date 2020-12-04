@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
 const { videoToken } = require('./tokens');
 const ImageProcessor = require('./image-processor');
+const { ProcessImage } = require('./image-processor');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -40,10 +41,19 @@ app.post('/video/token', (req, res) => {
 });
 
 app.post('/video/emotion', (req, res) => {
-  const prediction = ImageProcessor.ProcessImage();
-  res.send(JSON.stringify({emotion: prediction}));
-})
+  (async() => {
+    const prediction = await startProcessImage();
+    console.log(prediction);
+    console.log(typeof prediction);
+    console.log(JSON.stringify({emotion: prediction}));
+    res.send(JSON.stringify({emotion: prediction}));
+  })();
+});
 
 app.listen(3001, () =>
   console.log('Express server is running on localhost:3001')
 );
+
+function startProcessImage()  {
+  return ImageProcessor.ProcessImage();
+}
