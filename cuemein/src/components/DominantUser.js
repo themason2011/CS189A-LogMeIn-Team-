@@ -95,7 +95,7 @@ const DominantUser = ({ user }) => {
   }, [audioTracks]);
 
   let emoji;
-  if (emotion.emotion === "happy"){
+  if (emotion.emotion === "happiness"){
     emoji = <i><FontAwesomeIcon className={"dominant-emotion-happy"} icon={faLaughBeam} size='2x'/></i>
   } else if (emotion.emotion === "angry"){
     emoji = <i><FontAwesomeIcon className={"dominant-emotion-angry"} icon={faAngry} size='2x'/></i>
