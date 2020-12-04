@@ -27,13 +27,13 @@ const DominantUser = ({ user }) => {
           'Content-Type':'application/json'
         }
       }).then(res => res.json());
-      if(data.emotion === 'happy'){
+      if(data.emotion === 'happiness'){
         setEmotion_Style('participant-video-happy');
       }
-      else if(data.emotion === 'angry'){
+      else if(data.emotion === 'anger'){
         setEmotion_Style('participant-video-angry');
       }
-      else if(data.emotion === 'sad'){
+      else if(data.emotion === 'sadness'){
         setEmotion_Style('participant=video-sad');
       }
       setEmotion(data);
