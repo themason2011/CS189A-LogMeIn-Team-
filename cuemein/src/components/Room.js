@@ -53,9 +53,9 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
     };
   }, [meetingname, token]);
 
-  const remoteParticipants = user.map(user => (
-    <Col className="remote-participants-camera">
-      <User key={user.sid} user={user} />
+  const remoteParticipants = user.map((user,index) => (
+    <Col key="remote-participants"className="remote-participants-camera">
+      <User key={index} user={user} />
     </Col>
   ));
 
@@ -95,9 +95,8 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
           </Col>
         </Row>
       </Container>
-      <Container fluid>
+      <Container fluid="true">
         <Row className="dominant">
-          <Col ></Col>
           {dominant ? (
               <DominantUser
                   key={dominant.sid}
@@ -105,11 +104,14 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
                 />
 
         ): (
-          <Col fluid className="dominant-default">
+          <Col md={9} fluid = "true" className="dominant-default">
 
           </Col>
+
         )}
-          <Col></Col>
+        <Col md={2} >
+          
+        </Col>
         </Row>
       </Container>
       {/* <Container fluid className="menu"> 

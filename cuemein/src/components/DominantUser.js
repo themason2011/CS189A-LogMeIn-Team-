@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Row,Col, Button} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faSmile, faLaughBeam,faAngry} from '@fortawesome/free-solid-svg-icons'
+
 
 const DominantUser = ({ user }) => {
   const [videoTracks, setVideoTracks] = useState([]);
@@ -18,7 +21,7 @@ const DominantUser = ({ user }) => {
       const data = await fetch('/video/emotion', {
         method: 'POST',
         body:JSON.stringify({
-          identity:user
+          identity:user.identity
         }),
         headers: {
           'Content-Type':'application/json'
@@ -91,23 +94,28 @@ const DominantUser = ({ user }) => {
     }
   }, [audioTracks]);
 
+  let emoji;
+  if (emotion.emotion === "happy"){
+    emoji = <i><FontAwesomeIcon className={"dominant-emotion-happy"} icon={faLaughBeam} size='2x'/></i>
+  } else if (emotion.emotion === "angry"){
+    emoji = <i><FontAwesomeIcon className={"dominant-emotion-angry"} icon={faAngry} size='2x'/></i>
+  } 
+
   return (
-    <Col >
+    <Col className="i" fluid="true" md={9} style={{position:'relative'}}>
       <Row className="dominant-camera">
-      <span className="hoverclass">
-      <video className={emotion_style} height="100%" ref={videoref} autoPlay={true} />
-      <h3 className="dominant-name">{user.identity}</h3>
-      <h2 className={"dominant-emotion"+emotion.emotion}>{emotion.emotion}</h2>
-      </span>
-      <audio ref={audioref} autoPlay={true} muted/>
-      </Row>
-      <div class="container">
-        <div class="row justify-content-md-center">
-          <div class = "col-md-auto">
-            <button type="button" class="btn btn-outline-info" onClick={test}>Sentiment Analysis</button>
-          </div>
+        <span className="hoverclass">
+        <video className={"participant-video-dominant"} height="100%" ref={videoref} autoPlay={true} />
+        <h3 className="dominant-name">{user.identity}</h3>
+          {emoji}
+        </span>
+        <audio ref={audioref} autoPlay={true} muted/>
+        <div className = "col-md-auto">
+          <button type="button" className="btn btn-outline-info sentimentbtn" onClick={test}>Sentiment Analysis</button>
         </div>
-      </div>
+
+      </Row>
+
     </Col>
   );
 };

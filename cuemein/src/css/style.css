@@ -82,9 +82,13 @@ body{
     visibility: visible;
 }
 
+.participant-video{
+
+}
 
 .hoverclass:hover .participant-video{
-    border:0.4rem solid black;
+   
+
 }
 
 .hoverclass:hover .participant-video-happy{
@@ -113,12 +117,22 @@ body{
     display:flex;
     flex-direction:row;
     align-items:center;
-    height:70vh;
+    height:80vh;
     /* background-color: rgb(131, 130, 130); */
 }
+
 .dominant-camera{
-    height:100%
+    height:80vh;
+    position:relative;
+
 }
+
+.participant-video-dominant{
+    position: absolute;
+    left:3rem;
+}
+
+
 .dominant-default{
     width:100%;
     height:63vh;
@@ -128,12 +142,12 @@ body{
 }
 .hoverclass .dominant-name{
     position: absolute;
-    top:0;
+    left:3rem;
+    bottom:1.9rem;
     padding: 0.5rem 0.5rem 0.5rem 2rem;
     background: rgb(245, 88, 88);
     font-size: 2rem;
     line-height: 1;
-    opacity: 70%;
     visibility: hidden;
 }
 .hoverclass:hover .dominant-name{
@@ -141,16 +155,17 @@ body{
 
 }
 
-.hoverclass .dominant-emotion{
+.hoverclass .dominant-emotion-happy{
     position: absolute;
     margin: 0;
-    top:3.1rem;
-    padding: 0.5rem 0.5rem 0.5rem 2rem;
-    font-size: 2rem;
+    top:1rem;
+    left:5rem;
+    font-size: 5rem;
     opacity: 70%;
     visibility: hidden;
+    color:lightgreen;
 }
-.hoverclass:hover .dominant-emotion{
+.hoverclass:hover .dominant-emotion-happy{
     visibility: visible;
 }
 
@@ -167,12 +182,11 @@ body{
     visibility: visible;
 }
 
-.btn-dominant{
-    padding: 0.5rem 0.5rem 0.5rem 2rem;
-    line-height: 1;
-    left:24.5%;
+.sentimentbtn{
     position: absolute;
-    width:50%;
+    left:33rem;
+    bottom:4rem;
+    width:29rem;
 
 }
 

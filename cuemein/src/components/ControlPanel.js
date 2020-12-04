@@ -12,8 +12,7 @@ const ControlPanel = ({
   return (
     <Container className="controlpanel" fluid> 
       <Row className="control">
-      <form onSubmit={handleSubmit}>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Form.Label className="meeting">Enter a Meeting</Form.Label>
 
             <Form.Group>
@@ -26,9 +25,8 @@ const ControlPanel = ({
             <Form.Control className="inputmeetingname" size="lg" type="meetingname"  value={roomName}  onChange={handleRoomNameChange} placeholder="Enter Meeting Name" />
             </Form.Group>
 
-            <Button variant="primary" type="submit">Submit</Button>
+            <Button variant="primary" type="submit" >Submit</Button>
           </Form>
-      </form>
         {/* <form onSubmit={handleSubmit}>
           <h1>Enter a Meeting</h1>
           <div>
