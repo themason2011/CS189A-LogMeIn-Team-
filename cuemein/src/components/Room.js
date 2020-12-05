@@ -9,6 +9,7 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
   const [room, setRoom] = useState(null);
   const [user, setUser] = useState([]);
   const [dominant, setDominant] = useState(null)
+  const [newDomName, setNewDomName] = useState(null);
 
   useEffect(() => {
     const participantConnected = user => {
@@ -21,9 +22,14 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
       );
     };
 
-    const participantDominantSpeaker = user => {
+    const ParticipantDominantSpeaker = user => {
       setDominant(user);
       console.log("new dominant speaker")
+    }
+
+    const ParticipantNewDominantSpeaker = user => {
+      setNewDomName(user.identity);
+      console.log("new dominant speaker name")
     }
 
     Video.connect(token, {
@@ -33,7 +39,8 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
       setRoom(room);
       room.on('participantConnected', participantConnected);
       room.on('participantDisconnected', participantDisconnected);
-      room.on('dominantSpeakerChanged', participantDominantSpeaker);
+      room.on('dominantSpeakerChanged', ParticipantDominantSpeaker);
+      room.on('dominantSpeakerChanged', ParticipantNewDominantSpeaker);
       room.participants.forEach(participantConnected);
       
     });
@@ -67,6 +74,9 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
       <Nav className="navbar navbar-inverse">
         <div className="container-fluid">
           <Nav.Item className="mr-auto">
+            <Navbar.Brand>Talking: {newDomName}</Navbar.Brand>
+          </Nav.Item>
+          <Nav.Item className="mx-auto">
             <Navbar.Brand>Room Name: {meetingname}</Navbar.Brand>
           </Nav.Item>
           <Nav.Item className="ml-auto">
