@@ -1,15 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Video from 'twilio-video';
 import User from './User';
 import DominantUser from './DominantUser';
 import {Container, Row, Col, Button, Navbar, Nav} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const helpers = require('./helpers');
+const muteYourAudio = helpers.muteYourAudio;
+const unmuteYourAudio = helpers.unmuteYourAudio;
+
+
 const Room = ({ meetingname, token,emotion,logout, test}) => {
   const [room, setRoom] = useState(null);
   const [user, setUser] = useState([]);
-  const [dominant, setDominant] = useState(null)
+  const [dominant, setDominant] = useState(null);
   const [newDomName, setNewDomName] = useState(null);
+  const [mute, setMute] = useState(false);
 
   useEffect(() => {
     const participantConnected = user => {
@@ -60,6 +66,15 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
     };
   }, [meetingname, token]);
 
+  const mutecallback = useCallback(event => {
+    if(mute===false){
+      setMute(true);
+    }
+    else if(mute===true){
+      setMute(false);
+    }
+  },[mute]);
+
   const remoteParticipants = user.map((user,index) => (
     <Col key="remote-participants"className="remote-participants-camera">
       <User key={index} user={user} />
@@ -92,6 +107,7 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
                 <User
                   key={room.localParticipant.sid}
                   user={room.localParticipant}
+                  mute={mute}
                 />
               </div>
             ) : (
@@ -120,7 +136,8 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
 
         )}
         <Col md={2} >
-          
+          <Button className="mutebtn" onClick={mutecallback}>Mute "work in progress"</Button>
+          {mute.toString()}
         </Col>
         </Row>
       </Container>
