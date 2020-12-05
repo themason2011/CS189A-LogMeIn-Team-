@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 // import {Container, Row, Col, Button} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
+const helpers = require('./helpers');
+const muteYourAudio = helpers.muteYourAudio;
+const unmuteYourAudio = helpers.unmuteYourAudio;
 
-const User = ({ user }) => {
+const User = ({ user,mute }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
   // const [emotion, setEmotion] = useState(null);
@@ -40,9 +43,12 @@ const User = ({ user }) => {
   const trackpubsToTracks = (trackMap) =>
     Array.from(trackMap.values())
       .map((publication) => publication.track)
-      .filter((track) => track !== null);
+      .filter((track) => track !== null)
+
 
   useEffect(() => {
+
+
     setVideoTracks(trackpubsToTracks(user.videoTracks));
     setAudioTracks(trackpubsToTracks(user.audioTracks));
 
@@ -70,9 +76,24 @@ const User = ({ user }) => {
       setAudioTracks([]);
       user.removeAllListeners();
     };
-  }, [user]);
+  },[user]);
 
   useEffect(() => {
+    if(mute){
+      console.log(mute,"mute")
+      const publications = user.audioTracks;
+      publications.forEach(function(publication){
+        if(publication.track !== null){
+          publication.track.disable();
+        }
+      });
+    }
+    console.log("mute useEffect() called");
+  },[mute]);
+
+
+  useEffect(() => {
+
     const videoTrack = videoTracks[0];
     if (videoTrack) {
       videoTrack.attach(videoref.current);

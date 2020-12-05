@@ -91,18 +91,6 @@ body{
 
 }
 
-.hoverclass:hover .participant-video-happy{
-    border:0.4rem solid rgb(4, 221, 4);
-}
-
-.hoverclass:hover .participant-video-angry{
-    border:0.4rem solid rgb(255, 4, 4);
-}
-
-.hoverclass:hover .participant-video-sad{
-    border:0.4rem solid rgb(0, 255, 255);
-}
-
 
 .control{
     display: flex;
@@ -169,7 +157,63 @@ body{
     visibility: visible;
 }
 
-.hoverclass .dominant-emotionhappy{
+.hoverclass .dominant-emotion-angry{
+    position: absolute;
+    margin: 0;
+    top:1rem;
+    left:5rem;
+    font-size: 5rem;
+    opacity: 70%;
+    visibility: hidden;
+    color:lightcoral;
+}
+.hoverclass:hover .dominant-emotion-angry{
+    visibility: visible;
+}
+
+.hoverclass .dominant-emotion-sadness{
+    position: absolute;
+    margin: 0;
+    top:1rem;
+    left:5rem;
+    font-size: 5rem;
+    opacity: 70%;
+    visibility: hidden;
+    color:lightskyblue;
+}
+.hoverclass:hover .dominant-emotion-sadness{
+    visibility: visible;
+}
+
+.hoverclass .dominant-emotion-fear{
+    position: absolute;
+    margin: 0;
+    top:1rem;
+    left:5rem;
+    font-size: 5rem;
+    opacity: 70%;
+    visibility: hidden;
+    color:black;
+}
+.hoverclass:hover .dominant-emotion-fear{
+    visibility: visible;
+}
+
+.hoverclass .dominant-emotion-disgust{
+    position: absolute;
+    margin: 0;
+    top:1rem;
+    left:5rem;
+    font-size: 5rem;
+    opacity: 70%;
+    visibility: hidden;
+    color:darkgreen;
+}
+.hoverclass:hover .dominant-emotion-disgust{
+    visibility: visible;
+}
+
+/* .hoverclass .dominant-emotionhappy{
     position: absolute;
     top:3.1rem;
     padding: 0.5rem 0.5rem 0.5rem 2rem;
@@ -180,14 +224,17 @@ body{
 }
 .hoverclass:hover .dominant-emotionhappy{
     visibility: visible;
-}
+} */
 
 .sentimentbtn{
     position: absolute;
     left:33rem;
     bottom:4rem;
     width:29rem;
-
+}
+.mutebtn{
+    height:3rem;
+    width:20rem;
 }
 
 .menu{
