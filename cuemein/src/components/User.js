@@ -5,7 +5,7 @@ const helpers = require('./helpers');
 const muteYourAudio = helpers.muteYourAudio;
 const unmuteYourAudio = helpers.unmuteYourAudio;
 
-const User = ({ user,mute }) => {
+const User = ({ user }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
   // const [emotion, setEmotion] = useState(null);
@@ -78,18 +78,18 @@ const User = ({ user,mute }) => {
     };
   },[user]);
 
-  useEffect(() => {
-    if(mute){
-      console.log(mute,"mute")
-      const publications = user.audioTracks;
-      publications.forEach(function(publication){
-        if(publication.track !== null){
-          publication.track.disable();
-        }
-      });
-    }
-    console.log("mute useEffect() called");
-  },[mute]);
+  // useEffect(() => {
+  //   if(mute){
+  //     console.log(mute,"mute")
+  //     const publications = user.audioTracks;
+  //     publications.forEach(function(publication){
+  //       if(publication.track !== null){
+  //         publication.track.disable();
+  //       }
+  //     });
+  //   }
+  //   console.log("mute useEffect() called");
+  // },[mute]);
 
 
   useEffect(() => {
@@ -117,9 +117,9 @@ const User = ({ user,mute }) => {
     <div className="user-camera">
       <span className="hoverclass">
       <h3 className="participant-name">{user.identity}</h3>
-      <video className={"participant-video"} height="120" ref={videoref} autoPlay={true} />
+      <video className={"participant-video"} height="120" ref={videoref} autoPlay={true}/>
       </span>
-      <audio ref={audioref} autoPlay={true}/>
+      {/* <audio ref={audioref} autoPlay={true}/> */}
     </div>
   );
 };

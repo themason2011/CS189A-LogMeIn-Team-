@@ -16,6 +16,8 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
   const [dominant, setDominant] = useState(null);
   const [newDomName, setNewDomName] = useState(null);
   const [mute, setMute] = useState(false);
+  const [remote, SetRemote] = useState([])
+
 
   useEffect(() => {
     const participantConnected = user => {
@@ -28,10 +30,6 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
       );
     };
 
-    const ParticipantDominantSpeaker = user => {
-      setDominant(user);
-      console.log("new dominant speaker")
-    }
 
     const ParticipantNewDominantSpeaker = user => {
       setNewDomName(user.identity);
@@ -40,12 +38,13 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
 
     Video.connect(token, {
       name: meetingname,
-      dominantSpeaker:true
+      dominantSpeaker:true,
+      audio: true,
+      video: true
     }).then(room => {
       setRoom(room);
       room.on('participantConnected', participantConnected);
       room.on('participantDisconnected', participantDisconnected);
-      room.on('dominantSpeakerChanged', ParticipantDominantSpeaker);
       room.on('dominantSpeakerChanged', ParticipantNewDominantSpeaker);
       room.participants.forEach(participantConnected);
       
@@ -66,24 +65,30 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
     };
   }, [meetingname, token]);
 
-  const mutecallback = useCallback(event => {
-    if(mute===false){
-      setMute(true);
-    }
-    else if(mute===true){
-      setMute(false);
-    }
-  },[mute]);
+
+  const mutecallback = useCallback(() => {
+    console.log("called mutecallback, button pressed")
+      if(mute === false && room !== null){
+        muteYourAudio(room);
+        setMute(true);
+      }
+      else if(mute === true && room !== null){
+        unmuteYourAudio(room);
+        setMute(false);
+      }
+    },[mute,room]
+  );
+
+
 
   const remoteParticipants = user.map((user,index) => (
-    <Col key="remote-participants"className="remote-participants-camera">
+    <Col key={"remote-participants" + index} className="remote-participants-camera">
       <User key={index} user={user} />
     </Col>
   ));
 
 
-
-
+  
   return (
     <div className="room">
       <Nav className="navbar navbar-inverse">
@@ -107,7 +112,6 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
                 <User
                   key={room.localParticipant.sid}
                   user={room.localParticipant}
-                  mute={mute}
                 />
               </div>
             ) : (
@@ -123,21 +127,12 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
       </Container>
       <Container fluid="true">
         <Row className="dominant">
-          {dominant ? (
-              <DominantUser
-                  key={dominant.sid}
-                  user={dominant}
-                />
-
-        ): (
-          <Col md={9} fluid = "true" className="dominant-default">
-
-          </Col>
-
-        )}
+                <DominantUser
+                key={"dominant"}
+                room={room}
+              />
         <Col md={2} >
           <Button className="mutebtn" onClick={mutecallback}>Mute "work in progress"</Button>
-          {mute.toString()}
         </Col>
         </Row>
       </Container>

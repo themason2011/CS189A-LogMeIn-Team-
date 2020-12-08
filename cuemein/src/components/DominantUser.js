@@ -5,15 +5,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faTired,faFrownOpen,faSadTear, faLaughBeam,faAngry} from '@fortawesome/free-solid-svg-icons'
 
 
-const DominantUser = ({ user }) => {
+const DominantUser = ({ room }) => {
   const [videoTracks, setVideoTracks] = useState([]);
-  const [audioTracks, setAudioTracks] = useState([]);
   const [emotion, setEmotion] = useState("-");
   const [emotion_style, setEmotion_Style] = useState("participant-video");
+  const [dominant, setDominant] = useState(null);
 
 
   const videoref = useRef();
-  const audioref = useRef();
+
+  useEffect(() => {
+
+    const ParticipantDominantSpeaker = user => {
+      setDominant(user);
+      console.log("new dominant speaker")
+    }
+    if(room!==null){
+      room.on('dominantSpeakerChanged', ParticipantDominantSpeaker);
+    }
+  },[room]);
 
   const test = useCallback(
     async event => {
@@ -21,7 +31,7 @@ const DominantUser = ({ user }) => {
       const data = await fetch('/video/emotion', {
         method: 'POST',
         body:JSON.stringify({
-          identity:user.identity
+          identity:dominant.identity
         }),
         headers: {
           'Content-Type':'application/json'
@@ -43,7 +53,7 @@ const DominantUser = ({ user }) => {
         setEmotion_Style('participant-video-disgust')
       }
       setEmotion(data);
-    },[user]);
+    },[dominant]);
 
   const trackpubsToTracks = (trackMap) =>
     Array.from(trackMap.values())
@@ -51,54 +61,43 @@ const DominantUser = ({ user }) => {
       .filter((track) => track !== null);
 
   useEffect(() => {
-    setVideoTracks(trackpubsToTracks(user.videoTracks));
-    setAudioTracks(trackpubsToTracks(user.audioTracks));
+    if( dominant != null){
+      setVideoTracks(trackpubsToTracks(dominant.videoTracks));
 
-    const trackSubscribed = (track) => {
-      if (track.kind === "video") {
-        setVideoTracks((videoTracks) => [...videoTracks, track]);
-      } else if (track.kind === "audio") {
-        setAudioTracks((audioTracks) => [...audioTracks, track]);
-      }
-    };
+      const trackSubscribed = (track) => {
+       if (track.kind === "video") {
+          setVideoTracks((videoTracks) => [...videoTracks, track]);
+        }
+      };
 
-    const trackUnsubscribed = (track) => {
-      if (track.kind === "video") {
-        setVideoTracks((videoTracks) => videoTracks.filter((v) => v !== track));
-      } else if (track.kind === "audio") {
-        setAudioTracks((audioTracks) => audioTracks.filter((a) => a !== track));
-      }
-    };
+      const trackUnsubscribed = (track) => {
+       if (track.kind === "video") {
+          setVideoTracks((videoTracks) => videoTracks.filter((v) => v !== track));
+        }
+      };
 
-    user.on("trackSubscribed", trackSubscribed);
-    user.on("trackUnsubscribed", trackUnsubscribed);
+     dominant.on("trackSubscribed", trackSubscribed);
+     dominant.on("trackUnsubscribed", trackUnsubscribed);
 
-    return () => {
-      setVideoTracks([]);
-      setAudioTracks([]);
-      user.removeAllListeners();
-    };
-  }, [user]);
+      return () => {
+        setVideoTracks([]);
+        dominant.removeAllListeners();
+      };
+    }
+    }, [dominant ]);
 
   useEffect(() => {
-    const videoTrack = videoTracks[0];
-    if (videoTrack) {
-      videoTrack.attach(videoref.current);
-      return () => {
-        videoTrack.detach();
-      };
+    if(dominant != null){
+      const videoTrack = videoTracks[0];
+      if (videoTrack) {
+        videoTrack.attach(videoref.current);
+        return () => {
+          videoTrack.detach();
+        };
+      }
     }
   }, [videoTracks]);
 
-  useEffect(() => {
-    const audioTrack = audioTracks[0];
-    if (audioTrack) {
-      audioTrack.attach(audioref.current);
-      return () => {
-        audioTrack.detach();
-      };
-    }
-  }, [audioTracks]);
 
   let emoji;
   if (emotion.emotion === "happiness"){
@@ -117,11 +116,20 @@ const DominantUser = ({ user }) => {
     <Col className="i" fluid="true" md={9} style={{position:'relative'}}>
       <Row className="dominant-camera">
         <span className="hoverclass">
+        {dominant ? (
         <video className={"participant-video-dominant"} height="100%" ref={videoref} autoPlay={true} />
-        <h3 className="dominant-name">{user.identity}</h3>
+        ) : (
+          ''
+        )
+        }
+        {dominant ? (
+        <h3 className="dominant-name">{dominant.identity}</h3>
+        ) : (
+          ''
+        )
+        }
           {emoji}
         </span>
-        <audio ref={audioref} autoPlay={true}/>
         <div className = "col-md-auto">
           <button type="button" className="btn btn-outline-info sentimentbtn" onClick={test}>Sentiment Analysis</button>
         </div>
