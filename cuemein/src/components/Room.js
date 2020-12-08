@@ -15,13 +15,15 @@ const unmuteYourAudio = helpers.unmuteYourAudio;
 const Room = ({ meetingname, token,emotion,logout, test}) => {
   const [room, setRoom] = useState(null);
   const [user, setUser] = useState([]);
-  const [dominant, setDominant] = useState(null);
-  const [newDomName, setNewDomName] = useState(null);
+  const [newDomName, setNewDomName] = useState("");
   const [mute, setMute] = useState(false);
-  const [remote, SetRemote] = useState([])
+  const [videomute,setVideomute] = useState(false);
+  console.log("Room.js render");
+ 
 
 
   useEffect(() => {
+    console.log("dominant speacjer Room.js effect")
     const participantConnected = user => {
       setUser(prevusers => [...prevusers, user]);
     };
@@ -34,21 +36,29 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
 
 
     const ParticipantNewDominantSpeaker = user => {
-      setNewDomName(user.identity);
-      console.log("new dominant speaker name")
+      if(user !== null){
+        console.log("dominant speacjjer Room.js");
+        setNewDomName(user.identity);
+      }
+      else if(user===null){
+        console.log("dominant speacker Room.js");
+        setNewDomName(null);
+      }
     }
 
     Video.connect(token, {
       name: meetingname,
       dominantSpeaker:true,
-      audio: true,
-      video: true
+      audio:true,
+      video:true
     }).then(room => {
-      setRoom(room);
-      room.on('participantConnected', participantConnected);
-      room.on('participantDisconnected', participantDisconnected);
-      room.on('dominantSpeakerChanged', ParticipantNewDominantSpeaker);
-      room.participants.forEach(participantConnected);
+      if(room!==null){
+        setRoom(room);
+        room.on('participantConnected', participantConnected);
+        room.on('participantDisconnected', participantDisconnected);
+        room.on('dominantSpeakerChanged', ParticipantNewDominantSpeaker);
+        room.participants.forEach(participantConnected);
+      }
       
     });
 
@@ -81,10 +91,21 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
     },[mute,room]
   );
 
-
+  const mutevideocallback = useCallback(() => {
+    console.log("called mutevideocallback, button pressed")
+      if(videomute === false && room !== null){
+        helpers.muteYourVideo(room);
+        setVideomute(true);
+      }
+      else if(videomute === true && room !== null){
+        helpers.unmuteYourVideo(room);
+        setVideomute(false);
+      }
+    },[mute,room]
+  );
 
   const remoteParticipants = user.map((user,index) => (
-    <Col key={"remote-participants" + index} className="remote-participants-camera">
+    <Col key={"remote-participants"} className="remote-participants-camera">
       <User key={index} user={user} />
     </Col>
   ));
@@ -135,36 +156,21 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
               />
         <Col sm={2} >
         <Row>
-          <button type="button" class="btn btn-info btn-circle btn-xl" onclick = {mutecallback}><FontAwesomeIcon icon={faMicrophone} /></button>
+          <Button type="button" className="btn btn-info btn-circle btn-xl" onClick = {mutecallback}><FontAwesomeIcon icon={faMicrophone} /></Button>
           </Row>
           <Row>
-          <button type="button" class="btn btn-info btn-circle btn-xl"><FontAwesomeIcon icon={faVideo} /></button>
+          <Button type="button" className="btn btn-info btn-circle btn-xl" onClick = {mutevideocallback}><FontAwesomeIcon icon={faVideo} /></Button>
           </Row>
           <Row>
-          <button type="button" class="btn btn-info btn-circle btn-xl"><FontAwesomeIcon icon={faHeadphones} /></button>
+          <Button type="button" className="btn btn-info btn-circle btn-xl"><FontAwesomeIcon icon={faHeadphones} /></Button>
           </Row>
           <Row>
-          <button type="button" class="btn btn-info btn-circle btn-xl"><FontAwesomeIcon icon={faDesktop} /></button>
+          <Button type="button" className="btn btn-info btn-circle btn-xl"><FontAwesomeIcon icon={faDesktop} /></Button>
           </Row>
 
         </Col>
         </Row>
       </Container>
-      {/* <Container fluid className="menu"> 
-        <Row>
-          <h2>Meeting Name: {meetingname}</h2>
-        </Row>
-        <Row>
-              <Col className="buttons"sm={2}>
-              <Button variant="danger" onClick={logout}>LOG OUT</Button>
-              </Col>
-              <Col sm={10}>
-              </Col>
-        </Row>
-      
-        </Container> */}
-    
-      
       
     </div>
   );

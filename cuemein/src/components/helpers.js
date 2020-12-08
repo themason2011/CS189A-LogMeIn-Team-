@@ -13,6 +13,7 @@ function muteOrUnmuteYourMedia(room, kind, action) {
 
   publications.forEach(function(publication) {
     if (action === 'mute') {
+      console.log("disable local audio");
       publication.track.disable();
     } else {
       publication.track.enable();

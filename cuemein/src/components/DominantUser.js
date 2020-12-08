@@ -6,7 +6,7 @@ import {faTired,faFrownOpen,faSadTear, faLaughBeam,faAngry} from '@fortawesome/f
 
 
 const DominantUser = ({ room }) => {
-  const [videoTracks, setVideoTracks] = useState([]);
+  const [videoTrackss, setVideoTrackss] = useState([]);
   const [emotion, setEmotion] = useState("-");
   const [emotion_style, setEmotion_Style] = useState("participant-video");
   const [dominant, setDominant] = useState(null);
@@ -15,10 +15,9 @@ const DominantUser = ({ room }) => {
   const videoref = useRef();
 
   useEffect(() => {
-
     const ParticipantDominantSpeaker = user => {
       setDominant(user);
-      console.log("new dominant speaker")
+      console.log("new dominant speaker Dominant.js") 
     }
     if(room!==null){
       room.on('dominantSpeakerChanged', ParticipantDominantSpeaker);
@@ -62,17 +61,17 @@ const DominantUser = ({ room }) => {
 
   useEffect(() => {
     if( dominant != null){
-      setVideoTracks(trackpubsToTracks(dominant.videoTracks));
+      setVideoTrackss(trackpubsToTracks(dominant.videoTracks));
 
       const trackSubscribed = (track) => {
        if (track.kind === "video") {
-          setVideoTracks((videoTracks) => [...videoTracks, track]);
+          setVideoTrackss((videoTracks) => [...videoTracks, track]);
         }
       };
 
       const trackUnsubscribed = (track) => {
        if (track.kind === "video") {
-          setVideoTracks((videoTracks) => videoTracks.filter((v) => v !== track));
+          setVideoTrackss((videoTracks) => videoTracks.filter((v) => v !== track));
         }
       };
 
@@ -80,7 +79,7 @@ const DominantUser = ({ room }) => {
      dominant.on("trackUnsubscribed", trackUnsubscribed);
 
       return () => {
-        setVideoTracks([]);
+        setVideoTrackss([]);
         dominant.removeAllListeners();
       };
     }
@@ -88,15 +87,17 @@ const DominantUser = ({ room }) => {
 
   useEffect(() => {
     if(dominant != null){
-      const videoTrack = videoTracks[0];
+      const videoTrack = videoTrackss[0];
       if (videoTrack) {
         videoTrack.attach(videoref.current);
+        console.log("attach() Dominant.js");
         return () => {
-          videoTrack.detach();
+          console.log("detach() Dominant.js");
+          // videoTrack.detach();
         };
       }
     }
-  }, [videoTracks]);
+  }, [videoTrackss]);
 
 
   let emoji;
@@ -131,7 +132,12 @@ const DominantUser = ({ room }) => {
           {emoji}
         </span>
         <div className = "col-md-auto">
+        {dominant ? (
           <button type="button" className="btn btn-outline-info sentimentbtn" onClick={test}>Sentiment Analysis</button>
+          ) : (
+            ''
+          )
+        }
         </div>
 
       </Row>

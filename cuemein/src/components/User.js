@@ -15,30 +15,7 @@ const User = ({ user }) => {
   const videoref = useRef();
   const audioref = useRef();
 
-  // const test = useCallback(
-  //   async event => {
-  //     event.preventDefault();
-  //     const data = await fetch('/video/emotion', {
-  //       method: 'POST',
-  //       body:JSON.stringify({
-  //         identity:user
-  //       }),
-  //       headers: {
-  //         'Content-Type':'application/json'
-  //       }
-  //     }).then(res => res.json());
-  //     if(data.emotion == 'happy'){
-  //       setEmotion_Style('participant-video-happy');
-  //     }
-  //     else if(data.emotion == 'angry'){
-  //       setEmotion_Style('participant-video-angry');
-  //     }
-  //     else if(data.emotion == 'sad'){
-  //       setEmotion_Style('participant=video-sad');
-  //     }
-  //     setEmotion(data);
-  //     console.log(data);
-  //   },[emotion]);
+  console.log("User.js")
 
   const trackpubsToTracks = (trackMap) =>
     Array.from(trackMap.values())
@@ -96,8 +73,10 @@ const User = ({ user }) => {
 
     const videoTrack = videoTracks[0];
     if (videoTrack) {
+      console.log("User.js attach()")
       videoTrack.attach(videoref.current);
       return () => {
+        console.log("User.js detach()")
         videoTrack.detach();
       };
     }
@@ -119,7 +98,7 @@ const User = ({ user }) => {
       <h3 className="participant-name">{user.identity}</h3>
       <video className={"participant-video"} height="120" ref={videoref} autoPlay={true}/>
       </span>
-      {/* <audio ref={audioref} autoPlay={true}/> */}
+      <audio ref={audioref} autoPlay={true}/>
     </div>
   );
 };
