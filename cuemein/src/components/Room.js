@@ -4,6 +4,8 @@ import User from './User';
 import DominantUser from './DominantUser';
 import {Container, Row, Col, Button, Navbar, Nav} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMicrophone, faDesktop, faVideo, faHeadphones } from '@fortawesome/free-solid-svg-icons'
 
 const helpers = require('./helpers');
 const muteYourAudio = helpers.muteYourAudio;
@@ -131,8 +133,20 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
                 key={"dominant"}
                 room={room}
               />
-        <Col md={2} >
-          <Button className="mutebtn" onClick={mutecallback}>Mute "work in progress"</Button>
+        <Col sm={2} >
+        <Row>
+          <button type="button" class="btn btn-info btn-circle btn-xl" onclick = {mutecallback}><FontAwesomeIcon icon={faMicrophone} /></button>
+          </Row>
+          <Row>
+          <button type="button" class="btn btn-info btn-circle btn-xl"><FontAwesomeIcon icon={faVideo} /></button>
+          </Row>
+          <Row>
+          <button type="button" class="btn btn-info btn-circle btn-xl"><FontAwesomeIcon icon={faHeadphones} /></button>
+          </Row>
+          <Row>
+          <button type="button" class="btn btn-info btn-circle btn-xl"><FontAwesomeIcon icon={faDesktop} /></button>
+          </Row>
+
         </Col>
         </Row>
       </Container>
