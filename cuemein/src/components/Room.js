@@ -101,7 +101,7 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
         helpers.unmuteYourVideo(room);
         setVideomute(false);
       }
-    },[mute,room]
+    },[videomute,room]
   );
 
   const remoteParticipants = user.map((user,index) => (
