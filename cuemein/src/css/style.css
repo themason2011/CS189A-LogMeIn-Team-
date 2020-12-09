@@ -82,8 +82,15 @@ body{
     visibility: visible;
 }
 
-.participant-video{
+.muted{
+    position:absolute;
+    bottom:1rem; 
+    color:red;
 
+}
+
+.default-video{
+    height:120px;
 }
 
 .hoverclass:hover .participant-video{
@@ -119,6 +126,13 @@ body{
     position: absolute;
     left:3rem;
 }
+.default-video-dominant{
+    position: absolute;
+    left:3rem;
+    height:100%;
+    background-color:rgb(233, 233, 233);
+}
+
 
 
 .dominant-default{

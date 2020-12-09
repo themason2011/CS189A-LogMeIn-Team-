@@ -6,6 +6,7 @@ import {Container, Row, Col, Button, Navbar, Nav} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophone, faDesktop, faVideo, faHeadphones } from '@fortawesome/free-solid-svg-icons'
+import { UserBindingContext } from 'twilio/lib/rest/chat/v2/service/user/userBinding';
 
 const helpers = require('./helpers');
 const muteYourAudio = helpers.muteYourAudio;
@@ -26,13 +27,13 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
   useEffect(() => {
     console.log("dominant speacjer Room.js effect")
     const participantConnected = user => {
+      console.log("Room.js - particiapnt connected",user);
       setUser(prevusers => [...prevusers, user]);
     };
 
     const participantDisconnected = user => {
-      setUser(prevusers =>
-        prevusers.filter(p => p !== user)
-      );
+      console.log("Room.js - particiapnt disconnected",user);
+      setUser(prevusers => prevusers.filter(p => p !== user));
     };
 
 
@@ -47,34 +48,45 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
       }
     }
 
+    const participantRemoteVideoMuted = (track,user) => {
+      console.log("Room.js - Track disable",track,user);
+    }
+
+    const participantRemotedAudioMuted = (track,user)  => {
+
+    }
+
     Video.connect(token, {
       name: meetingname,
       dominantSpeaker:true,
       audio:true,
-      video:true
+      video:true,
     }).then(room => {
-      if(room!==null){
+        console.log("Room.js - line 59 - video.connect", room);
         setRoom(room);
         room.on('participantConnected', participantConnected);
         room.on('participantDisconnected', participantDisconnected);
         room.on('dominantSpeakerChanged', ParticipantNewDominantSpeaker);
+        room.on('trackDisabled', participantRemoteVideoMuted);
         room.participants.forEach(participantConnected);
-      }
-      
+        console.log("testing - line 61!!!!!!",room);
     });
 
     return () => {
-      setRoom(currentRoom => {
-        if (currentRoom && currentRoom.localParticipant.state === 'connected') {
-          currentRoom.localParticipant.tracks.forEach(function(trackPublication) {
+         setRoom(currentRoom => {
+
+          console.log("testing - line 65!!!!!!",currentRoom);
+          if(currentRoom && currentRoom.localParticipant.state === 'connected') {
+            currentRoom.localParticipant.tracks.forEach(function(trackPublication) {
             trackPublication.track.stop();
           });
+          console.log("disconnect!!!!!!");
           currentRoom.disconnect();
           return null;
         } else {
           return currentRoom;
         }
-      });
+         });
     };
   }, [meetingname, token]);
 
@@ -115,10 +127,23 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
       unmuteYourAudio(room);
       setDeafenmute(false);
     }
-  });
+  },[room,deafenmute]);
+
+  const logoutcallback = useCallback(() => {
+      console.log("testing - line 125!!!!!!",room);
+      if(room && room.localParticipant.state === 'connected') {
+        room.localParticipant.tracks.forEach(function(trackPublication) {
+        trackPublication.track.stop();
+      });
+      console.log("Room.js disconnect!!!!!! - line 132");
+      room.disconnect();
+    }
+    logout();
+    
+  },[room]);
 
   const remoteParticipants = user.map((user,index) => (
-    <Col key={"remote-participants"} className="remote-participants-camera">
+    <Col key={"remote-participants"+ index} className="remote-participants-camera">
         <User 
         key={index} 
         user={user} 
@@ -140,7 +165,7 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
             <Navbar.Brand>Room Name: {meetingname}</Navbar.Brand>
           </Nav.Item>
           <Nav.Item className="ml-auto">
-            <Button variant="danger" onClick={logout}>LOG OUT</Button>
+            <Button variant="danger" onClick={logoutcallback}>LOG OUT</Button>
           </Nav.Item>       
         </div>
         </Nav>

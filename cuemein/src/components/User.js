@@ -1,13 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 // import {Container, Row, Col, Button} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faMicrophoneSlash} from '@fortawesome/free-solid-svg-icons'
+
+
 const helpers = require('./helpers');
 const muteYourAudio = helpers.muteYourAudio;
 const unmuteYourAudio = helpers.unmuteYourAudio;
 
+
 const User = ({ user, mute }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
+  const [muted, setMute] = useState(false);
+  const [vmute, setVmute] = useState(false);
   // const [emotion, setEmotion] = useState(null);
   // const [emotion_style, setEmotion_Style] = useState("participant-video");
 
@@ -16,6 +23,17 @@ const User = ({ user, mute }) => {
   const audioref = useRef();
 
   console.log("User.js")
+
+  const toggleMute = (muted) => {
+    setMute(muted);
+    console.log("toggle mute",muted);
+  }
+
+  const toggleVmute = (muted) => {
+    console.log("toggleVmute",muted);
+    setVmute(muted);
+  }
+
 
   const trackpubsToTracks = (trackMap) =>
     Array.from(trackMap.values())
@@ -29,12 +47,26 @@ const User = ({ user, mute }) => {
     setVideoTracks(trackpubsToTracks(user.videoTracks));
     setAudioTracks(trackpubsToTracks(user.audioTracks));
 
+      user.videoTracks.forEach(track => {
+        track.on("trackEnabled",toggleVmute.bind(this,false));
+        track.on("trackDisabled",toggleVmute.bind(this,true));
+      });
+
+      user.audioTracks.forEach(track => {
+        track.on("trackEnabled",toggleMute.bind(this,false));
+        track.on("trackDisabled",toggleMute.bind(this,true));
+      });
+
     const trackSubscribed = (track) => {
+      console.log(track, "track subs");
       if (track.kind === "video") {
+        setVmute(!track.isEnabled);
         setVideoTracks((videoTracks) => [...videoTracks, track]);
       } else if (track.kind === "audio") {
+        setMute(!track.isEnabled);
         setAudioTracks((audioTracks) => [...audioTracks, track]);
       }
+
     };
 
     const trackUnsubscribed = (track) => {
@@ -54,19 +86,6 @@ const User = ({ user, mute }) => {
       user.removeAllListeners();
     };
   },[user]);
-
-  // useEffect(() => {
-  //   if(mute){
-  //     console.log(mute,"mute")
-  //     const publications = user.audioTracks;
-  //     publications.forEach(function(publication){
-  //       if(publication.track !== null){
-  //         publication.track.disable();
-  //       }
-  //     });
-  //   }
-  //   console.log("mute useEffect() called");
-  // },[mute]);
 
 
   useEffect(() => {
@@ -94,14 +113,23 @@ const User = ({ user, mute }) => {
 
   return (
     <div className="user-camera">
+      {muted ? (
+        <i><FontAwesomeIcon className={"muted"} icon={faMicrophoneSlash} size='2x'/></i>
+      ):(
+        ''
+      )}
       <span className="hoverclass">
       <h3 className="participant-name">{user.identity}</h3>
-      <video className={"participant-video"} height="120" ref={videoref} autoPlay={true}/>
+      {vmute ? (
+        <video height="120"></video>
+      ):(
+        <video className={"participant-video"} height="120" ref={videoref} autoPlay={true}/>
+      )}
       </span>
       {mute ? (
         <audio ref={audioref} autoPlay={true} muted/>
       ):(
-        <audio ref={audioref} autoPlay={true}/>
+        <audio ref={audioref} autoPlay={true} muted/>
       )}
     </div>
   );

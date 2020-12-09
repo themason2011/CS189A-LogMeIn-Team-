@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Row,Col, Button} from 'react-bootstrap'
+import { Row,Col, Button,Container} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faTired,faFrownOpen,faSadTear, faLaughBeam,faAngry} from '@fortawesome/free-solid-svg-icons'
@@ -37,21 +37,21 @@ const DominantUser = ({ room }) => {
         }
       }).then(res => res.json());
 
-      // if(data.emotion === 'happiness'){
-      //   setEmotion_Style('participant-video-happy');
-      // }
-      // else if(data.emotion === 'anger'){
-      //   setEmotion_Style('participant-video-angry');
-      // }
-      // else if(data.emotion === 'sadness'){
-      //   setEmotion_Style('participant-video-sad');
-      // }
-      // else if(data.emotion === 'fear'){
-      //   setEmotion_Style('pariticipant-video-fear')
-      // }
-      // else if(data.emotion === 'disgust'){
-      //   setEmotion_Style('participant-video-disgust')
-      // }
+      if(data.emotion === 'happiness'){
+        setEmotion_Style('participant-video-happy');
+      }
+      else if(data.emotion === 'anger'){
+        setEmotion_Style('participant-video-angry');
+      }
+      else if(data.emotion === 'sadness'){
+        setEmotion_Style('participant-video-sad');
+      }
+      else if(data.emotion === 'fear'){
+        setEmotion_Style('pariticipant-video-fear')
+      }
+      else if(data.emotion === 'disgust'){
+        setEmotion_Style('participant-video-disgust')
+      }
       setEmotion(data);
     },[dominant]);
 
@@ -121,7 +121,7 @@ const DominantUser = ({ room }) => {
         {dominant ? (
         <video className={"participant-video-dominant"} height="100%" ref={videoref} autoPlay={true} />
         ) : (
-          ''
+          <Container className={"default-video-dominant"}></Container>
         )
         }
         {dominant ? (
