@@ -36,21 +36,22 @@ const DominantUser = ({ room }) => {
           'Content-Type':'application/json'
         }
       }).then(res => res.json());
-      if(data.emotion === 'happiness'){
-        setEmotion_Style('participant-video-happy');
-      }
-      else if(data.emotion === 'anger'){
-        setEmotion_Style('participant-video-angry');
-      }
-      else if(data.emotion === 'sadness'){
-        setEmotion_Style('participant-video-sad');
-      }
-      else if(data.emotion === 'fear'){
-        setEmotion_Style('pariticipant-video-fear')
-      }
-      else if(data.emotion === 'disgust'){
-        setEmotion_Style('participant-video-disgust')
-      }
+
+      // if(data.emotion === 'happiness'){
+      //   setEmotion_Style('participant-video-happy');
+      // }
+      // else if(data.emotion === 'anger'){
+      //   setEmotion_Style('participant-video-angry');
+      // }
+      // else if(data.emotion === 'sadness'){
+      //   setEmotion_Style('participant-video-sad');
+      // }
+      // else if(data.emotion === 'fear'){
+      //   setEmotion_Style('pariticipant-video-fear')
+      // }
+      // else if(data.emotion === 'disgust'){
+      //   setEmotion_Style('participant-video-disgust')
+      // }
       setEmotion(data);
     },[dominant]);
 

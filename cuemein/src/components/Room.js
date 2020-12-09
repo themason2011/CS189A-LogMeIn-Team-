@@ -18,6 +18,7 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
   const [newDomName, setNewDomName] = useState("");
   const [mute, setMute] = useState(false);
   const [videomute,setVideomute] = useState(false);
+  const [deafenmute, setDeafenmute] = useState(false);
   console.log("Room.js render");
  
 
@@ -104,9 +105,25 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
     },[videomute,room]
   );
 
+  const defeancallback = useCallback(() => {
+    console.log("called deafencallback, button pressed");
+    if(deafenmute === false && room !==null){
+      muteYourAudio(room);
+      setDeafenmute(true);
+    }
+    else if(deafenmute === true && room !=null){
+      unmuteYourAudio(room);
+      setDeafenmute(false);
+    }
+  });
+
   const remoteParticipants = user.map((user,index) => (
     <Col key={"remote-participants"} className="remote-participants-camera">
-      <User key={index} user={user} />
+        <User 
+        key={index} 
+        user={user} 
+        mute={deafenmute} 
+        />
     </Col>
   ));
 
@@ -135,6 +152,7 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
                 <User
                   key={room.localParticipant.sid}
                   user={room.localParticipant}
+                  mute={deafenmute}
                 />
               </div>
             ) : (
@@ -162,7 +180,7 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
           <Button type="button" className="btn btn-info btn-circle btn-xl" onClick = {mutevideocallback}><FontAwesomeIcon icon={faVideo} /></Button>
           </Row>
           <Row>
-          <Button type="button" className="btn btn-info btn-circle btn-xl"><FontAwesomeIcon icon={faHeadphones} /></Button>
+          <Button type="button" className="btn btn-info btn-circle btn-xl" onClick = {defeancallback}><FontAwesomeIcon icon={faHeadphones} /></Button>
           </Row>
           <Row>
           <Button type="button" className="btn btn-info btn-circle btn-xl"><FontAwesomeIcon icon={faDesktop} /></Button>

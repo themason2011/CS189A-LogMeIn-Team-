@@ -5,7 +5,7 @@ const helpers = require('./helpers');
 const muteYourAudio = helpers.muteYourAudio;
 const unmuteYourAudio = helpers.unmuteYourAudio;
 
-const User = ({ user }) => {
+const User = ({ user, mute }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
   // const [emotion, setEmotion] = useState(null);
@@ -98,7 +98,11 @@ const User = ({ user }) => {
       <h3 className="participant-name">{user.identity}</h3>
       <video className={"participant-video"} height="120" ref={videoref} autoPlay={true}/>
       </span>
-      <audio ref={audioref} autoPlay={true}/>
+      {mute ? (
+        <audio ref={audioref} autoPlay={true} muted/>
+      ):(
+        <audio ref={audioref} autoPlay={true}/>
+      )}
     </div>
   );
 };
