@@ -16,24 +16,97 @@ const unmuteYourAudio = helpers.unmuteYourAudio;
 const Room = ({ meetingname, token,emotion,logout, test}) => {
   const [room, setRoom] = useState(null);
   const [user, setUser] = useState([]);
+  //create user array here
+  //implement 
   const [newDomName, setNewDomName] = useState("");
   const [mute, setMute] = useState(false);
   const [videomute,setVideomute] = useState(false);
   const [deafenmute, setDeafenmute] = useState(false);
+  var intervalID;
+  var sentiment_intervalID;
   console.log("Room.js render");
- 
+  
+  
+  const takeSnapshot = (room,users) => {
+    if(!room.localParticipant.videoTracks.entries().next()){
+    var videoElement = room.localParticipant.videoTracks.entries().next().value[1].track.mediaStreamTrack;
+    var imageCapture = new ImageCapture(videoElement);
+    imageCapture.grabFrame().then(bitmap => {
+      console.log('bitmap :', bitmap)
+      let canvas = document.createElement('canvas')
+      canvas.width = bitmap.width;
+      canvas.height = bitmap.height;
+      let context = canvas.getContext('2d')
+      
+      context.drawImage(bitmap, 0, 0)
+      canvas.toBlob(function(blob) {
+        console.log(blob);
+        var reader = new FileReader();
+        reader.addEventListener('loadend',() => {
+          
+          fetch(reader.result)
+          .then(res => res.blob())
+          .then(blob => {
+          console.log("here is your binary: ", blob)
+          fetch('/video/snapShot?identity='+room.localParticipant.identity+'&room='+room.name, {
+            method: 'POST',
+            body: blob,
+            headers: {
+              'Content-Type':'application/octet-stream'
+            }
+          });  
+          });
 
+        });
+        reader.readAsDataURL(blob);
+      }, 'image/jpeg')
+    }).catch(function(error) {
+      console.log('takePhoto() error: ', error);
+    }); 
+  }
+}
+
+//passing array here
+//user state = array for rendering
+const updateUserSentiments = (users) => {
+  console.log(users);
+  users.forEach(u => {
+    fetch('/video/emotion?identity='+u.identity+'&room='+room.name, {
+      method: 'GET',
+      headers: {
+        'Content-Type':'application/json'
+      }
+    }).then(res => {
+      u.emotion = res.body.emotion;
+    })
+  });
+}
+  
+  
+
+  const restartSentiment = (user) => {
+    if(sentiment_intervalID){
+      window.clearInterval(sentiment_intervalID);
+    }
+    sentiment_intervalID = window.setInterval(updateUserSentiments, 10000, user);
+  }
+
+  
 
   useEffect(() => {
     console.log("dominant speacjer Room.js effect")
-    const participantConnected = user => {
-      console.log("Room.js - particiapnt connected",user);
-      setUser(prevusers => [...prevusers, user]);
+    const participantConnected = new_user => {
+      console.log("Room.js - particiapnt connected",new_user);
+      //add user to array
+      setUser(prevusers => [...prevusers, new_user]);
+      restartSentiment(user);
     };
 
-    const participantDisconnected = user => {
-      console.log("Room.js - particiapnt disconnected",user);
-      setUser(prevusers => prevusers.filter(p => p !== user));
+    const participantDisconnected = gone_user => {
+      console.log("Room.js - particiapnt disconnected",gone_user);
+      //remove user from array
+      setUser(prevusers => prevusers.filter(p => p !== gone_user));
+      restartSentiment(user);
     };
 
 
@@ -55,7 +128,7 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
     const participantRemotedAudioMuted = (track,user)  => {
 
     }
-
+    
     Video.connect(token, {
       name: meetingname,
       dominantSpeaker:true,
@@ -64,15 +137,20 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
     }).then(room => {
         console.log("Room.js - line 59 - video.connect", room);
         setRoom(room);
+        //intervalID = window.setInterval(takeSnapshot, 10000, room,user);
         room.on('participantConnected', participantConnected);
         room.on('participantDisconnected', participantDisconnected);
         room.on('dominantSpeakerChanged', ParticipantNewDominantSpeaker);
         room.on('trackDisabled', participantRemoteVideoMuted);
         room.participants.forEach(participantConnected);
+        intervalID = window.setInterval(takeSnapshot, 10000, room,user);
         console.log("testing - line 61!!!!!!",room);
     });
 
     return () => {
+         if(intervalID){
+           window.clearInterval(intervalID);
+         }
          setRoom(currentRoom => {
 
           console.log("testing - line 65!!!!!!",currentRoom);
