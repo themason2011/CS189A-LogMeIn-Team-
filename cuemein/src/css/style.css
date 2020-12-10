@@ -15,24 +15,35 @@ html{
 
 body{
     box-sizing:border-box;
+    background: url("/peachgrad.png");
+    background-position: center, center;
+}
+
+.cmilogo{
+    position:absolute;
+    bottom: 24%;
+    right: 56%;
 }
 
 .control{
     position:absolute;
-    bottom: 50%;
-    left: 40%;
+    bottom: 35%;
+    left: 60%;
 }
 
 .meeting{
     font-size:4rem;
+    font-family: Verdana, Tahoma;
 }
 
 .meetingname{
-    font-size:3rem;
+    font-size:2rem;
+    font-family: Tahoma;
 }
 
 .name{
-    font-size:3rem;
+    font-size:2rem;
+    font-family: Tahoma;
 }
 
 .cameras{
