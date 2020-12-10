@@ -134,7 +134,7 @@ const DominantUser = ({ room }) => {
         </span>
 
         {dominant ? (
-          <button type="button" className="btn btn-outline-info sentimentbtn" onClick={test}>Sentiment Analysis</button>
+          <button type="button" className="btn btn-outline-info sentimentbtn" onClick={test}>What Am I Feeling?</button>
           ) : (
             ''
           )

@@ -5,7 +5,7 @@ import DominantUser from './DominantUser';
 import {Container, Row, Col, Button, Navbar, Nav} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes,faStop, faMicrophoneSlash, faMicrophone, faDesktop, faVideo, faHeadphones } from '@fortawesome/free-solid-svg-icons'
+import { faTimes,faVideoSlash, faMicrophoneSlash, faMicrophone, faDesktop, faVideo, faHeadphones } from '@fortawesome/free-solid-svg-icons'
 import { CIcon } from '@coreui/icons-react';
 
 const helpers = require('./helpers');
@@ -207,7 +207,7 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
           </Row>
           <Row>
           {videomute ? (
-            <Button type="button" className="btn btn-info btn-circle btn-xl" onClick = {mutevideocallback}><FontAwesomeIcon icon={faStop} /></Button>
+            <Button type="button" className="btn btn-info btn-circle btn-xl" onClick = {mutevideocallback}><FontAwesomeIcon icon={faVideoSlash} /></Button>
           ):
           (
             <Button type="button" className="btn btn-info btn-circle btn-xl far" onClick = {mutevideocallback}><FontAwesomeIcon icon={faVideo} /></Button>

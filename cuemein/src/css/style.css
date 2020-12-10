@@ -54,6 +54,10 @@ body{
     
 }
 
+.room{
+    background: url("/peachgrad.png");
+}
+
 .local-participant{
     display: flex;
     flex-direction: row;
@@ -253,9 +257,10 @@ body{
 
 .sentimentbtn{
     position: absolute;
-    left:25%;
+    left:40%;
     bottom:4rem;
-    width:29rem;
+    width:15rem;
+    height:4rem;
 }
 .mutebtn{
     height:3rem;
