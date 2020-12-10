@@ -10,22 +10,25 @@ const ControlPanel = ({
   handleSubmit
 }) => {
   return (
-    <Container className="controlpanel" fluid> 
+    <Container className="controlpanel" fluid>
+      <Row className="cmilogo">
+        <img src= "/cuemeinlogo.png" width="400" height="400"></img>
+      </Row> 
       <Row className="control">
           <Form onSubmit={handleSubmit}>
-            <Form.Label className="meeting">Enter a Meeting</Form.Label>
+            <Form.Label className="meeting">Join a Meeting</Form.Label>
 
             <Form.Group>
             <Form.Label className="name">Name:</Form.Label>
-            <Form.Control className="inputname" size="lg" type="name" value={username}  onChange={handleUsernameChange} placeholder="Enter Name" />
+            <Form.Control className="inputname" size="lg" type="name" value={username}  onChange={handleUsernameChange} placeholder="User ID" />
             </Form.Group>
 
             <Form.Group>
             <Form.Label className="meetingname">Meeting name:</Form.Label>
-            <Form.Control className="inputmeetingname" size="lg" type="meetingname"  value={roomName}  onChange={handleRoomNameChange} placeholder="Enter Meeting Name" />
+            <Form.Control className="inputmeetingname" size="lg" type="meetingname"  value={roomName}  onChange={handleRoomNameChange} placeholder="Room Name" />
             </Form.Group>
 
-            <Button variant="primary" type="submit" >Submit</Button>
+            <Button variant="success" type="submit" >JOIN</Button>
           </Form>
         {/* <form onSubmit={handleSubmit}>
           <h1>Enter a Meeting</h1>
