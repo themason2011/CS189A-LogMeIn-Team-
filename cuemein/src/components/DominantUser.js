@@ -132,14 +132,14 @@ const DominantUser = ({ room }) => {
         }
           {emoji}
         </span>
-        <div className = "col-md-auto">
+
         {dominant ? (
           <button type="button" className="btn btn-outline-info sentimentbtn" onClick={test}>Sentiment Analysis</button>
           ) : (
             ''
           )
         }
-        </div>
+     
 
       </Row>
 

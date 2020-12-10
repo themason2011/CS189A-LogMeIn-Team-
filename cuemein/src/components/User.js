@@ -42,8 +42,6 @@ const User = ({ user, mute }) => {
 
 
   useEffect(() => {
-
-
     setVideoTracks(trackpubsToTracks(user.videoTracks));
     setAudioTracks(trackpubsToTracks(user.audioTracks));
 

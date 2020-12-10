@@ -5,8 +5,8 @@ import DominantUser from './DominantUser';
 import {Container, Row, Col, Button, Navbar, Nav} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMicrophone, faDesktop, faVideo, faHeadphones } from '@fortawesome/free-solid-svg-icons'
-import { UserBindingContext } from 'twilio/lib/rest/chat/v2/service/user/userBinding';
+import { faTimes,faStop, faMicrophoneSlash, faMicrophone, faDesktop, faVideo, faHeadphones } from '@fortawesome/free-solid-svg-icons'
+import { CIcon } from '@coreui/icons-react';
 
 const helpers = require('./helpers');
 const muteYourAudio = helpers.muteYourAudio;
@@ -199,13 +199,26 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
               />
         <Col sm={2} >
         <Row>
-          <Button type="button" className="btn btn-info btn-circle btn-xl" onClick = {mutecallback}><FontAwesomeIcon icon={faMicrophone} /></Button>
+          {mute ? (
+            <Button type="button" className="btn btn-info btn-circle btn-xl" onClick = {mutecallback}><FontAwesomeIcon icon={faMicrophoneSlash} /></Button>
+          ):(
+            <Button type="button" className="btn btn-info btn-circle btn-xl" onClick = {mutecallback}><FontAwesomeIcon icon={faMicrophone} /></Button>
+          )}
           </Row>
           <Row>
-          <Button type="button" className="btn btn-info btn-circle btn-xl" onClick = {mutevideocallback}><FontAwesomeIcon icon={faVideo} /></Button>
+          {videomute ? (
+            <Button type="button" className="btn btn-info btn-circle btn-xl" onClick = {mutevideocallback}><FontAwesomeIcon icon={faStop} /></Button>
+          ):
+          (
+            <Button type="button" className="btn btn-info btn-circle btn-xl far" onClick = {mutevideocallback}><FontAwesomeIcon icon={faVideo} /></Button>
+          )}
           </Row>
           <Row>
-          <Button type="button" className="btn btn-info btn-circle btn-xl" onClick = {defeancallback}><FontAwesomeIcon icon={faHeadphones} /></Button>
+          {deafenmute ? (
+              <Button type="button" className="btn btn-info btn-circle btn-xl" onClick = {defeancallback}><FontAwesomeIcon icon={faTimes} /></Button>
+          ):(
+              <Button type="button" className="btn btn-info btn-circle btn-xl" onClick = {defeancallback}><FontAwesomeIcon icon={faHeadphones} /></Button>
+          )}
           </Row>
           <Row>
           <Button type="button" className="btn btn-info btn-circle btn-xl"><FontAwesomeIcon icon={faDesktop} /></Button>
