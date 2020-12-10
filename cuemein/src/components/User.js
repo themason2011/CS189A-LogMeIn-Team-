@@ -10,7 +10,7 @@ const muteYourAudio = helpers.muteYourAudio;
 const unmuteYourAudio = helpers.unmuteYourAudio;
 
 
-const User = ({ user, mute }) => {
+const User = ({ user, mute,local="" }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
   const [muted, setMute] = useState(false);
@@ -21,6 +21,7 @@ const User = ({ user, mute }) => {
 
   const videoref = useRef();
   const audioref = useRef();
+  let locals = "";
 
   console.log("User.js")
 
@@ -109,17 +110,25 @@ const User = ({ user, mute }) => {
     }
   }, [audioTracks]);
 
+  if(local==="i"){
+    locals = "participant-video-emptyi";
+  }
+  else{
+    locals = "participant-video-empty";
+  }
+
   return (
     <div className="user-camera">
+      <span className="hoverclass">
       {muted ? (
         <i><FontAwesomeIcon className={"muted"} icon={faMicrophoneSlash} size='2x'/></i>
       ):(
         ''
       )}
-      <span className="hoverclass">
       <h3 className="participant-name">{user.identity}</h3>
       {vmute ? (
-        <video height="120"></video>
+        <video className={locals} height="120" ref={videoref} autoPlay={true}/>
+        // <video className={"participant-video-empty"} height="120"></video>
       ):(
         <video className={"participant-video"} height="120" ref={videoref} autoPlay={true}/>
       )}
@@ -127,7 +136,7 @@ const User = ({ user, mute }) => {
       {mute ? (
         <audio ref={audioref} autoPlay={true} muted/>
       ):(
-        <audio ref={audioref} autoPlay={true} muted/>
+        <audio ref={audioref} autoPlay={true} />
       )}
     </div>
   );

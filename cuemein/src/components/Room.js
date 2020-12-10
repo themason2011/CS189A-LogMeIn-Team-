@@ -98,7 +98,9 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
         setMute(true);
       }
       else if(mute === true && room !== null){
-        unmuteYourAudio(room);
+        if(deafenmute === false){
+          unmuteYourAudio(room);
+        }
         setMute(false);
       }
     },[mute,room]
@@ -178,6 +180,7 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
                   key={room.localParticipant.sid}
                   user={room.localParticipant}
                   mute={deafenmute}
+                  local={"i"}
                 />
               </div>
             ) : (
