@@ -27,18 +27,10 @@ const DominantUser = ({ room }) => {
   const test = useCallback(
     async event => {
       event.preventDefault();
-      //takeSnapshot(videoTrackss[0]);
-      const data1 = await fetch('/video/token?identity=tester&room=cool', {
+      console.log(room);
+      const getUrl = '/video/emotion?identity=' + dominant.identity + '&room=' + room.name;
+      const data = await fetch(getUrl, {
         method: 'GET',
-        headers: {
-          'Content-Type':'application/json'
-        }
-      }).then(res => res.json());
-      const data = await fetch('/video/emotion', {
-        method: 'POST',
-        body:JSON.stringify({
-          identity:dominant.identity
-        }),
         headers: {
           'Content-Type':'application/json'
         }
