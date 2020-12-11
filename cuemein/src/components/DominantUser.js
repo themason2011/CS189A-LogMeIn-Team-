@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Row,Col, Button,Container} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faTired,faFrownOpen,faSadTear, faLaughBeam,faAngry} from '@fortawesome/free-solid-svg-icons'
+import {faGrinStars,faMeh,faTired,faFrownOpen,faSadTear, faLaughBeam,faAngry} from '@fortawesome/free-solid-svg-icons'
 
 
 const DominantUser = ({ room }) => {
@@ -104,7 +104,7 @@ const DominantUser = ({ room }) => {
   let emoji;
   if (emotion.emotion === "happiness"){
     emoji = <i><FontAwesomeIcon className={"dominant-emotion-happy"} icon={faLaughBeam} size='2x'/></i>
-  } else if (emotion.emotion === "angry"){
+  } else if (emotion.emotion === "anger"){
     emoji = <i><FontAwesomeIcon className={"dominant-emotion-angry"} icon={faAngry} size='2x'/></i>
   } else if (emotion.emotion === "sadness"){
     emoji = <i><FontAwesomeIcon className={"dominant-emotion-sadness"} icon ={faSadTear} size='2x'/></i>
@@ -112,6 +112,10 @@ const DominantUser = ({ room }) => {
     emoji = <i><FontAwesomeIcon className={"dominant-emotion-fear"} icon={faFrownOpen} size='2x'/></i>
   } else if (emotion.emotion === "disgust"){
     emoji = <i><FontAwesomeIcon className={"dominant-emotion-disgust"} icon = {faTired} size = '2x'/></i>
+  } else if (emotion.emotion === "neutral"){
+    emoji = <i><FontAwesomeIcon className={"dominant-emotion-neutral"} icon = {faMeh} size = '2x'/></i>
+  } else if(emotion.emotion ==="surprise"){
+    emoji = <i><FontAwesomeIcon className={"dominant-emotion-neutral"} icon = {faGrinStars} size = '2x'/></i>
   }
 
   return (

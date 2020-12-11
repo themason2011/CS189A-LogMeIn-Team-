@@ -98,9 +98,7 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
         setMute(true);
       }
       else if(mute === true && room !== null){
-        if(deafenmute === false){
-          unmuteYourAudio(room);
-        }
+        unmuteYourAudio(room);
         setMute(false);
       }
     },[mute,room]
