@@ -27,6 +27,13 @@ const DominantUser = ({ room }) => {
   const test = useCallback(
     async event => {
       event.preventDefault();
+      //takeSnapshot(videoTrackss[0]);
+      const data1 = await fetch('/video/token?identity=tester&room=cool', {
+        method: 'GET',
+        headers: {
+          'Content-Type':'application/json'
+        }
+      }).then(res => res.json());
       const data = await fetch('/video/emotion', {
         method: 'POST',
         body:JSON.stringify({
@@ -85,12 +92,50 @@ const DominantUser = ({ room }) => {
       };
     }
     }, [dominant ]);
+  
+  const takeSnapshot = (videoElement) => {
+    
+    var imageCapture = new ImageCapture(videoElement);
+    imageCapture.grabFrame().then(bitmap => {
+      console.log('bitmap :', bitmap)
+      let canvas = document.createElement('canvas')
+      canvas.width = bitmap.width;
+      canvas.height = bitmap.height;
+      let context = canvas.getContext('2d')
+      
+      context.drawImage(bitmap, 0, 0)
+      canvas.toBlob(function(blob) {
+        console.log(blob);
+        var reader = new FileReader();
+        reader.addEventListener('loadend',() => {
+          
+          fetch(reader.result)
+          .then(res => res.blob())
+          .then(blob => {
+          console.log("here is your binary: ", blob)
+          fetch('/video/snapShot?identity='+dominant.identity+'&room=cool', {
+            method: 'POST',
+            body: blob,
+            headers: {
+              'Content-Type':'application/octet-stream'
+            }
+          });  
+          });
 
+        });
+        reader.readAsDataURL(blob);
+      }, 'image/jpeg')
+    }).catch(function(error) {
+      console.log('takePhoto() error: ', error);
+    }); 
+  }
   useEffect(() => {
     if(dominant != null){
       const videoTrack = videoTrackss[0];
       if (videoTrack) {
         videoTrack.attach(videoref.current);
+        //add delay 
+        takeSnapshot(videoTrack.mediaStreamTrack);
         console.log("attach() Dominant.js");
         return () => {
           console.log("detach() Dominant.js");
