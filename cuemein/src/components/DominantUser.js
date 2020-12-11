@@ -107,6 +107,7 @@ const DominantUser = ({ room }) => {
       console.log('takePhoto() error: ', error);
     }); 
   }
+
   useEffect(() => {
     if(dominant != null){
       const videoTrack = videoTrackss[0];
@@ -123,6 +124,24 @@ const DominantUser = ({ room }) => {
     }
   }, [videoTrackss]);
 
+  //This refreshEmotion thing fixes this in a janky way
+  function refreshEmotion() {
+    if(dominant != null){
+      const videoTrack = videoTrackss[0];
+      if (videoTrack) {
+        videoTrack.attach(videoref.current);
+        //add delay 
+        takeSnapshot(videoTrack.mediaStreamTrack);
+        console.log("hey this is repeating itself");
+        return () => {
+          // videoTrack.detach();
+        };
+      }
+    }
+    // setTimeout(refreshEmotion, 1000);
+  }
+
+  refreshEmotion();
 
   let emoji;
   if (emotion.emotion === "happiness"){
