@@ -161,7 +161,7 @@ const DominantUser = ({ room }) => {
     emoji = <i><FontAwesomeIcon className={"dominant-emotion-neutral"} icon = {faMeh} size = '2x'/></i>
   } else if(emotion.emotion ==="surprise"){
     emoji = <i><FontAwesomeIcon className={"dominant-emotion-neutral"} icon = {faGrinStars} size = '2x'/></i>
-  }
+  } 
 
   return (
     <Col className="i" fluid="true" md={9} style={{position:'relative'}}>
