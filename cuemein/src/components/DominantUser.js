@@ -36,21 +36,6 @@ const DominantUser = ({ room }) => {
         }
       }).then(res => res.json());
 
-      if(data.emotion === 'happiness'){
-        setEmotion_Style('participant-video-happy');
-      }
-      else if(data.emotion === 'anger'){
-        setEmotion_Style('participant-video-angry');
-      }
-      else if(data.emotion === 'sadness'){
-        setEmotion_Style('participant-video-sad');
-      }
-      else if(data.emotion === 'fear'){
-        setEmotion_Style('pariticipant-video-fear')
-      }
-      else if(data.emotion === 'disgust'){
-        setEmotion_Style('participant-video-disgust')
-      }
       setEmotion(data);
     },[dominant]);
 
@@ -104,8 +89,9 @@ const DominantUser = ({ room }) => {
           fetch(reader.result)
           .then(res => res.blob())
           .then(blob => {
-          console.log("here is your binary: ", blob)
-          fetch('/video/snapShot?identity='+dominant.identity+'&room=cool', {
+          console.log("here is your binary: ", blob);
+          const fetchUrl = '/video/snapShot?identity=' + dominant.identity + '&room=' + room.name;
+          fetch(fetchUrl, {
             method: 'POST',
             body: blob,
             headers: {
