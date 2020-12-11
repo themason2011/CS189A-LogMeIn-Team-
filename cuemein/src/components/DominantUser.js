@@ -27,38 +27,15 @@ const DominantUser = ({ room }) => {
   const test = useCallback(
     async event => {
       event.preventDefault();
-      //takeSnapshot(videoTrackss[0]);
-      const data1 = await fetch('/video/token?identity=tester&room=cool', {
+      console.log(room);
+      const getUrl = '/video/emotion?identity=' + dominant.identity + '&room=' + room.name;
+      const data = await fetch(getUrl, {
         method: 'GET',
         headers: {
           'Content-Type':'application/json'
         }
       }).then(res => res.json());
-      const data = await fetch('/video/emotion', {
-        method: 'POST',
-        body:JSON.stringify({
-          identity:dominant.identity
-        }),
-        headers: {
-          'Content-Type':'application/json'
-        }
-      }).then(res => res.json());
 
-      if(data.emotion === 'happiness'){
-        setEmotion_Style('participant-video-happy');
-      }
-      else if(data.emotion === 'anger'){
-        setEmotion_Style('participant-video-angry');
-      }
-      else if(data.emotion === 'sadness'){
-        setEmotion_Style('participant-video-sad');
-      }
-      else if(data.emotion === 'fear'){
-        setEmotion_Style('pariticipant-video-fear')
-      }
-      else if(data.emotion === 'disgust'){
-        setEmotion_Style('participant-video-disgust')
-      }
       setEmotion(data);
     },[dominant]);
 
@@ -112,8 +89,9 @@ const DominantUser = ({ room }) => {
           fetch(reader.result)
           .then(res => res.blob())
           .then(blob => {
-          console.log("here is your binary: ", blob)
-          fetch('/video/snapShot?identity='+dominant.identity+'&room=cool', {
+          console.log("here is your binary: ", blob);
+          const fetchUrl = '/video/snapShot?identity=' + dominant.identity + '&room=' + room.name;
+          fetch(fetchUrl, {
             method: 'POST',
             body: blob,
             headers: {

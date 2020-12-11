@@ -5,15 +5,11 @@ const axios = require('axios').default;
 
 async function ProcessImage(blob_data) {
     // Add a valid subscription key and endpoint to your environment variables.
-    //NOTE: YOU MUST RUN THE FOLLOWING:
-    // set COGNITIVE_SERVICE_KEY=053718cf44924eb1a7b9078cd0ba14ec
-    // set COGNITIVE_SERVICE_ENDPOINT=https://cscapstone.cognitiveservices.azure.com/
-    // TO GET THE NEXT TO LINES TO WORK. WHEN WORKING WITH SERVER, JUST COPY THE KEYS IN HERE
-    let subscriptionKey = '053718cf44924eb1a7b9078cd0ba14ec';
-    let endpoint = 'https://cscapstone.cognitiveservices.azure.com/' + '/face/v1.0/detect';
+    let subscriptionKey = '21361c93eb0b43318d12f4b4da2b28cd';
+    let endpoint = 'https://cscapstonepaid.cognitiveservices.azure.com/' + '/face/v1.0/detect';
 
     // Optionally, replace with your own image URL (for example a .jpg or .png URL).
-    let imageUrl = "https://docs.microsoft.com/en-us/learn/data-ai-cert/identify-faces-with-computer-vision/media/clo19_ubisoft_azure_068.png"
+    // let imageUrl = "https://docs.microsoft.com/en-us/learn/data-ai-cert/identify-faces-with-computer-vision/media/clo19_ubisoft_azure_068.png"
     
     
     // Send a POST request
@@ -41,7 +37,9 @@ async function ProcessImage(blob_data) {
                 }
             }
 
-            // console.log("The predicted emotion is: " + prediction);
+            if(prediction == "contempt")    {
+                prediction = disgust;
+            }
 
             return prediction;
 
