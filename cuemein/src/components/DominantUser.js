@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Row,Col, Button,Container} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faGrinStars,faMeh,faTired,faFrownOpen,faSadTear, faLaughBeam,faAngry} from '@fortawesome/free-solid-svg-icons'
+import {faMehBlank,faGrinStars,faMeh,faTired,faFrownOpen,faSadTear, faLaughBeam,faAngry} from '@fortawesome/free-solid-svg-icons'
 
 
 const DominantUser = ({ room }) => {
@@ -138,7 +138,9 @@ const DominantUser = ({ room }) => {
   } else if (emotion.emotion === "neutral"){
     emoji = <i><FontAwesomeIcon className={"dominant-emotion-neutral"} icon = {faMeh} size = '2x'/></i>
   } else if(emotion.emotion ==="surprise"){
-    emoji = <i><FontAwesomeIcon className={"dominant-emotion-neutral"} icon = {faGrinStars} size = '2x'/></i>
+    emoji = <i><FontAwesomeIcon className={"dominant-emotion-surprised"} icon = {faGrinStars} size = '2x'/></i>
+  } else if(emotion.emotion ==="-"){
+    emoji = <i><FontAwesomeIcon className={"dominant-emotion-undefined"} icon = {faMehBlank} size = '2x'/></i>
   }
 
   return (
