@@ -79,6 +79,12 @@ body{
 .remote-participants-camera{
     padding: 0.2rem 0.2rem;
 }
+.participant-video-empty{
+    visibility: hidden;
+}
+/* .participant-video-emptyi{
+    visibility: hidden;
+} */
 .participant{
     position:relative;
 
@@ -97,11 +103,15 @@ body{
     visibility: visible;
 }
 
-.muted{
+.hoverclass .muted{
     position:absolute;
     bottom:1rem; 
     color:red;
+    visibility: hidden;
+}
 
+.hoverclass:hover .muted{
+    visibility: visible;
 }
 
 .default-video{

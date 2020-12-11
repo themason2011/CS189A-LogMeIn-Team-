@@ -256,6 +256,7 @@ const updateUserSentiments = (users) => {
                   key={room.localParticipant.sid}
                   user={room.localParticipant}
                   mute={deafenmute}
+                  local={"i"}
                 />
               </div>
             ) : (
