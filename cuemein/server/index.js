@@ -72,7 +72,7 @@ app.post('/video/snapShot', (req, res) => {
 app.get('/video/emotion', (req, res) => {
   const identity = req.query.identity;
   const room = req.query.room;
-  console.log()
+  console.log(emotionsLookup);
   var currentRoom = emotionsLookup[room] || {};
   var lastEmotion = currentRoom[identity] || {emotion: '-'};
   console.log(lastEmotion);

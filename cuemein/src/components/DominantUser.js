@@ -17,7 +17,7 @@ const DominantUser = ({ room }) => {
   useEffect(() => {
     const ParticipantDominantSpeaker = user => {
       setDominant(user);
-      console.log("new dominant speaker Dominant.js") 
+      console.log("new dominant speaker Dominant.js");
     }
     if(room!==null){
       room.on('dominantSpeakerChanged', ParticipantDominantSpeaker);
