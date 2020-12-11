@@ -252,6 +252,48 @@ body{
     visibility: visible;
 }
 
+.hoverclass .dominant-emotion-neutral{
+    position: absolute;
+    margin: 0;
+    top:1rem;
+    left:5rem;
+    font-size: 5rem;
+    opacity: 70%;
+    visibility: hidden;
+    color:orange;
+}
+.hoverclass:hover .dominant-emotion-neutral{
+    visibility: visible;
+}
+
+.hoverclass .dominant-emotion-surprised{
+    position: absolute;
+    margin: 0;
+    top:1rem;
+    left:5rem;
+    font-size: 5rem;
+    opacity: 70%;
+    visibility: hidden;
+    color:dodgerblue;
+}
+.hoverclass:hover .dominant-emotion-surprised{
+    visibility: visible;
+}
+
+.hoverclass .dominant-emotion-undefined{
+    position: absolute;
+    margin: 0;
+    top:1rem;
+    left:5rem;
+    font-size: 5rem;
+    opacity: 70%;
+    visibility: hidden;
+    color:yellow;
+}
+.hoverclass:hover .dominant-emotion-undefined{
+    visibility: visible;
+}
+
 /* .hoverclass .dominant-emotionhappy{
     position: absolute;
     top:3.1rem;
