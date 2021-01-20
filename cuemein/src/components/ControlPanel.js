@@ -12,7 +12,7 @@ const ControlPanel = ({
   return (
     <Container className="controlpanel" fluid>
       <Row className="cmilogo">
-        <img src= "/cuemeinlogo.png" width="400" height="400"></img>
+        <img alt ="#" src= "/cuemeinlogo.png" width="400" height="400"></img>
       </Row> 
       <Row className="control">
           <Form onSubmit={handleSubmit}>
