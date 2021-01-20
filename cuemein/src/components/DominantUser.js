@@ -116,43 +116,79 @@ const DominantUser = ({ room }) => {
       console.log('takePhoto() error: ', error);
     }); 
   }
+  function wait(delayInMS) {
+    return new Promise(resolve => setTimeout(resolve, delayInMS));
+  }
+  
+  function stop(stream) {
+    stream.getTracks().forEach(track => track.stop());
+    console.log("Recording stopped");
+  }
 
-  const takeAudioChunk = (audioElement) => {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      console.log('getUserMedia supported.');
-      navigator.mediaDevices.getUserMedia (
-         // constraints - only audio needed for this app
-         {
-            audio: true
-         })
+  const startRecording = (audioElement) => {
    
-         // Success callback
-         .then(function(stream) {
-   
-         })
-   
-         // Error callback
-         .catch(function(err) {
-            console.log('The following getUserMedia error occurred: ' + err);
-         }
-      );
-   } else {
-      console.log('getUserMedia not supported on your browser!');
-   }
+   let recorder = new MediaRecorder(audioElement);
+   let data = [];
+   let lengthInMS = 10000;
 
-   const mediaRecorder = new MediaRecorder(audioElement);
-   mediaRecorder.start();
-   console.log(mediaRecorder.state);
-   console.log("recorder started");
-   let chunks = [];
+    recorder.ondataavailable = event => data.push(event.data);
+    recorder.start();
+    console.log(recorder.state + " for " + (lengthInMS/1000) + " seconds...");
 
-    mediaRecorder.ondataavailable = function(e) {
-      chunks.push(e.data);
+    let stopped = new Promise((resolve, reject) => {
+      recorder.onstop = resolve;
+      recorder.onerror = event => reject(event.name);
+    });
+
+    let recorded = wait(lengthInMS).then(
+      () => recorder.state == "recording" && recorder.stop()
+    );
+
+
+    return Promise.all([
+      stopped,
+      recorded
+    ])
+    .then(() => data);
+
+    
     }
-    mediaRecorder.stop();
-    console.log(mediaRecorder.state);
-    console.log("recorder stopped");
-    const blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+
+  const recordAudio = (audioElement) => {
+    const MediaStreamer = new MediaStream();
+    MediaStreamer.addTrack(audioElement);
+    const recorder = new MediaRecorder(MediaStreamer);
+    navigator.mediaDevices.getUserMedia({
+      audio: true
+    }).then(() => startRecording(MediaStreamer, 10000))
+    .then (recordedChunks => {
+      let recordedBlob = new Blob(recordedChunks, { type: "application/octet-stream" });
+      
+
+  
+      console.log("Successfully recorded " + recordedBlob.size + " bytes of " +
+          recordedBlob.type + " media.");
+      console.log(recordedBlob);
+      var reader = new FileReader();
+        reader.addEventListener('loadend',() => {
+          
+          fetch(reader.result)
+          .then(res => res.blob())
+          .then(recordedBlob => {
+          console.log("here is your binary: ", recordedBlob);
+          const fetchUrl = '/audio/snapShot?identity=' + dominant.identity + '&room=' + room.name;
+          fetch(fetchUrl, {
+            method: 'POST',
+            body: recordedBlob,
+            headers: {
+              'Content-Type':'application/octet-stream'
+            }
+          });  
+          });
+
+        });
+        reader.readAsDataURL(recordedBlob);
+    })
   }
 
   useEffect(() => {
@@ -182,7 +218,9 @@ const DominantUser = ({ room }) => {
         console.log('here is audio track');
         console.log(audioTrack.mediaStreamTrack);
 
-        takeAudioChunk(audioTrack.mediaStreamTrack);
+        //takeAudioChunk(audioTrack.mediaStreamTrack);
+        recordAudio(audioTrack.mediaStreamTrack);
+        //stop(audioTrack);
         
         return () => {
           console.log("detach() Dominant.js");
