@@ -3,6 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
 const { videoToken } = require('./tokens');
+const AudioProcessor = require('./audio-processor');
+const {ProcessAudio} = require('./audio-processor');
 const ImageProcessor = require('./image-processor');
 const { ProcessImage } = require('./image-processor');
 var fs = require('fs');
@@ -59,6 +61,7 @@ app.post('/video/snapShot', (req, res) => {
   const identity = req.query.identity;
   const room = req.query.room;
   const blob = req.body;
+  console.log(blob);
   const prediction = await ImageProcessor.ProcessImage(blob);
   console.log(prediction);
   console.log(typeof prediction);
@@ -78,6 +81,23 @@ app.get('/video/emotion', (req, res) => {
   console.log(lastEmotion);
   res.status(200).contentType('application/json').send(lastEmotion);
 });
+
+app.post('/audio/snapShot', (req, res) => {
+  (async() => {
+  const identity = req.query.identity;
+  const room = req.query.room;
+  const blob = req.body;
+  console.log(blob);
+  const prediction = await AudioProcessor.ProcessAudio(blob);
+  console.log(prediction);
+  console.log(typeof prediction);
+  console.log(JSON.stringify({emotion: prediction}));
+  emotionsLookup[room] = emotionsLookup[room] || {};
+  emotionsLookup[room][identity] = {emotion: prediction};
+  res.status(200).contentType('audio/webm').send(blob);
+  })();
+});
+
 
 app.listen(3001, () =>
   console.log('Express server is running on localhost:3001')
