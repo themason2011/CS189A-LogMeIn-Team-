@@ -5,9 +5,11 @@ const SpeechToTextV1 = require("ibm-watson/speech-to-text/v1");
 const NaturalLanguageUnderstandingV1 = require("ibm-watson/natural-language-understanding/v1");
 const { IamAuthenticator } = require("ibm-watson/auth");
 
-async function ProcessAudioFile(blob_data) {
+async function ProcessAudio(blob_data) {
+  console.log("Got to audio processor");
+  console.log(blob_data);
   //Audio Input
-  const filename = "./trump.wav";
+  //const filename = "./trump.wav";
 
   //Set up Watson Sentiment Analysis Client
   const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
@@ -28,23 +30,23 @@ async function ProcessAudioFile(blob_data) {
       "https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/f305cf07-f559-495a-b5fa-8c27fda0393e",
   });
 
-   const registerCallbackParams = {
-        callbackUrl: 'https://stream.watsonplatform.net/speech-to-text/api/v1',
-        userSecret: 'ThisIsMySecret',
-      };
+  //  const registerCallbackParams = {
+  //       callbackUrl: 'https://stream.watsonplatform.net/speech-to-text/api/v1',
+  //       userSecret: 'ThisIsMySecret',
+  //     };
 
-  speechToText.registerCallback(registerCallbackParams)
-        .then(registerStatus => {
-          console.log(JSON.stringify(registerStatus, null, 2));
-        })
-        .catch(err => {
-          console.log('error:', err);
-        });
+  // speechToText.registerCallback(registerCallbackParams)
+  //       .then(registerStatus => {
+  //         console.log(JSON.stringify(registerStatus, null, 2));
+  //       })
+  //       .catch(err => {
+  //         console.log('error:', err);
+  //       });
 
   //Set Up Parameters for Audio Input
   const recognizeParams = {
-    audio: fs.createReadStream(blob_data),
-    contentType: "audio/wav",
+    audio: blob_data,
+    contentType: "application/octet-stream",
   };
 
   //Speech To Text API Call
@@ -104,4 +106,4 @@ async function ProcessAudioFile(blob_data) {
     });
 }
 
-ProcessAudioFile("./trump.wav");
+module.exports = { ProcessAudio };
