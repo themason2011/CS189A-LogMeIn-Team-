@@ -7,12 +7,14 @@ import {faMehBlank,faGrinStars,faMeh,faTired,faFrownOpen,faSadTear, faLaughBeam,
 
 const DominantUser = ({ room }) => {
   const [videoTrackss, setVideoTrackss] = useState([]);
+  const [audioTrackss, setAudioTrackss] = useState([]);
   const [emotion, setEmotion] = useState("-");
   const [emotion_style, setEmotion_Style] = useState("participant-video");
   const [dominant, setDominant] = useState(null);
 
 
   const videoref = useRef();
+  const audioref = useRef();
 
   useEffect(() => {
     const ParticipantDominantSpeaker = user => {
@@ -47,16 +49,22 @@ const DominantUser = ({ room }) => {
   useEffect(() => {
     if( dominant != null){
       setVideoTrackss(trackpubsToTracks(dominant.videoTracks));
-
+      setAudioTrackss(trackpubsToTracks(dominant.audioTracks));
       const trackSubscribed = (track) => {
        if (track.kind === "video") {
           setVideoTrackss((videoTracks) => [...videoTracks, track]);
+        }
+        else if (track.kind === "audio") {
+          setAudioTrackss((audioTracks) => [...audioTracks, track]);
         }
       };
 
       const trackUnsubscribed = (track) => {
        if (track.kind === "video") {
           setVideoTrackss((videoTracks) => videoTracks.filter((v) => v !== track));
+        }
+        else if (track.kind === "audio"){
+          setAudioTrackss((audioTracks) => audioTracks.filter((v) => v !== track));
         }
       };
 
@@ -65,6 +73,7 @@ const DominantUser = ({ room }) => {
 
       return () => {
         setVideoTrackss([]);
+        setAudioTrackss([]);
         dominant.removeAllListeners();
       };
     }
@@ -115,6 +124,8 @@ const DominantUser = ({ room }) => {
         videoTrack.attach(videoref.current);
         //add delay 
         takeSnapshot(videoTrack.mediaStreamTrack);
+        console.log('video track');
+        console.log(videoTrack.mediaStreamTrack);
         console.log("attach() Dominant.js");
         return () => {
           console.log("detach() Dominant.js");
@@ -123,6 +134,23 @@ const DominantUser = ({ room }) => {
       }
     }
   }, [videoTrackss]);
+
+  useEffect(() => {
+    if(dominant != null){
+      const audioTrack = audioTrackss[0];
+      if (audioTrack) {
+        audioTrack.attach(audioref.current);
+        //add delay 
+        console.log('here is audio track');
+        console.log(audioTrack.mediaStreamTrack);
+        
+        return () => {
+          console.log("detach() Dominant.js");
+          // videoTrack.detach();
+        };
+      }
+    }
+  }, [audioTrackss]);
 
   //This refreshEmotion thing fixes this in a janky way
   function refreshEmotion() {
