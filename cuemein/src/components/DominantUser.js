@@ -117,6 +117,44 @@ const DominantUser = ({ room }) => {
     }); 
   }
 
+  const takeAudioChunk = (audioElement) => {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      console.log('getUserMedia supported.');
+      navigator.mediaDevices.getUserMedia (
+         // constraints - only audio needed for this app
+         {
+            audio: true
+         })
+   
+         // Success callback
+         .then(function(stream) {
+   
+         })
+   
+         // Error callback
+         .catch(function(err) {
+            console.log('The following getUserMedia error occurred: ' + err);
+         }
+      );
+   } else {
+      console.log('getUserMedia not supported on your browser!');
+   }
+
+   const mediaRecorder = new MediaRecorder(audioElement);
+   mediaRecorder.start();
+   console.log(mediaRecorder.state);
+   console.log("recorder started");
+   let chunks = [];
+
+    mediaRecorder.ondataavailable = function(e) {
+      chunks.push(e.data);
+    }
+    mediaRecorder.stop();
+    console.log(mediaRecorder.state);
+    console.log("recorder stopped");
+    const blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+  }
+
   useEffect(() => {
     if(dominant != null){
       const videoTrack = videoTrackss[0];
@@ -143,6 +181,8 @@ const DominantUser = ({ room }) => {
         //add delay 
         console.log('here is audio track');
         console.log(audioTrack.mediaStreamTrack);
+
+        takeAudioChunk(audioTrack.mediaStreamTrack);
         
         return () => {
           console.log("detach() Dominant.js");
