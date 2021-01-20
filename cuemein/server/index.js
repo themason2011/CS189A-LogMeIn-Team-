@@ -51,11 +51,14 @@ app.post('/video/snapShot', (req, res) => {
   const room = req.query.room;
   const blob = req.body;
   const prediction = await ImageProcessor.ProcessImage(blob);
+
   console.log(prediction);
   console.log(typeof prediction);
   console.log(JSON.stringify({emotion: prediction}));
+
   emotionsLookup[room] = emotionsLookup[room] || {};
   emotionsLookup[room][identity] = {emotion: prediction};
+  
   res.status(200).contentType('image/jpeg').send(blob);
   })();
 });

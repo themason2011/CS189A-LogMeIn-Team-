@@ -223,8 +223,6 @@ const Room = ({ meetingname, token, emotion, logout, test}) => {
         />
     </Col>
   ));
-
-
   
   return (
     <div className="room">

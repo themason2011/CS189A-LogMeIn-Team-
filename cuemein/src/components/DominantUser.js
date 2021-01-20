@@ -24,21 +24,6 @@ const DominantUser = ({ room }) => {
     }
   },[room]);
 
-  const test = useCallback(
-    async event => {
-      event.preventDefault();
-      console.log(room);
-      const getUrl = '/video/emotion?identity=' + dominant.identity + '&room=' + room.name;
-      const data = await fetch(getUrl, {
-        method: 'GET',
-        headers: {
-          'Content-Type':'application/json'
-        }
-      }).then(res => res.json());
-
-      setEmotion(data);
-    },[dominant]);
-
   const trackpubsToTracks = (trackMap) =>
     Array.from(trackMap.values())
       .map((publication) => publication.track)
@@ -71,7 +56,6 @@ const DominantUser = ({ room }) => {
     }, [dominant ]);
   
   const takeSnapshot = (videoElement) => {
-    
     var imageCapture = new ImageCapture(videoElement);
     imageCapture.grabFrame().then(bitmap => {
       console.log('bitmap :', bitmap)
@@ -84,64 +68,72 @@ const DominantUser = ({ room }) => {
       canvas.toBlob(function(blob) {
         console.log(blob);
         var reader = new FileReader();
-        reader.addEventListener('loadend',() => {
+        reader.addEventListener('loadend', () => {
           
           fetch(reader.result)
           .then(res => res.blob())
           .then(blob => {
-          console.log("here is your binary: ", blob);
-          const fetchUrl = '/video/snapShot?identity=' + dominant.identity + '&room=' + room.name;
-          fetch(fetchUrl, {
-            method: 'POST',
-            body: blob,
-            headers: {
-              'Content-Type':'application/octet-stream'
-            }
-          });  
+            console.log("here is your binary: ", blob);
+            const fetchUrl = '/video/snapShot?identity=' + dominant.identity + '&room=' + room.name;
+            fetch(fetchUrl, {
+              method: 'POST',
+              body: blob,
+              headers: {
+                'Content-Type':'application/octet-stream'
+              }
+            }).then(() => {
+              //Update the UI Sentiment to display the most up-to-date sentiment, according to backend
+              fetchVideoSentiment();
+            });
           });
 
         });
         reader.readAsDataURL(blob);
-      }, 'image/jpeg')
+      }, 'image/jpeg');
     }).catch(function(error) {
       console.log('takePhoto() error: ', error);
     }); 
   }
 
-  useEffect(() => {
-    if(dominant != null){
-      const videoTrack = videoTrackss[0];
-      if (videoTrack) {
-        videoTrack.attach(videoref.current);
-        //add delay 
-        takeSnapshot(videoTrack.mediaStreamTrack);
-        console.log("attach() Dominant.js");
-        return () => {
-          console.log("detach() Dominant.js");
-          // videoTrack.detach();
-        };
+  const fetchVideoSentiment = async () => {
+    const getUrl = '/video/emotion?identity=' + dominant.identity + '&room=' + room.name;
+    const data = await fetch(getUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type':'application/json'
       }
-    }
-  }, [videoTrackss]);
+    }).then(res => res.json());
 
-  //This refreshEmotion thing fixes this in a janky way
-  function refreshEmotion() {
-    if(dominant != null){
-      const videoTrack = videoTrackss[0];
-      if (videoTrack) {
-        videoTrack.attach(videoref.current);
-        //add delay 
-        takeSnapshot(videoTrack.mediaStreamTrack);
-        console.log("hey this is repeating itself");
-        return () => {
-          // videoTrack.detach();
-        };
-      }
-    }
-    // setTimeout(refreshEmotion, 1000);
+    setEmotion(data);
   }
 
-  refreshEmotion();
+  //Takes a snapshot, which calls to backend API to update emotion, every time there is a change in who the Dominant User is AND every 3 seconds
+  useEffect(() => {
+    const snapshotInterval = setInterval(() => {
+      if(dominant != null){
+        const videoTrack = videoTrackss[0];
+        if (videoTrack) {
+          videoTrack.attach(videoref.current);
+          takeSnapshot(videoTrack.mediaStreamTrack);
+
+          return () => {
+            // videoTrack.detach();
+          };
+        }
+      }
+    }, 2000);
+    return () => clearInterval(snapshotInterval);
+  }, [videoTrackss]);
+
+  //CAN BE UNCOMMENTED TO HAVE UI SENTIMENT REPEATEDLY FORCE REFRESH EVERY 1 SEC (DEBUG/TESTING).
+  //Could also be used if we end up updating video and audio sentiment async, to ensure that the latest
+  //sentiment is always being used.
+  // useEffect(() => {
+  //   const refreshSentimentInterval = setInterval(() => {
+  //     fetchVideoSentiment();
+  //   }, 1000);
+  //   return () => clearInterval(refreshSentimentInterval);
+  // }, [videoTrackss]);
 
   let emoji;
   if (emotion.emotion === "happiness"){
@@ -182,7 +174,7 @@ const DominantUser = ({ room }) => {
         </span>
 
         {dominant ? (
-          <button type="button" className="btn btn-outline-info sentimentbtn" onClick={test}>What Am I Feeling?</button>
+          <button type="button" className="btn btn-outline-info sentimentbtn" onClick={fetchVideoSentiment}>What Am I Feeling?</button>
           ) : (
             ''
           )
