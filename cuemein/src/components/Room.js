@@ -13,7 +13,7 @@ const muteYourAudio = helpers.muteYourAudio;
 const unmuteYourAudio = helpers.unmuteYourAudio;
 
 
-const Room = ({ meetingname, token,emotion,logout, test}) => {
+const Room = ({ meetingname, token, emotion, logout, test}) => {
   const [room, setRoom] = useState(null);
   const [user, setUser] = useState([]);
   //create user array here
@@ -28,61 +28,59 @@ const Room = ({ meetingname, token,emotion,logout, test}) => {
   
   
   const takeSnapshot = (room,users) => {
-    if(!room.localParticipant.videoTracks.entries().next()){
-    var videoElement = room.localParticipant.videoTracks.entries().next().value[1].track.mediaStreamTrack;
-    var imageCapture = new ImageCapture(videoElement);
-    imageCapture.grabFrame().then(bitmap => {
-      console.log('bitmap :', bitmap)
-      let canvas = document.createElement('canvas')
-      canvas.width = bitmap.width;
-      canvas.height = bitmap.height;
-      let context = canvas.getContext('2d')
-      
-      context.drawImage(bitmap, 0, 0)
-      canvas.toBlob(function(blob) {
-        console.log(blob);
-        var reader = new FileReader();
-        reader.addEventListener('loadend',() => {
-          
-          fetch(reader.result)
-          .then(res => res.blob())
-          .then(blob => {
-          console.log("here is your binary: ", blob)
-          fetch('/video/snapShot?identity='+room.localParticipant.identity+'&room='+room.name, {
-            method: 'POST',
-            body: blob,
-            headers: {
-              'Content-Type':'application/octet-stream'
-            }
-          });  
+    if (!room.localParticipant.videoTracks.entries().next()) {
+      var videoElement = room.localParticipant.videoTracks.entries().next().value[1].track.mediaStreamTrack;
+      var imageCapture = new ImageCapture(videoElement);
+      imageCapture.grabFrame().then(bitmap => {
+        console.log('bitmap :', bitmap)
+        let canvas = document.createElement('canvas')
+        canvas.width = bitmap.width;
+        canvas.height = bitmap.height;
+        let context = canvas.getContext('2d')
+        
+        context.drawImage(bitmap, 0, 0)
+        canvas.toBlob(function(blob) {
+          console.log(blob);
+          var reader = new FileReader();
+          reader.addEventListener('loadend',() => {
+            
+            fetch(reader.result)
+            .then(res => res.blob())
+            .then(blob => {
+              console.log("here is your binary: ", blob)
+              fetch('/video/snapShot?identity='+room.localParticipant.identity+'&room='+room.name, {
+                method: 'POST',
+                body: blob,
+                headers: {
+                  'Content-Type':'application/octet-stream'
+              }
+            });  
+            });
+
           });
-
-        });
-        reader.readAsDataURL(blob);
-      }, 'image/jpeg')
-    }).catch(function(error) {
-      console.log('takePhoto() error: ', error);
-    }); 
+          reader.readAsDataURL(blob);
+        }, 'image/jpeg')
+      }).catch(function(error) {
+        console.log('takePhoto() error: ', error);
+      }); 
+    }
   }
-}
 
-//passing array here
-//user state = array for rendering
-const updateUserSentiments = (users) => {
-  console.log(users);
-  users.forEach(u => {
-    fetch('/video/emotion?identity='+u.identity+'&room='+room.name, {
-      method: 'GET',
-      headers: {
-        'Content-Type':'application/json'
-      }
-    }).then(res => {
-      u.emotion = res.body.emotion;
-    })
-  });
-}
-  
-  
+  //passing array here
+  //user state = array for rendering
+  const updateUserSentiments = (users) => {
+    console.log(users);
+    users.forEach(u => {
+      fetch('/video/emotion?identity='+u.identity+'&room='+room.name, {
+        method: 'GET',
+        headers: {
+          'Content-Type':'application/json'
+        }
+      }).then(res => {
+        u.emotion = res.body.emotion;
+      })
+    });
+  }
 
   const restartSentiment = (user) => {
     if(sentiment_intervalID){
@@ -90,8 +88,6 @@ const updateUserSentiments = (users) => {
     }
     sentiment_intervalID = window.setInterval(updateUserSentiments, 10000, user);
   }
-
-  
 
   useEffect(() => {
     console.log("dominant speacjer Room.js effect")
@@ -108,7 +104,6 @@ const updateUserSentiments = (users) => {
       setUser(prevusers => prevusers.filter(p => p !== gone_user));
       restartSentiment(user);
     };
-
 
     const ParticipantNewDominantSpeaker = user => {
       if(user !== null){
@@ -143,7 +138,7 @@ const updateUserSentiments = (users) => {
         room.on('dominantSpeakerChanged', ParticipantNewDominantSpeaker);
         room.on('trackDisabled', participantRemoteVideoMuted);
         room.participants.forEach(participantConnected);
-        intervalID = window.setInterval(takeSnapshot, 10000, room,user);
+        intervalID = window.setInterval(takeSnapshot, 10000, room, user);
         console.log("testing - line 61!!!!!!",room);
     });
 
@@ -167,7 +162,6 @@ const updateUserSentiments = (users) => {
          });
     };
   }, [meetingname, token]);
-
 
   const mutecallback = useCallback(() => {
     console.log("called mutecallback, button pressed")

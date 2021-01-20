@@ -26,27 +26,27 @@ async function ProcessImage(blob_data) {
             returnFaceId: true
         },
         data: blob_data
-        }).then(function (response) {
 
-            let prediction, max_val = 0;
+    }).then(function (response) {
+        let prediction, max_val = 0;
 
-            for(const [key, value] of Object.entries(response.data[0].faceAttributes.emotion)) {
-                if(value > max_val) {
-                    max_val = value;
-                    prediction = key;
-                }
+        for(const [key, value] of Object.entries(response.data[0].faceAttributes.emotion)) {
+            if(value > max_val) {
+                max_val = value;
+                prediction = key;
             }
+        }
 
-            if(prediction == "contempt")    {
-                prediction = disgust;
-            }
+        if(prediction == "contempt")    {
+            prediction = disgust;
+        }
 
-            return prediction;
-
-        }).catch(function (error) {
-            console.log(error)
-            return error;
-        });
+        return prediction;
+        
+    }).catch(function (error) {
+        console.log(error)
+        return error;
+    });
 }
 
 module.exports = { ProcessImage };
