@@ -223,26 +223,26 @@ const DominantUser = ({ room }) => {
 
   return (
     <Row className="dominant-camera">
-      <span className="hoverclass">
-        {dominant ? (
-          <video
-            className={"participant-video-dominant"}
-            width="100%"
-            height="100%"
-            ref={videoref}
-            autoPlay={true}
-          />
-        ) : (
-          <Container className={"default-video-dominant"}></Container>
-        )}
-        {/* {dominant ? <h3 className="dominant-name">{dominant.identity}</h3> : ""} */}
-        {/* {emoji} */}
-      </span>
+      {/* <span className="hoverclass"> */}
+      {dominant ? (
+        <video
+          className={"participant-video-dominant"}
+          width="100%"
+          height="100%"
+          ref={videoref}
+          autoPlay={true}
+        />
+      ) : (
+        <div className={"default-video-dominant"}></div>
+      )}
+      {/* {dominant ? <h3 className="dominant-name">{dominant.identity}</h3> : ""} */}
+      {/* {emoji} */}
+      {/* </span> */}
 
       {dominant ? (
         <div className="dominant-border">
           <div className="dominant-border-name">{dominant.identity}</div>
-          {dominant ? (
+          {/* {dominant ? (
             <button
               type="button"
               className="btn btn-dominant btn-outline-info sentimentbtn"
@@ -252,19 +252,16 @@ const DominantUser = ({ room }) => {
             </button>
           ) : (
             ""
-          )}
+          )} */}
           <div className="dominant-border-emotion">
             <div className="dominant-border-emotion-background">
-              <div className="dominant-border-emotion-box">
-                <div className="dominant-border-emotion-icon">
-                  <FontAwesomeIcon
-                    className={"dominant-emotion-happy"}
-                    icon={faLaughBeam}
-                    size="2x"
-                  />
-                </div>
-                <div className="dominant-border-emotion-text">Happy</div>
+              <div className="dominant-border-emotion-icon">
+                <img
+                  className="dominant-emotion-happy-img"
+                  src="https://img.icons8.com/color/48/000000/happy--v1.png"
+                />
               </div>
+              <div className="dominant-border-emotion-text">Happy</div>
             </div>
           </div>
         </div>

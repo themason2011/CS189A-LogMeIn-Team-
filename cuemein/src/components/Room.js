@@ -24,7 +24,7 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
   const [user, setUser] = useState([]);
   //create user array here
   //implement
-  const [newDomName, setNewDomName] = useState("");
+  const [newDomName, setNewDomName] = useState("no-one");
   const [mute, setMute] = useState(false);
   const [videomute, setVideomute] = useState(false);
   const [deafenmute, setDeafenmute] = useState(false);
@@ -264,7 +264,21 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
             <div className="remote-participants">{remoteParticipants}</div>
           </Col>
           <Col sm={10} className="dominant">
-            <DominantUser key={"dominant"} room={room} />
+            <DominantUser
+              className="dominant-user"
+              key={"dominant"}
+              room={room}
+            />
+            <div className="dominant-header-bg">
+              <div className="dominant-header">
+                <div className="dominant-header-room">
+                  Room Name: {meetingname}
+                </div>
+                <div className="dominant-header-speaker">
+                  Talking: {newDomName}
+                </div>
+              </div>
+            </div>
           </Col>
         </Row>
       </Container>
