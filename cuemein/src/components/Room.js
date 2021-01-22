@@ -13,6 +13,7 @@ import {
   faDesktop,
   faVideo,
   faHeadphones,
+  faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 
 const helpers = require("./helpers");
@@ -231,21 +232,6 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
 
   return (
     <div className="room">
-      {/* <Nav className="navbar navbar-inverse">
-        <div className="container-fluid">
-          <Nav.Item className="mr-auto">
-            <Navbar.Brand>Talking: {newDomName}</Navbar.Brand>
-          </Nav.Item>
-          <Nav.Item className="mx-auto">
-            <Navbar.Brand>Room Name: {meetingname}</Navbar.Brand>
-          </Nav.Item>
-          <Nav.Item className="ml-auto">
-            <Button variant="danger" onClick={logoutcallback}>
-              LOG OUT
-            </Button>
-          </Nav.Item>
-        </div>
-      </Nav> */}
       <Container className="cameras" fluid="true">
         <Row className="cameras-row">
           <Col sm={2} className="local-participant">
@@ -283,28 +269,36 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
         </Row>
       </Container>
       <Container fluid="true">
-        <div className="toolbar">
-          <Row className="toolbar-items">
-            <Col>
-              <Button variant="danger" onClick={logoutcallback}>
+        <div className = "logoutbutton">
+          <Row className = "logoutbtn">
+          <Col>
+              <Button variant="danger" onClick={logoutcallback} style={{float: 'right'}}>
                 LOG OUT
               </Button>
             </Col>
+          </Row>
+        </div>
+        <div className="toolbar">
+          <Row className="toolbar-items">
             <Col>
               {mute ? (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl"
+                  className="btn btn-basic btn-circle btn-xl"
                   onClick={mutecallback}
                 >
+                  UNMUTE
+
                   <FontAwesomeIcon icon={faMicrophoneSlash} />
                 </Button>
               ) : (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl"
+                  className="btn btn-basic btn-circle btn-xl"
                   onClick={mutecallback}
                 >
+                  MUTE
+
                   <FontAwesomeIcon icon={faMicrophone} />
                 </Button>
               )}
@@ -313,17 +307,19 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
               {videomute ? (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl"
+                  className="btn btn-basic btn-circle btn-xl"
                   onClick={mutevideocallback}
                 >
+                  VIDEO ON
                   <FontAwesomeIcon icon={faVideoSlash} />
                 </Button>
               ) : (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl far"
+                  className="btn btn-basic btn-circle btn-xl far"
                   onClick={mutevideocallback}
                 >
+                  VIDEO OFF
                   <FontAwesomeIcon icon={faVideo} />
                 </Button>
               )}
@@ -332,28 +328,40 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
               {deafenmute ? (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl"
+                  className="btn btn-basic btn-circle btn-xl"
                   onClick={defeancallback}
                 >
+                  SILENCE
                   <FontAwesomeIcon icon={faTimes} />
                 </Button>
               ) : (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl"
+                  className="btn btn-basic btn-circle btn-xl"
                   onClick={defeancallback}
                 >
+                  SILENCE
                   <FontAwesomeIcon icon={faHeadphones} />
                 </Button>
               )}
             </Col>
             <Col>
-              <Button type="button" className="btn btn-info btn-circle btn-xl">
+              <Button type="button" className="btn btn-basic btn-circle btn-xl">
                 <FontAwesomeIcon icon={faDesktop} />
               </Button>
             </Col>
           </Row>
         </div>
+        <div className = "reactionsbutton">
+          <Row className = "reactions">
+          <Col>
+              <Button type="button" className="btn btn-basic rctbtn">
+                REACTIONS
+                <FontAwesomeIcon icon={faThumbsUp} />
+              </Button>
+            </Col>
+          </Row>
+              </div>
       </Container>
     </div>
   );

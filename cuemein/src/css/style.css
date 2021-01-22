@@ -238,7 +238,7 @@ body{
     background-color: rgba(0, 10, 5, 0.823);
     position:absolute;
     top:0;
-    left:40%;
+    left:35%;
 
 }
 .dominant-header{
@@ -520,11 +520,19 @@ body{
     visibility: visible;
 } */
 
+.logoutbutton{
+    margin: 1.5rem 4.1rem;
+    display:flex;
+    flex-direction: row;
+    justify-content: left;
+ }
+
 .toolbar{
-   margin: 0 auto;
+   overflow: auto;
+   margin: -5.3rem 20rem;
    display:flex;
    flex-direction: row;
-   justify-content: center;
+   justify-content: left;
 }
 
 .mutebtn{
@@ -546,28 +554,30 @@ body{
 }
 
 .btn-circle.btn-xl {
-    width: 70px;
-    height: 70px;
-    padding: 10px 16px;
+    background-color: #808080;
+    width: 65px;
+    height: 65px;
+    padding: 0px;
     border-radius: 35px;
     font-size: 24px;
     line-height: 1.33;
-    margin-left: 20px;
+    margin-left: 25px;
     margin-bottom: 15px;
-}
-
-.btn-circle {
-    width: 30px;
-    height: 30px;
-    padding: 6px 0px;
-    border-radius: 15px;
-    text-align: center;
     font-size: 12px;
-    line-height: 1.42857;
-    margin-left: 20px;
-    margin-bottom: 15px;
+    display: block;
 }
 
+.reactionsbutton {
+    background-color: #fcba03;
+    justify-content: right;
+    margin: -6.5rem 72rem;
+}
+
+.rctbtn {
+    background-color: #fcba03;
+    width: 110px;
+    height: 60px;
+}
 
 
 /*Code below is the login page css that we starte*/
