@@ -128,7 +128,6 @@ const DominantUser = ({ room }) => {
       if (dominant != null) {
         const videoTrack = videoTrackss[0];
         if (videoTrack) {
-          videoTrack.attach(videoref.current);
           takeSnapshot(videoTrack.mediaStreamTrack);
 
           return () => {
@@ -141,14 +140,16 @@ const DominantUser = ({ room }) => {
   }, [videoTrackss]);
 
   useEffect(() => {
-    const videoTrack = videoTrackss[0];
-    if (videoTrack) {
-      console.log("User.js attach()");
-      videoTrack.attach(videoref.current);
-      return () => {
-        console.log("User.js detach()");
-        videoTrack.detach();
-      };
+    if (dominant != null) {
+      const videoTrack = videoTrackss[0];
+      if (videoTrack) {
+        videoTrack.attach(videoref.current);
+        console.log("attach() Dominant.js");
+        return () => {
+          console.log("detach() Dominant.js");
+          // videoTrack.detach();
+        };
+      }
     }
   }, [videoTrackss]);
 
