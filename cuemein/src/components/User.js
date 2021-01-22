@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 // import {Container, Row, Col, Button} from 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faMicrophoneSlash} from '@fortawesome/free-solid-svg-icons'
+import "bootstrap/dist/css/bootstrap.min.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMicrophoneSlash } from "@fortawesome/free-solid-svg-icons";
 
-
-const helpers = require('./helpers');
+const helpers = require("./helpers");
 const muteYourAudio = helpers.muteYourAudio;
 const unmuteYourAudio = helpers.unmuteYourAudio;
 
-
-const User = ({ user, mute,local="" }) => {
+const User = ({ user, mute, local = "" }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
   const [muted, setMute] = useState(false);
@@ -18,43 +16,40 @@ const User = ({ user, mute,local="" }) => {
   // const [emotion, setEmotion] = useState(null);
   // const [emotion_style, setEmotion_Style] = useState("participant-video");
 
-
   const videoref = useRef();
   const audioref = useRef();
   let locals = "";
 
-  console.log("User.js")
+  console.log("User.js");
 
   const toggleMute = (muted) => {
     setMute(muted);
-    console.log("toggle mute",muted);
-  }
+    console.log("toggle mute", muted);
+  };
 
   const toggleVmute = (muted) => {
-    console.log("toggleVmute",muted);
+    console.log("toggleVmute", muted);
     setVmute(muted);
-  }
-
+  };
 
   const trackpubsToTracks = (trackMap) =>
     Array.from(trackMap.values())
       .map((publication) => publication.track)
-      .filter((track) => track !== null)
-
+      .filter((track) => track !== null);
 
   useEffect(() => {
     setVideoTracks(trackpubsToTracks(user.videoTracks));
     setAudioTracks(trackpubsToTracks(user.audioTracks));
 
-      user.videoTracks.forEach(track => {
-        track.on("trackEnabled",toggleVmute.bind(this,false));
-        track.on("trackDisabled",toggleVmute.bind(this,true));
-      });
+    user.videoTracks.forEach((track) => {
+      track.on("trackEnabled", toggleVmute.bind(this, false));
+      track.on("trackDisabled", toggleVmute.bind(this, true));
+    });
 
-      user.audioTracks.forEach(track => {
-        track.on("trackEnabled",toggleMute.bind(this,false));
-        track.on("trackDisabled",toggleMute.bind(this,true));
-      });
+    user.audioTracks.forEach((track) => {
+      track.on("trackEnabled", toggleMute.bind(this, false));
+      track.on("trackDisabled", toggleMute.bind(this, true));
+    });
 
     const trackSubscribed = (track) => {
       console.log(track, "track subs");
@@ -65,7 +60,6 @@ const User = ({ user, mute,local="" }) => {
         setMute(!track.isEnabled);
         setAudioTracks((audioTracks) => [...audioTracks, track]);
       }
-
     };
 
     const trackUnsubscribed = (track) => {
@@ -84,17 +78,15 @@ const User = ({ user, mute,local="" }) => {
       setAudioTracks([]);
       user.removeAllListeners();
     };
-  },[user]);
-
+  }, [user]);
 
   useEffect(() => {
-
     const videoTrack = videoTracks[0];
     if (videoTrack) {
-      console.log("User.js attach()")
+      console.log("User.js attach()");
       videoTrack.attach(videoref.current);
       return () => {
-        console.log("User.js detach()")
+        console.log("User.js detach()");
         videoTrack.detach();
       };
     }
@@ -110,33 +102,52 @@ const User = ({ user, mute,local="" }) => {
     }
   }, [audioTracks]);
 
-  if(local==="i"){
+  if (local === "i") {
     locals = "participant-video-emptyi";
-  }
-  else{
+  } else {
     locals = "participant-video-empty";
   }
 
   return (
     <div className="user-camera">
-      <span className="hoverclass">
-      {muted ? (
-        <i><FontAwesomeIcon className={"muted"} icon={faMicrophoneSlash} size='2x'/></i>
-      ):(
-        ''
-      )}
-      <h3 className="participant-name">{user.identity}</h3>
       {vmute ? (
-        <video className={locals} height="120" ref={videoref} autoPlay={true}/>
+        <video className={locals} width="100%" ref={videoref} autoPlay={true} />
+      ) : (
+        // <video className={"participant-video-empty"} height="120"></video>
+        <video
+          className={"participant-video"}
+          width="100%"
+          ref={videoref}
+          autoPlay={true}
+        />
+      )}
+
+      {/* {vmute ? (
+        <video className={locals} height="100%" ref={videoref} autoPlay={true}/>
         // <video className={"participant-video-empty"} height="120"></video>
       ):(
         <video className={"participant-video"} height="120" ref={videoref} autoPlay={true}/>
-      )}
-      </span>
+      )} */}
+
+      <div className="participant-border">
+        <div className="participant-border-name">{user.identity}</div>
+
+        {muted ? (
+          <div className="muted-bg">
+            <FontAwesomeIcon
+              className={"muted"}
+              icon={faMicrophoneSlash}
+              size="1x"
+            />
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
       {mute ? (
-        <audio ref={audioref} autoPlay={true} muted/>
-      ):(
-        <audio ref={audioref} autoPlay={true}/>
+        <audio ref={audioref} autoPlay={true} muted />
+      ) : (
+        <audio ref={audioref} autoPlay={true} muted /> //
       )}
     </div>
   );
