@@ -140,6 +140,18 @@ const DominantUser = ({ room }) => {
     return () => clearInterval(snapshotInterval);
   }, [videoTrackss]);
 
+  useEffect(() => {
+    const videoTrack = videoTrackss[0];
+    if (videoTrack) {
+      console.log("User.js attach()");
+      videoTrack.attach(videoref.current);
+      return () => {
+        console.log("User.js detach()");
+        videoTrack.detach();
+      };
+    }
+  }, [videoTrackss]);
+
   //CAN BE UNCOMMENTED TO HAVE UI SENTIMENT REPEATEDLY FORCE REFRESH EVERY 1 SEC (DEBUG/TESTING).
   //Could also be used if we end up updating video and audio sentiment async, to ensure that the latest
   //sentiment is always being used.
@@ -153,13 +165,10 @@ const DominantUser = ({ room }) => {
   let emoji;
   if (emotion.emotion === "happiness") {
     emoji = (
-      <i>
-        <FontAwesomeIcon
-          className={"dominant-emotion-happy"}
-          icon={faLaughBeam}
-          size="2x"
-        />
-      </i>
+      <img
+        className="dominant-emotion-happy-img"
+        src="https://img.icons8.com/color/48/000000/happy--v1.png"
+      />
     );
   } else if (emotion.emotion === "anger") {
     emoji = (
@@ -268,10 +277,11 @@ const DominantUser = ({ room }) => {
           <div className="dominant-border-emotion">
             <div className="dominant-border-emotion-background">
               <div className="dominant-border-emotion-icon">
-                <img
+                {/* <img
                   className="dominant-emotion-happy-img"
                   src="https://img.icons8.com/color/48/000000/happy--v1.png"
-                />
+                /> */}
+                {emoji}
               </div>
               <div className="dominant-border-emotion-text">Happy</div>
             </div>
