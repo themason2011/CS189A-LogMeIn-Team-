@@ -225,12 +225,7 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
   }, [room]);
 
   const remoteParticipants = user.map((user, index) => (
-    <Col
-      key={"remote-participants" + index}
-      className="remote-participants-camera"
-    >
-      <User key={index} user={user} mute={deafenmute} />
-    </Col>
+    <User key={index} user={user} mute={deafenmute} />
   ));
 
   return (
