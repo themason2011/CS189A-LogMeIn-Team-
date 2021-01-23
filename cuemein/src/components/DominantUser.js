@@ -164,83 +164,85 @@ const DominantUser = ({ room }) => {
   // }, [videoTrackss]);
 
   let emoji;
+  let emotiontext;
   if (emotion.emotion === "happiness") {
     emoji = (
-      <img
-        className="dominant-emotion-happy-img"
-        src="https://img.icons8.com/color/48/000000/happy--v1.png"
+      // <img
+      //   className="dominant-emotion-happy-img"
+      //   src="https://img.icons8.com/color/48/000000/happy--v1.png"
+      // />
+
+      <FontAwesomeIcon
+        className={"dominant-emotion-happy"}
+        icon={faLaughBeam}
+        size="2x"
       />
     );
+
+    emotiontext = "HAPPY";
   } else if (emotion.emotion === "anger") {
     emoji = (
-      <i>
-        <FontAwesomeIcon
-          className={"dominant-emotion-angry"}
-          icon={faAngry}
-          size="2x"
-        />
-      </i>
+      <FontAwesomeIcon
+        className={"dominant-emotion-angry"}
+        icon={faAngry}
+        size="2x"
+      />
     );
+    emotiontext = "ANGRY";
   } else if (emotion.emotion === "sadness") {
     emoji = (
-      <i>
-        <FontAwesomeIcon
-          className={"dominant-emotion-sadness"}
-          icon={faSadTear}
-          size="2x"
-        />
-      </i>
+      <FontAwesomeIcon
+        className={"dominant-emotion-sadness"}
+        icon={faSadTear}
+        size="2x"
+      />
     );
+    emotiontext = "SADNESS";
   } else if (emotion.emotion === "fear") {
     emoji = (
-      <i>
-        <FontAwesomeIcon
-          className={"dominant-emotion-fear"}
-          icon={faFrownOpen}
-          size="2x"
-        />
-      </i>
+      <FontAwesomeIcon
+        className={"dominant-emotion-fear"}
+        icon={faFrownOpen}
+        size="2x"
+      />
     );
+    emotiontext = "FEAR";
   } else if (emotion.emotion === "disgust") {
     emoji = (
-      <i>
-        <FontAwesomeIcon
-          className={"dominant-emotion-disgust"}
-          icon={faTired}
-          size="2x"
-        />
-      </i>
+      <FontAwesomeIcon
+        className={"dominant-emotion-disgust"}
+        icon={faTired}
+        size="2x"
+      />
     );
+    emotiontext = "DISGUST";
   } else if (emotion.emotion === "neutral") {
     emoji = (
-      <i>
-        <FontAwesomeIcon
-          className={"dominant-emotion-neutral"}
-          icon={faMeh}
-          size="2x"
-        />
-      </i>
+      <FontAwesomeIcon
+        className={"dominant-emotion-neutral"}
+        icon={faMeh}
+        size="2x"
+      />
     );
+    emotiontext = "NEUTRAL";
   } else if (emotion.emotion === "surprise") {
     emoji = (
-      <i>
-        <FontAwesomeIcon
-          className={"dominant-emotion-surprised"}
-          icon={faGrinStars}
-          size="2x"
-        />
-      </i>
+      <FontAwesomeIcon
+        className={"dominant-emotion-surprised"}
+        icon={faGrinStars}
+        size="2x"
+      />
     );
+    emotiontext = "SURPRISE";
   } else if (emotion.emotion === "-") {
     emoji = (
-      <i>
-        <FontAwesomeIcon
-          className={"dominant-emotion-undefined"}
-          icon={faMehBlank}
-          size="2x"
-        />
-      </i>
+      <FontAwesomeIcon
+        className={"dominant-emotion-undefined"}
+        icon={faMehBlank}
+        size="2x"
+      />
     );
+    emotiontext = "UNDEFINED";
   }
 
   return (
@@ -261,36 +263,21 @@ const DominantUser = ({ room }) => {
       {/* {emoji} */}
       {/* </span> */}
 
-      {dominant ? (
-        <div className="dominant-border">
+      <div className="dominant-border-emotion-icon">
+        <h3 className="dominant-border-emotion-header">Emotion</h3>
+        <div className="dominant-icon">{emoji}</div>
+      </div>
+
+      <div className="dominant-border">
+        {dominant ? (
           <div className="dominant-border-name">{dominant.identity}</div>
-          {/* {dominant ? (
-          <button
-            type="button"
-            className="btn btn-dominant btn-outline-info sentimentbtn"
-            onClick={test}
-          >
-            What Am I Feeling?
-          </button>
         ) : (
           ""
-        )} */}
-          <div className="dominant-border-emotion">
-            <div className="dominant-border-emotion-background">
-              <div className="dominant-border-emotion-icon">
-                {/* <img
-                  className="dominant-emotion-happy-img"
-                  src="https://img.icons8.com/color/48/000000/happy--v1.png"
-                /> */}
-                {emoji}
-              </div>
-              <div className="dominant-border-emotion-text">Happy</div>
-            </div>
-          </div>
+        )}
+        <div className="dominant-border-emotion-background">
+          <div className="dominant-border-emotion-text">{emotiontext}</div>
         </div>
-      ) : (
-        ""
-      )}
+      </div>
     </Row>
   );
 };
