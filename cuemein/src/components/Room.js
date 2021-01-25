@@ -13,8 +13,13 @@ import {
   faDesktop,
   faVideo,
   faHeadphones,
+<<<<<<< HEAD
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
+=======
+} from "@fortawesome/free-solid-svg-icons";
+import { CIcon } from "@coreui/icons-react";
+>>>>>>> react-app
 
 const helpers = require("./helpers");
 const muteYourAudio = helpers.muteYourAudio;
@@ -25,7 +30,11 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
   const [user, setUser] = useState([]);
   //create user array here
   //implement
+<<<<<<< HEAD
   const [newDomName, setNewDomName] = useState("no-one");
+=======
+  const [newDomName, setNewDomName] = useState("");
+>>>>>>> react-app
   const [mute, setMute] = useState(false);
   const [videomute, setVideomute] = useState(false);
   const [deafenmute, setDeafenmute] = useState(false);
@@ -137,9 +146,13 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
       console.log("Room.js - Track disable", track, user);
     };
 
+<<<<<<< HEAD
     // const participantRemotedAudioMuted = (track,user)  => {
 
     // }
+=======
+    const participantRemotedAudioMuted = (track, user) => {};
+>>>>>>> react-app
 
     Video.connect(token, {
       name: meetingname,
@@ -232,6 +245,24 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
 
   return (
     <div className="room">
+<<<<<<< HEAD
+=======
+      {/* <Nav className="navbar navbar-inverse">
+        <div className="container-fluid">
+          <Nav.Item className="mr-auto">
+            <Navbar.Brand>Talking: {newDomName}</Navbar.Brand>
+          </Nav.Item>
+          <Nav.Item className="mx-auto">
+            <Navbar.Brand>Room Name: {meetingname}</Navbar.Brand>
+          </Nav.Item>
+          <Nav.Item className="ml-auto">
+            <Button variant="danger" onClick={logoutcallback}>
+              LOG OUT
+            </Button>
+          </Nav.Item>
+        </div>
+      </Nav> */}
+>>>>>>> react-app
       <Container className="cameras" fluid="true">
         <Row className="cameras-row">
           <Col sm={2} className="local-participant">
@@ -269,6 +300,7 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
         </Row>
       </Container>
       <Container fluid="true">
+<<<<<<< HEAD
         <div className = "logoutbutton">
           <Row className = "logoutbtn">
           <Col>
@@ -280,25 +312,46 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
         </div>
         <div className="toolbar">
           <Row className="toolbar-items">
+=======
+        <div className="toolbar">
+          <Row className="toolbar-items">
+            <Col>
+              <Button variant="danger" onClick={logoutcallback}>
+                LOG OUT
+              </Button>
+            </Col>
+>>>>>>> react-app
             <Col>
               {mute ? (
                 <Button
                   type="button"
+<<<<<<< HEAD
                   className="btn btn-basic btn-rounded btn-xl"
                   onClick={mutecallback}
                 >
                   UNMUTE
 
+=======
+                  className="btn btn-info btn-circle btn-xl"
+                  onClick={mutecallback}
+                >
+>>>>>>> react-app
                   <FontAwesomeIcon icon={faMicrophoneSlash} />
                 </Button>
               ) : (
                 <Button
                   type="button"
+<<<<<<< HEAD
                   className="btn btn-basic btn-rounded btn-xl"
                   onClick={mutecallback}
                 >
                   MUTE ME
 
+=======
+                  className="btn btn-info btn-circle btn-xl"
+                  onClick={mutecallback}
+                >
+>>>>>>> react-app
                   <FontAwesomeIcon icon={faMicrophone} />
                 </Button>
               )}
@@ -307,19 +360,31 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
               {videomute ? (
                 <Button
                   type="button"
+<<<<<<< HEAD
                   className="btn btn-basic btn-rounded btn-xl"
                   onClick={mutevideocallback}
                 >
                   CAMERA
+=======
+                  className="btn btn-info btn-circle btn-xl"
+                  onClick={mutevideocallback}
+                >
+>>>>>>> react-app
                   <FontAwesomeIcon icon={faVideoSlash} />
                 </Button>
               ) : (
                 <Button
                   type="button"
+<<<<<<< HEAD
                   className="btn btn-basic btn-rounded btn-xl far"
                   onClick={mutevideocallback}
                 >
                   CAMERA 
+=======
+                  className="btn btn-info btn-circle btn-xl far"
+                  onClick={mutevideocallback}
+                >
+>>>>>>> react-app
                   <FontAwesomeIcon icon={faVideo} />
                 </Button>
               )}
@@ -328,30 +393,47 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
               {deafenmute ? (
                 <Button
                   type="button"
+<<<<<<< HEAD
                   className="btn btn-basic btn-rounded btn-xl"
                   onClick={defeancallback}
                 >
                   SILENCE 
+=======
+                  className="btn btn-info btn-circle btn-xl"
+                  onClick={defeancallback}
+                >
+>>>>>>> react-app
                   <FontAwesomeIcon icon={faTimes} />
                 </Button>
               ) : (
                 <Button
                   type="button"
+<<<<<<< HEAD
                   className="btn btn-basic btn-rounded btn-xl"
                   onClick={defeancallback}
                 >
                   SILENCE 
+=======
+                  className="btn btn-info btn-circle btn-xl"
+                  onClick={defeancallback}
+                >
+>>>>>>> react-app
                   <FontAwesomeIcon icon={faHeadphones} />
                 </Button>
               )}
             </Col>
             <Col>
+<<<<<<< HEAD
               <Button type="button" className="btn btn-basic btn-rounded btn-xl">
+=======
+              <Button type="button" className="btn btn-info btn-circle btn-xl">
+>>>>>>> react-app
                 <FontAwesomeIcon icon={faDesktop} />
               </Button>
             </Col>
           </Row>
         </div>
+<<<<<<< HEAD
         <div className = "reactionsbutton">
           <Row className = "reactions">
           <Col>
@@ -362,6 +444,8 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
             </Col>
           </Row>
               </div>
+=======
+>>>>>>> react-app
       </Container>
     </div>
   );

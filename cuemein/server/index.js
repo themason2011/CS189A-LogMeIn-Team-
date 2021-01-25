@@ -38,6 +38,7 @@ app.get('/api/greeting', (req, res) => {
   res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
 });
 
+<<<<<<< HEAD
 app.get('/video/token', (req, res) => {
   console.log('here');
   const identity = req.query.identity;
@@ -65,6 +66,8 @@ app.get('/video/token', (req, res) => {
 
 });
 
+=======
+>>>>>>> react-app
 app.post('/video/token', (req, res) => {
   const identity = req.body.identity;
   const room = req.body.room;
@@ -78,11 +81,14 @@ app.post('/video/snapShot', (req, res) => {
   const room = req.query.room;
   const blob = req.body;
   const prediction = await ImageProcessor.ProcessImage(blob);
+
   console.log(prediction);
   console.log(typeof prediction);
   console.log(JSON.stringify({emotion: prediction}));
+
   emotionsLookup[room] = emotionsLookup[room] || {};
   emotionsLookup[room][identity] = {emotion: prediction};
+  
   res.status(200).contentType('image/jpeg').send(blob);
   })();
 });
@@ -90,6 +96,10 @@ app.post('/video/snapShot', (req, res) => {
 app.get('/video/emotion', (req, res) => {
   const identity = req.query.identity;
   const room = req.query.room;
+<<<<<<< HEAD
+=======
+  console.log(emotionsLookup);
+>>>>>>> react-app
   var currentRoom = emotionsLookup[room] || {};
   var lastEmotion = currentRoom[identity] || {emotion: '-'};
   response.status(200).contentType('application/json').send(lastEmotion);
