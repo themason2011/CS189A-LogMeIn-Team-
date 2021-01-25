@@ -284,7 +284,7 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
               {mute ? (
                 <Button
                   type="button"
-                  className="btn btn-basic btn-circle btn-xl"
+                  className="btn btn-basic btn-rounded btn-xl"
                   onClick={mutecallback}
                 >
                   UNMUTE
@@ -294,10 +294,10 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
               ) : (
                 <Button
                   type="button"
-                  className="btn btn-basic btn-circle btn-xl"
+                  className="btn btn-basic btn-rounded btn-xl"
                   onClick={mutecallback}
                 >
-                  MUTE
+                  MUTE ME
 
                   <FontAwesomeIcon icon={faMicrophone} />
                 </Button>
@@ -307,19 +307,19 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
               {videomute ? (
                 <Button
                   type="button"
-                  className="btn btn-basic btn-circle btn-xl"
+                  className="btn btn-basic btn-rounded btn-xl"
                   onClick={mutevideocallback}
                 >
-                  VIDEO ON
+                  CAMERA
                   <FontAwesomeIcon icon={faVideoSlash} />
                 </Button>
               ) : (
                 <Button
                   type="button"
-                  className="btn btn-basic btn-circle btn-xl far"
+                  className="btn btn-basic btn-rounded btn-xl far"
                   onClick={mutevideocallback}
                 >
-                  VIDEO OFF
+                  CAMERA 
                   <FontAwesomeIcon icon={faVideo} />
                 </Button>
               )}
@@ -328,25 +328,25 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
               {deafenmute ? (
                 <Button
                   type="button"
-                  className="btn btn-basic btn-circle btn-xl"
+                  className="btn btn-basic btn-rounded btn-xl"
                   onClick={defeancallback}
                 >
-                  SILENCE
+                  SILENCE 
                   <FontAwesomeIcon icon={faTimes} />
                 </Button>
               ) : (
                 <Button
                   type="button"
-                  className="btn btn-basic btn-circle btn-xl"
+                  className="btn btn-basic btn-rounded btn-xl"
                   onClick={defeancallback}
                 >
-                  SILENCE
+                  SILENCE 
                   <FontAwesomeIcon icon={faHeadphones} />
                 </Button>
               )}
             </Col>
             <Col>
-              <Button type="button" className="btn btn-basic btn-circle btn-xl">
+              <Button type="button" className="btn btn-basic btn-rounded btn-xl">
                 <FontAwesomeIcon icon={faDesktop} />
               </Button>
             </Col>
@@ -355,7 +355,7 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
         <div className = "reactionsbutton">
           <Row className = "reactions">
           <Col>
-              <Button type="button" className="btn btn-basic rctbtn">
+              <Button type="button" className="btn btn-basic btn-circle btn-xl">
                 REACTIONS
                 <FontAwesomeIcon icon={faThumbsUp} />
               </Button>

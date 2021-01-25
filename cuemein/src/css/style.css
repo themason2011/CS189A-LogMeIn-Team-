@@ -529,7 +529,7 @@ body{
 
 .toolbar{
    overflow: auto;
-   margin: -5.3rem 20rem;
+   margin: -4.6rem 20rem;
    display:flex;
    flex-direction: row;
    justify-content: left;
@@ -553,30 +553,41 @@ body{
     background-color: #C4C4C4;;
 }
 
-.btn-circle.btn-xl {
+.btn-rounded.btn-xl {
     background-color: #808080;
-    width: 65px;
-    height: 65px;
+    width: 80px;
+    height: 45px;
+    font-size: 13px;
+}
+
+.btn-rounded.btn-xl:hover {
+    background-color: #040b51
+}
+
+.btn-rounded.btn-xl:active {
+    background-color: #040b51 !important
+}
+
+
+.reactionsbutton {
+    justify-content: right;
+    margin: 0.4rem 67rem;
+}
+
+.btn-circle.btn-xl {
+    background-color: #68A846;
+    width: 105px;
+    height: 60px;
     padding: 0px;
     border-radius: 35px;
-    font-size: 24px;
+    font-size: 16px;
     line-height: 1.33;
     margin-left: 25px;
     margin-bottom: 15px;
-    font-size: 12px;
-    display: block;
 }
 
-.reactionsbutton {
-    background-color: #fcba03;
-    justify-content: right;
-    margin: -6.5rem 72rem;
-}
-
-.rctbtn {
-    background-color: #fcba03;
-    width: 110px;
-    height: 60px;
+.btn-circle.btn-xl:hover {
+    background-color: #040b51
 }
 
 
