@@ -155,31 +155,6 @@ const DominantUser = ({ room }) => {
      ])
      .then(() => data);
   };
-
-  const startRecording = (audioElement) => {
-    let recorder = new MediaRecorder(audioElement);
-    let data = [];
-    let lengthInMS = 10000;
- 
-     recorder.ondataavailable = event => data.push(event.data);
-     recorder.start();
-     console.log(recorder.state + " for " + (lengthInMS/1000) + " seconds...");
- 
-     let stopped = new Promise((resolve, reject) => {
-       recorder.onstop = resolve;
-       recorder.onerror = event => reject(event.name);
-     });
- 
-     let recorded = wait(lengthInMS).then(
-       () => recorder.state == "recording" && recorder.stop()
-     );
- 
-     return Promise.all([
-       stopped,
-       recorded
-     ])
-     .then(() => data);
-   }
  
   const recordAudio = (audioElement) => {
     const MediaStreamer = new MediaStream();
@@ -224,10 +199,11 @@ const DominantUser = ({ room }) => {
 
   //Takes a snapshot, which calls to backend API to update emotion, every time there is a change in who the Dominant User is AND every 2 seconds
   useEffect(() => {
-    const snapshotInterval = setInterval(() => {
+    const videoSnapshotInterval = setInterval(() => {
       if (dominant != null) {
         const videoTrack = videoTrackss[0];
         if (videoTrack) {
+          videoTrack.attach(videoref.current);
           takeSnapshot(videoTrack.mediaStreamTrack);
 
           return () => {
@@ -236,28 +212,32 @@ const DominantUser = ({ room }) => {
         }
       }
     }, 2000);
-    return () => clearInterval(snapshotInterval);
+    return () => clearInterval(videoSnapshotInterval);
   }, [videoTrackss]);
 
+  //Start a new audio recording interval and stop the old one for parsing every 3 seconds
   useEffect(() => {
-    if(dominant != null){
-      const audioTrack = audioTrackss[0];
-      if (audioTrack) {
-        audioTrack.attach(audioref.current);
-        //add delay 
-        console.log('here is audio track');
-        console.log(audioTrack.mediaStreamTrack);
+    const audioSnapshotInterval = setInterval(() => {
+      if(dominant != null){
+        const audioTrack = audioTrackss[0];
+        if (audioTrack) {
+          audioTrack.attach(audioref.current);
+          //add delay 
+          console.log('here is audio track');
+          console.log(audioTrack.mediaStreamTrack);
 
-        //takeAudioChunk(audioTrack.mediaStreamTrack);
-        recordAudio(audioTrack.mediaStreamTrack);
-        //stop(audioTrack);
-        
-        return () => {
-          console.log("detach() Dominant.js");
-          // videoTrack.detach();
-        };
+          //takeAudioChunk(audioTrack.mediaStreamTrack);
+          recordAudio(audioTrack.mediaStreamTrack);
+          //stop(audioTrack);
+          
+          return () => {
+            console.log("detach() Dominant.js");
+            // videoTrack.detach();
+          };
+        }
       }
-    }
+    }, 3000);
+    return () => clearInterval(audioSnapshotInterval);
   }, [audioTrackss]);
 
   //CAN BE UNCOMMENTED TO HAVE UI SENTIMENT REPEATEDLY FORCE REFRESH EVERY 1 SEC (DEBUG/TESTING).
