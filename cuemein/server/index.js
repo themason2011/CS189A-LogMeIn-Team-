@@ -83,11 +83,14 @@ app.post('/audio/snapShot', (req, res) => {
   const blob = req.body;
   console.log(blob);
   const prediction = await AudioProcessor.ProcessAudio(blob);
+
   console.log(prediction);
   console.log(typeof prediction);
   console.log(JSON.stringify({emotion: prediction}));
+
   emotionsLookup[room] = emotionsLookup[room] || {};
   emotionsLookup[room][identity] = {emotion: prediction};
+
   res.status(200).contentType('audio/webm').send(blob);
   })();
 });

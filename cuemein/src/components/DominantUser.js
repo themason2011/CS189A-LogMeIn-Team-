@@ -131,10 +131,9 @@ const DominantUser = ({ room }) => {
     setEmotion(data);
   };
 
-  const startRecording = (audioElement) => {
+  const startRecording = (audioElement, lengthInMS) => {
     let recorder = new MediaRecorder(audioElement);
     let data = [];
-    let lengthInMS = 10000;
  
      recorder.ondataavailable = event => data.push(event.data);
      recorder.start();
@@ -156,13 +155,13 @@ const DominantUser = ({ room }) => {
      .then(() => data);
   };
  
-  const recordAudio = (audioElement) => {
+  const recordAudio = (audioElement, lengthInMS) => {
     const MediaStreamer = new MediaStream();
     MediaStreamer.addTrack(audioElement);
     const recorder = new MediaRecorder(MediaStreamer);
     navigator.mediaDevices.getUserMedia({
       audio: true
-    }).then(() => startRecording(MediaStreamer, 10000))
+    }).then(() => startRecording(MediaStreamer, lengthInMS))
     .then(recordedChunks => {
       let recordedBlob = new Blob(recordedChunks, { type: "application/octet-stream" });
 
@@ -181,7 +180,10 @@ const DominantUser = ({ room }) => {
             headers: {
               'Content-Type':'application/octet-stream'
             }
-          });  
+          }).then(() => {
+            //Update the UI Sentiment to display the most up-to-date sentiment, according to backend
+            fetchVideoSentiment();
+          });
         });
       });
       reader.readAsDataURL(recordedBlob);
@@ -205,39 +207,33 @@ const DominantUser = ({ room }) => {
         if (videoTrack) {
           videoTrack.attach(videoref.current);
           takeSnapshot(videoTrack.mediaStreamTrack);
-
-          return () => {
-            // videoTrack.detach();
-          };
         }
       }
     }, 2000);
     return () => clearInterval(videoSnapshotInterval);
   }, [videoTrackss]);
 
-  //Start a new audio recording interval and stop the old one for parsing every 3 seconds
+  //Start a new audio recording interval and stop the old one for parsing every 6 seconds
   useEffect(() => {
+    const intervalInMS = 8000;
     const audioSnapshotInterval = setInterval(() => {
+      const intervalInMS = 8000;
       if(dominant != null){
         const audioTrack = audioTrackss[0];
         if (audioTrack) {
           audioTrack.attach(audioref.current);
-          //add delay 
-          console.log('here is audio track');
-          console.log(audioTrack.mediaStreamTrack);
-
-          //takeAudioChunk(audioTrack.mediaStreamTrack);
-          recordAudio(audioTrack.mediaStreamTrack);
-          //stop(audioTrack);
-          
-          return () => {
-            console.log("detach() Dominant.js");
-            // videoTrack.detach();
-          };
+          recordAudio(audioTrack.mediaStreamTrack, intervalInMS);
         }
       }
-    }, 3000);
-    return () => clearInterval(audioSnapshotInterval);
+    }, intervalInMS);
+    return () => {
+      //TODO: VERIFY THAT stop(audioTrack) ACTUALLY STOPS THE RECORDING OF THE AUDIO TRACK AND RETURNS THE SENTIMENT ANAL OF THE PARTIALLY FININSHED RECORDING WHEN DOMINANT SPEAKER CHANGES
+      if(dominant != null){
+        const audioTrack = audioTrackss[0];
+        stop(audioTrack);
+      }
+      clearInterval(audioSnapshotInterval);
+    }
   }, [audioTrackss]);
 
   //CAN BE UNCOMMENTED TO HAVE UI SENTIMENT REPEATEDLY FORCE REFRESH EVERY 1 SEC (DEBUG/TESTING).
