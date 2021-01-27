@@ -15,11 +15,13 @@ import {
 
 const DominantUser = ({ room }) => {
   const [videoTrackss, setVideoTrackss] = useState([]);
+  const [audioTrackss, setAudioTrackss] = useState([]);
   const [emotion, setEmotion] = useState("-");
   const [emotion_style, setEmotion_Style] = useState("participant-video");
   const [dominant, setDominant] = useState(null);
 
   const videoref = useRef();
+  const audioref = useRef();
 
   useEffect(() => {
     const ParticipantDominantSpeaker = (user) => {
@@ -39,10 +41,13 @@ const DominantUser = ({ room }) => {
   useEffect(() => {
     if (dominant != null) {
       setVideoTrackss(trackpubsToTracks(dominant.videoTracks));
-
+      setAudioTrackss(trackpubsToTracks(dominant.audioTracks));
       const trackSubscribed = (track) => {
         if (track.kind === "video") {
           setVideoTrackss((videoTracks) => [...videoTracks, track]);
+        }
+        else if (track.kind === "audio") {
+          setAudioTrackss((audioTracks) => [...audioTracks, track]);
         }
       };
 
@@ -52,6 +57,9 @@ const DominantUser = ({ room }) => {
             videoTracks.filter((v) => v !== track)
           );
         }
+        else if (track.kind === "audio"){
+          setAudioTrackss((audioTracks) => audioTracks.filter((v) => v !== track));
+        }
       };
 
       dominant.on("trackSubscribed", trackSubscribed);
@@ -59,6 +67,7 @@ const DominantUser = ({ room }) => {
 
       return () => {
         setVideoTrackss([]);
+        setAudioTrackss([]);
         dominant.removeAllListeners();
       };
     }
@@ -122,12 +131,79 @@ const DominantUser = ({ room }) => {
     setEmotion(data);
   };
 
-  //Takes a snapshot, which calls to backend API to update emotion, every time there is a change in who the Dominant User is AND every 3 seconds
+  const startRecording = (audioElement) => {
+    let recorder = new MediaRecorder(audioElement);
+    let data = [];
+    let lengthInMS = 10000;
+ 
+     recorder.ondataavailable = event => data.push(event.data);
+     recorder.start();
+     console.log(recorder.state + " for " + (lengthInMS/1000) + " seconds...");
+ 
+     let stopped = new Promise((resolve, reject) => {
+       recorder.onstop = resolve;
+       recorder.onerror = event => reject(event.name);
+     });
+ 
+     let recorded = wait(lengthInMS).then(
+       () => recorder.state == "recording" && recorder.stop()
+     );
+ 
+     return Promise.all([
+       stopped,
+       recorded
+     ])
+     .then(() => data);
+  };
+ 
+  const recordAudio = (audioElement) => {
+    const MediaStreamer = new MediaStream();
+    MediaStreamer.addTrack(audioElement);
+    const recorder = new MediaRecorder(MediaStreamer);
+    navigator.mediaDevices.getUserMedia({
+      audio: true
+    }).then(() => startRecording(MediaStreamer, 10000))
+    .then(recordedChunks => {
+      let recordedBlob = new Blob(recordedChunks, { type: "application/octet-stream" });
+
+      console.log("Successfully recorded " + recordedBlob.size + " bytes of " + recordedBlob.type + " media.");
+      console.log(recordedBlob);
+      var reader = new FileReader();
+      reader.addEventListener('loadend',() => {
+        fetch(reader.result)
+        .then(res => res.blob())
+        .then(recordedBlob => {
+          console.log("here is your binary: ", recordedBlob);
+          const fetchUrl = '/audio/snapShot?identity=' + dominant.identity + '&room=' + room.name;
+          fetch(fetchUrl, {
+            method: 'POST',
+            body: recordedBlob,
+            headers: {
+              'Content-Type':'application/octet-stream'
+            }
+          });  
+        });
+      });
+      reader.readAsDataURL(recordedBlob);
+    });
+  };
+
+  function wait(delayInMS) {
+    return new Promise(resolve => setTimeout(resolve, delayInMS));
+  }
+
+  function stop(stream) {
+    stream.getTracks().forEach(track => track.stop());
+    console.log("Recording stopped");
+  }
+
+  //Takes a snapshot, which calls to backend API to update emotion, every time there is a change in who the Dominant User is AND every 2 seconds
   useEffect(() => {
-    const snapshotInterval = setInterval(() => {
+    const videoSnapshotInterval = setInterval(() => {
       if (dominant != null) {
         const videoTrack = videoTrackss[0];
         if (videoTrack) {
+          videoTrack.attach(videoref.current);
           takeSnapshot(videoTrack.mediaStreamTrack);
 
           return () => {
@@ -136,22 +212,33 @@ const DominantUser = ({ room }) => {
         }
       }
     }, 2000);
-    return () => clearInterval(snapshotInterval);
+    return () => clearInterval(videoSnapshotInterval);
   }, [videoTrackss]);
 
+  //Start a new audio recording interval and stop the old one for parsing every 3 seconds
   useEffect(() => {
-    if (dominant != null) {
-      const videoTrack = videoTrackss[0];
-      if (videoTrack) {
-        videoTrack.attach(videoref.current);
-        console.log("attach() Dominant.js");
-        return () => {
-          console.log("detach() Dominant.js");
-          // videoTrack.detach();
-        };
+    const audioSnapshotInterval = setInterval(() => {
+      if(dominant != null){
+        const audioTrack = audioTrackss[0];
+        if (audioTrack) {
+          audioTrack.attach(audioref.current);
+          //add delay 
+          console.log('here is audio track');
+          console.log(audioTrack.mediaStreamTrack);
+
+          //takeAudioChunk(audioTrack.mediaStreamTrack);
+          recordAudio(audioTrack.mediaStreamTrack);
+          //stop(audioTrack);
+          
+          return () => {
+            console.log("detach() Dominant.js");
+            // videoTrack.detach();
+          };
+        }
       }
-    }
-  }, [videoTrackss]);
+    }, 3000);
+    return () => clearInterval(audioSnapshotInterval);
+  }, [audioTrackss]);
 
   //CAN BE UNCOMMENTED TO HAVE UI SENTIMENT REPEATEDLY FORCE REFRESH EVERY 1 SEC (DEBUG/TESTING).
   //Could also be used if we end up updating video and audio sentiment async, to ensure that the latest
