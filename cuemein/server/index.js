@@ -59,8 +59,10 @@ app.post('/video/snapShot', (req, res) => {
   console.log(typeof prediction);
   console.log(JSON.stringify({emotion: prediction}));
 
-  emotionsLookup[room] = emotionsLookup[room] || {};
-  emotionsLookup[room][identity] = {emotion: prediction};
+  if(prediction != "undefined") {
+    emotionsLookup[room] = emotionsLookup[room] || {};
+    emotionsLookup[room][identity] = {emotion: prediction};
+  }
   
   res.status(200).contentType('image/jpeg').send(blob);
   })();
@@ -88,8 +90,10 @@ app.post('/audio/snapShot', (req, res) => {
   console.log(typeof prediction);
   console.log(JSON.stringify({emotion: prediction}));
 
-  emotionsLookup[room] = emotionsLookup[room] || {};
-  emotionsLookup[room][identity] = {emotion: prediction};
+  if(prediction != "undefined") {
+    emotionsLookup[room] = emotionsLookup[room] || {};
+    emotionsLookup[room][identity] = {emotion: prediction};
+  }
 
   res.status(200).contentType('audio/webm').send(blob);
   })();
