@@ -229,8 +229,7 @@ const DominantUser = ({ room }) => {
     return () => {
       //TODO: VERIFY THAT stop(audioTrack) ACTUALLY STOPS THE RECORDING OF THE AUDIO TRACK AND RETURNS THE SENTIMENT ANAL OF THE PARTIALLY FININSHED RECORDING WHEN DOMINANT SPEAKER CHANGES
       if(dominant != null){
-        const audioTrack = audioTrackss[0];
-        stop(audioTrack);
+        stop(audioTrackss);
       }
       clearInterval(audioSnapshotInterval);
     }

@@ -59,7 +59,7 @@ app.post('/video/snapShot', (req, res) => {
   console.log(typeof prediction);
   console.log(JSON.stringify({emotion: prediction}));
 
-  if(prediction != "undefined") {
+  if(prediction != null) {
     emotionsLookup[room] = emotionsLookup[room] || {};
     emotionsLookup[room][identity] = {emotion: prediction};
   }
@@ -90,7 +90,7 @@ app.post('/audio/snapShot', (req, res) => {
   console.log(typeof prediction);
   console.log(JSON.stringify({emotion: prediction}));
 
-  if(prediction != "undefined") {
+  if(prediction != null) {
     emotionsLookup[room] = emotionsLookup[room] || {};
     emotionsLookup[room][identity] = {emotion: prediction};
   }

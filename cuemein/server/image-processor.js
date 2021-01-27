@@ -30,18 +30,24 @@ async function ProcessImage(blob_data) {
     }).then(function (response) {
         let prediction, max_val = 0;
 
-        for(const [key, value] of Object.entries(response.data[0].faceAttributes.emotion)) {
-            if(value > max_val) {
-                max_val = value;
-                prediction = key;
+        if(response.data[0] != null) {
+            for(const [key, value] of Object.entries(response.data[0].faceAttributes.emotion)) {
+                if(value > max_val) {
+                    max_val = value;
+                    prediction = key;
+                }
             }
+    
+            if(prediction == "contempt")    {
+                prediction = disgust;
+            }
+    
+            return prediction;
         }
-
-        if(prediction == "contempt")    {
-            prediction = disgust;
+        else {
+            console.log("Face not detected");
+            return undefined;
         }
-
-        return prediction;
         
     }).catch(function (error) {
         console.log(error)
