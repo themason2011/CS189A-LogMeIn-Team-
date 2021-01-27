@@ -7,7 +7,7 @@ const Meeting = () => {
   const [meetingname, setRoomName] = useState('');
   const [token, setToken] = useState(null);
 
-  const roomname_change= useCallback(event => {
+  const roomname_change = useCallback(event => {
     setRoomName(event.target.value);
   }, []);
 
@@ -20,6 +20,7 @@ const Meeting = () => {
   const submit = useCallback(
     async event => {
       event.preventDefault();
+
       const data = await fetch('/video/token', {
         method: 'POST',
         body: JSON.stringify({
@@ -30,6 +31,7 @@ const Meeting = () => {
           'Content-Type': 'application/json'
         }
       }).then(res => res.json());
+
       setToken(data.token);
     },
     [meetingname, username]);
@@ -37,8 +39,6 @@ const Meeting = () => {
   const logout = useCallback(event => {
     setToken(null);
   },[]);
-
-
 
   let result;
   if (token) {

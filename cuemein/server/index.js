@@ -40,15 +40,6 @@ app.get('/api/greeting', (req, res) => {
   res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
 });
 
-app.get('/video/token', (req, res) => {
-  console.log('here');
-  const identity = req.query.identity;
-  const roomName = req.query.room;
-  const token = videoToken(identity, roomName, config);
-  sendTokenResponse(token, res);
-
-});
-
 app.post('/video/token', (req, res) => {
   const identity = req.body.identity;
   const room = req.body.room;
@@ -63,11 +54,14 @@ app.post('/video/snapShot', (req, res) => {
   const blob = req.body;
   console.log(blob);
   const prediction = await ImageProcessor.ProcessImage(blob);
+
   console.log(prediction);
   console.log(typeof prediction);
   console.log(JSON.stringify({emotion: prediction}));
+
   emotionsLookup[room] = emotionsLookup[room] || {};
   emotionsLookup[room][identity] = {emotion: prediction};
+  
   res.status(200).contentType('image/jpeg').send(blob);
   })();
 });
