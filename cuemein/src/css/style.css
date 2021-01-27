@@ -15,7 +15,7 @@ html{
 
 body{
     box-sizing:border-box;
-    background: url("/cool-background.png");
+    /* background: url("/cool-background.png"); */
     background-position: center, center;
 }
 
