@@ -59,8 +59,10 @@ app.post('/video/snapShot', (req, res) => {
   console.log(typeof prediction);
   console.log(JSON.stringify({emotion: prediction}));
 
-  emotionsLookup[room] = emotionsLookup[room] || {};
-  emotionsLookup[room][identity] = {emotion: prediction};
+  if(prediction != null) {
+    emotionsLookup[room] = emotionsLookup[room] || {};
+    emotionsLookup[room][identity] = {emotion: prediction};
+  }
   
   res.status(200).contentType('image/jpeg').send(blob);
   })();
@@ -83,11 +85,16 @@ app.post('/audio/snapShot', (req, res) => {
   const blob = req.body;
   console.log(blob);
   const prediction = await AudioProcessor.ProcessAudio(blob);
+
   console.log(prediction);
   console.log(typeof prediction);
   console.log(JSON.stringify({emotion: prediction}));
-  emotionsLookup[room] = emotionsLookup[room] || {};
-  emotionsLookup[room][identity] = {emotion: prediction};
+
+  if(prediction != null) {
+    emotionsLookup[room] = emotionsLookup[room] || {};
+    emotionsLookup[room][identity] = {emotion: prediction};
+  }
+
   res.status(200).contentType('audio/webm').send(blob);
   })();
 });

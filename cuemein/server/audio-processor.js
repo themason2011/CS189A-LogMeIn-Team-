@@ -50,7 +50,7 @@ async function ProcessAudio(blob_data) {
   };
 
   //Speech To Text API Call
-  speechToText
+  return speechToText
     .recognize(recognizeParams)
     .then((speechRecognitionResults) => {
       //Output Transcript
@@ -71,7 +71,7 @@ async function ProcessAudio(blob_data) {
         },
       };
       //Sentiment Analysis API Call
-      naturalLanguageUnderstanding
+      return naturalLanguageUnderstanding
         .analyze(analyzeParams)
         .then((analysisResults) => {
           //Output Five Different Emotion Scores
@@ -92,6 +92,7 @@ async function ProcessAudio(blob_data) {
                     prediction = key;
                 }
             }
+            console.log("Here is the audio sentiment's prediction: ");
             console.log(prediction);
             return prediction;
 
