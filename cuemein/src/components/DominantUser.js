@@ -107,7 +107,7 @@ const DominantUser = ({ room }) => {
     setEmotion(data);
   }
 
-  //Takes a snapshot, which calls to backend API to update emotion, every time there is a change in who the Dominant User is AND every 3 seconds
+  //Takes a snapshot, which calls to backend API to update emotion, every time there is a change in who the Dominant User is AND every 2 seconds
   useEffect(() => {
     const snapshotInterval = setInterval(() => {
       if(dominant != null){
