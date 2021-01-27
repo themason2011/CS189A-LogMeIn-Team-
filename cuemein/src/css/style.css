@@ -529,11 +529,19 @@ body{
     visibility: visible;
 } */
 
+.logoutbutton{
+    margin: 1.5rem 4.1rem;
+    display:flex;
+    flex-direction: row;
+    justify-content: left;
+ }
+
 .toolbar{
-   margin: 0 auto;
+   overflow: auto;
+   margin: -4.6rem 20rem;
    display:flex;
    flex-direction: row;
-   justify-content: center;
+   justify-content: left;
 }
 
 .mutebtn{
@@ -554,29 +562,42 @@ body{
     background-color: #C4C4C4;;
 }
 
+.btn-rounded.btn-xl {
+    background-color: #808080;
+    width: 80px;
+    height: 45px;
+    font-size: 13px;
+}
+
+.btn-rounded.btn-xl:hover {
+    background-color: #040b51
+}
+
+.btn-rounded.btn-xl:active {
+    background-color: #040b51 !important
+}
+
+
+.reactionsbutton {
+    justify-content: right;
+    margin: 0.4rem 67rem;
+}
+
 .btn-circle.btn-xl {
-    width: 70px;
-    height: 70px;
-    padding: 10px 16px;
+    background-color: #68A846;
+    width: 105px;
+    height: 60px;
+    padding: 0px;
     border-radius: 35px;
-    font-size: 24px;
+    font-size: 16px;
     line-height: 1.33;
-    margin-left: 20px;
+    margin-left: 25px;
     margin-bottom: 15px;
 }
 
-.btn-circle {
-    width: 30px;
-    height: 30px;
-    padding: 6px 0px;
-    border-radius: 15px;
-    text-align: center;
-    font-size: 12px;
-    line-height: 1.42857;
-    margin-left: 20px;
-    margin-bottom: 15px;
+.btn-circle.btn-xl:hover {
+    background-color: #040b51
 }
-
 
 
 /*Code below is the login page css that we starte*/

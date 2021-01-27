@@ -13,6 +13,7 @@ import {
   faDesktop,
   faVideo,
   faHeadphones,
+  faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { CIcon } from "@coreui/icons-react";
 
@@ -282,28 +283,36 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
         </Row>
       </Container>
       <Container fluid="true">
-        <div className="toolbar">
-          <Row className="toolbar-items">
-            <Col>
-              <Button variant="danger" onClick={logoutcallback}>
+        <div className = "logoutbutton">
+          <Row className = "logoutbtn">
+          <Col>
+              <Button variant="danger" onClick={logoutcallback} style={{float: 'right'}}>
                 LOG OUT
               </Button>
             </Col>
+          </Row>
+        </div>
+        <div className="toolbar">
+          <Row className="toolbar-items">
             <Col>
               {mute ? (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl"
+                  className="btn btn-basic btn-rounded btn-xl"
                   onClick={mutecallback}
                 >
+                  UNMUTE
+
                   <FontAwesomeIcon icon={faMicrophoneSlash} />
                 </Button>
               ) : (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl"
+                  className="btn btn-basic btn-rounded btn-xl"
                   onClick={mutecallback}
                 >
+                  MUTE ME
+
                   <FontAwesomeIcon icon={faMicrophone} />
                 </Button>
               )}
@@ -312,17 +321,19 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
               {videomute ? (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl"
+                  className="btn btn-basic btn-rounded btn-xl"
                   onClick={mutevideocallback}
                 >
+                  CAMERA
                   <FontAwesomeIcon icon={faVideoSlash} />
                 </Button>
               ) : (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl far"
+                  className="btn btn-basic btn-rounded btn-xl far"
                   onClick={mutevideocallback}
                 >
+                  CAMERA 
                   <FontAwesomeIcon icon={faVideo} />
                 </Button>
               )}
@@ -331,28 +342,40 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
               {deafenmute ? (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl"
+                  className="btn btn-basic btn-rounded btn-xl"
                   onClick={defeancallback}
                 >
+                  SILENCE 
                   <FontAwesomeIcon icon={faTimes} />
                 </Button>
               ) : (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl"
+                  className="btn btn-basic btn-rounded btn-xl"
                   onClick={defeancallback}
                 >
+                  SILENCE 
                   <FontAwesomeIcon icon={faHeadphones} />
                 </Button>
               )}
             </Col>
             <Col>
-              <Button type="button" className="btn btn-info btn-circle btn-xl">
+              <Button type="button" className="btn btn-basic btn-rounded btn-xl">
                 <FontAwesomeIcon icon={faDesktop} />
               </Button>
             </Col>
           </Row>
         </div>
+        <div className = "reactionsbutton">
+          <Row className = "reactions">
+          <Col>
+              <Button type="button" className="btn btn-basic btn-circle btn-xl">
+                REACTIONS
+                <FontAwesomeIcon icon={faThumbsUp} />
+              </Button>
+            </Col>
+          </Row>
+              </div>
       </Container>
     </div>
   );
