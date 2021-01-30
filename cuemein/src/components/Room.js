@@ -12,6 +12,7 @@ import {
   faMicrophone,
   faDesktop,
   faVideo,
+  faThumbsUp,
   faHeadphones,
 } from "@fortawesome/free-solid-svg-icons";
 import { CIcon } from "@coreui/icons-react";
@@ -270,25 +271,22 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
         <div className="toolbar">
           <Row className="toolbar-items">
             <Col>
-              <Button variant="danger" onClick={logoutcallback}>
-                LOG OUT
-              </Button>
-            </Col>
-            <Col>
               {mute ? (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl"
+                  className="btn btn-basic btn-rounded btn-xl"
                   onClick={mutecallback}
                 >
+                  UNMUTE
                   <FontAwesomeIcon icon={faMicrophoneSlash} />
                 </Button>
               ) : (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl"
+                  className="btn btn-basic btn-rounded btn-xl"
                   onClick={mutecallback}
                 >
+                  MUTE ME
                   <FontAwesomeIcon icon={faMicrophone} />
                 </Button>
               )}
@@ -297,17 +295,19 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
               {videomute ? (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl"
+                  className="btn btn-basic btn-rounded btn-xl"
                   onClick={mutevideocallback}
                 >
+                  CAMERA
                   <FontAwesomeIcon icon={faVideoSlash} />
                 </Button>
               ) : (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl far"
+                  className="btn btn-basic btn-rounded btn-xl far"
                   onClick={mutevideocallback}
                 >
+                  CAMERA
                   <FontAwesomeIcon icon={faVideo} />
                 </Button>
               )}
@@ -316,24 +316,39 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
               {deafenmute ? (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl"
+                  className="btn btn-basic btn-rounded btn-xl"
                   onClick={defeancallback}
                 >
+                  SILENCE
                   <FontAwesomeIcon icon={faTimes} />
                 </Button>
               ) : (
                 <Button
                   type="button"
-                  className="btn btn-info btn-circle btn-xl"
+                  className="btn btn-basic btn-rounded btn-xl"
                   onClick={defeancallback}
                 >
+                  SILENCE
                   <FontAwesomeIcon icon={faHeadphones} />
                 </Button>
               )}
             </Col>
             <Col>
-              <Button type="button" className="btn btn-info btn-circle btn-xl">
+              <Button
+                type="button"
+                className="btn btn-basic btn-rounded btn-xl"
+              >
                 <FontAwesomeIcon icon={faDesktop} />
+              </Button>
+            </Col>
+          </Row>
+        </div>
+        <div className="reactionsbutton">
+          <Row className="reactions">
+            <Col>
+              <Button type="button" className="btn btn-basic btn-circle btn-xl">
+                REACTIONS
+                <FontAwesomeIcon icon={faThumbsUp} />
               </Button>
             </Col>
           </Row>
