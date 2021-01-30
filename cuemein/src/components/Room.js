@@ -268,6 +268,19 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
         </Row>
       </Container>
       <Container fluid="true">
+        <div className="logoutbutton">
+          <Row className="logoutbtn">
+            <Col>
+              <Button
+                variant="danger"
+                onClick={logoutcallback}
+                style={{ float: "right" }}
+              >
+                LOG OUT
+              </Button>
+            </Col>
+          </Row>
+        </div>
         <div className="toolbar">
           <Row className="toolbar-items">
             <Col>
