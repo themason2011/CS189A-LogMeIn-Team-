@@ -20,7 +20,7 @@ const User = ({ user, mute, local = "" }) => {
   const audioref = useRef();
   let locals = "";
 
-  console.log("User.js");
+  console.log("User.js", user.identity);
 
   const toggleMute = (muted) => {
     setMute(muted);
@@ -83,10 +83,10 @@ const User = ({ user, mute, local = "" }) => {
   useEffect(() => {
     const videoTrack = videoTracks[0];
     if (videoTrack) {
-      console.log("User.js attach()");
+      console.log("User.js attach()", user.identity);
       videoTrack.attach(videoref.current);
       return () => {
-        console.log("User.js detach()");
+        console.log("User.js detach()", user.identity);
         videoTrack.detach();
       };
     }

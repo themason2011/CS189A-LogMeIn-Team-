@@ -49,13 +49,13 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
 
           context.drawImage(bitmap, 0, 0);
           canvas.toBlob(function (blob) {
-            console.log(blob);
+            // console.log(blob);
             var reader = new FileReader();
             reader.addEventListener("loadend", () => {
               fetch(reader.result)
                 .then((res) => res.blob())
                 .then((blob) => {
-                  console.log("here is your binary: ", blob);
+                  // console.log("here is your binary: ", blob);
                   fetch(
                     "/video/snapShot?identity=" +
                       room.localParticipant.identity +
@@ -109,6 +109,7 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
 
   useEffect(() => {
     console.log("dominant speacjer Room.js effect");
+
     const participantConnected = (new_user) => {
       console.log("Room.js - particiapnt connected", new_user);
       //add user to array
@@ -117,24 +118,25 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
     };
 
     const participantDisconnected = (gone_user) => {
-      console.log("Room.js - particiapnt disconnected", gone_user);
+      console.log("Room.js - particiapnt disconnected", gone_user, user);
+
       //remove user from array
       setUser((prevusers) => prevusers.filter((p) => p !== gone_user));
       restartSentiment(user);
+      console.log(user);
     };
 
     const ParticipantNewDominantSpeaker = (user) => {
       if (user !== null) {
-        console.log("dominant speacjjer Room.js");
+        // console.log("new dominant speaker Room.js");
         setNewDomName(user.identity);
       } else if (user === null) {
-        console.log("dominant speacker Room.js");
         setNewDomName(null);
       }
     };
 
     const participantRemoteVideoMuted = (track, user) => {
-      console.log("Room.js - Track disable", track, user);
+      // console.log("Room.js - Track disable", track, user);
     };
 
     const participantRemotedAudioMuted = (track, user) => {};
@@ -154,7 +156,6 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
       room.on("trackDisabled", participantRemoteVideoMuted);
       room.participants.forEach(participantConnected);
       intervalID = window.setInterval(takeSnapshot, 10000, room, user);
-      console.log("testing - line 61!!!!!!", room);
     });
 
     return () => {
@@ -162,7 +163,6 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
         window.clearInterval(intervalID);
       }
       setRoom((currentRoom) => {
-        console.log("testing - line 65!!!!!!", currentRoom);
         if (currentRoom && currentRoom.localParticipant.state === "connected") {
           currentRoom.localParticipant.tracks.forEach(function (
             trackPublication
@@ -182,10 +182,10 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
   const mutecallback = useCallback(() => {
     console.log("called mutecallback, button pressed");
     if (mute === false && room !== null) {
-      muteYourAudio(room);
+      helpers.muteYourAudio(room);
       setMute(true);
     } else if (mute === true && room !== null) {
-      unmuteYourAudio(room);
+      helpers.unmuteYourAudio(room);
       setMute(false);
     }
   }, [mute, room]);
@@ -214,11 +214,11 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
 
   const logoutcallback = useCallback(() => {
     console.log("testing - line 125!!!!!!", room);
-    if (room && room.localParticipant.state === "connected") {
+    if (room) {
       room.localParticipant.tracks.forEach(function (trackPublication) {
         trackPublication.track.stop();
       });
-      console.log("Room.js disconnect!!!!!! - line 132");
+      debugger;
       room.disconnect();
     }
     logout();
@@ -230,21 +230,6 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
 
   return (
     <div className="room">
-      {/* <Nav className="navbar navbar-inverse">
-        <div className="container-fluid">
-          <Nav.Item className="mr-auto">
-            <Navbar.Brand>Talking: {newDomName}</Navbar.Brand>
-          </Nav.Item>
-          <Nav.Item className="mx-auto">
-            <Navbar.Brand>Room Name: {meetingname}</Navbar.Brand>
-          </Nav.Item>
-          <Nav.Item className="ml-auto">
-            <Button variant="danger" onClick={logoutcallback}>
-              LOG OUT
-            </Button>
-          </Nav.Item>
-        </div>
-      </Nav> */}
       <Container className="cameras" fluid="true">
         <Row className="cameras-row">
           <Col sm={2} className="local-participant">

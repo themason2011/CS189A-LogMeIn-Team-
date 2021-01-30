@@ -45,8 +45,7 @@ const DominantUser = ({ room }) => {
       const trackSubscribed = (track) => {
         if (track.kind === "video") {
           setVideoTrackss((videoTracks) => [...videoTracks, track]);
-        }
-        else if (track.kind === "audio") {
+        } else if (track.kind === "audio") {
           setAudioTrackss((audioTracks) => [...audioTracks, track]);
         }
       };
@@ -56,9 +55,10 @@ const DominantUser = ({ room }) => {
           setVideoTrackss((videoTracks) =>
             videoTracks.filter((v) => v !== track)
           );
-        }
-        else if (track.kind === "audio"){
-          setAudioTrackss((audioTracks) => audioTracks.filter((v) => v !== track));
+        } else if (track.kind === "audio") {
+          setAudioTrackss((audioTracks) =>
+            audioTracks.filter((v) => v !== track)
+          );
         }
       };
 
@@ -78,7 +78,7 @@ const DominantUser = ({ room }) => {
     imageCapture
       .grabFrame()
       .then((bitmap) => {
-        console.log("bitmap :", bitmap);
+        // console.log("bitmap :", bitmap);
         let canvas = document.createElement("canvas");
         canvas.width = bitmap.width;
         canvas.height = bitmap.height;
@@ -86,13 +86,13 @@ const DominantUser = ({ room }) => {
 
         context.drawImage(bitmap, 0, 0);
         canvas.toBlob(function (blob) {
-          console.log(blob);
+          // console.log(blob);
           var reader = new FileReader();
           reader.addEventListener("loadend", () => {
             fetch(reader.result)
               .then((res) => res.blob())
               .then((blob) => {
-                console.log("here is your binary: ", blob);
+                // console.log("here is your binary: ", blob);
                 const fetchUrl =
                   "/video/snapShot?identity=" +
                   dominant.identity +
@@ -134,68 +134,78 @@ const DominantUser = ({ room }) => {
   const startRecording = (audioElement, lengthInMS) => {
     let recorder = new MediaRecorder(audioElement);
     let data = [];
- 
-     recorder.ondataavailable = event => data.push(event.data);
-     recorder.start();
-     console.log(recorder.state + " for " + (lengthInMS/1000) + " seconds...");
- 
-     let stopped = new Promise((resolve, reject) => {
-       recorder.onstop = resolve;
-       recorder.onerror = event => reject(event.name);
-     });
- 
-     let recorded = wait(lengthInMS).then(
-       () => recorder.state == "recording" && recorder.stop()
-     );
- 
-     return Promise.all([
-       stopped,
-       recorded
-     ])
-     .then(() => data);
+
+    recorder.ondataavailable = (event) => data.push(event.data);
+    recorder.start();
+    // console.log(recorder.state + " for " + lengthInMS / 1000 + " seconds...");
+
+    let stopped = new Promise((resolve, reject) => {
+      recorder.onstop = resolve;
+      recorder.onerror = (event) => reject(event.name);
+    });
+
+    let recorded = wait(lengthInMS).then(
+      () => recorder.state == "recording" && recorder.stop()
+    );
+
+    return Promise.all([stopped, recorded]).then(() => data);
   };
- 
+
   const recordAudio = (audioElement, lengthInMS) => {
     const MediaStreamer = new MediaStream();
     MediaStreamer.addTrack(audioElement);
     const recorder = new MediaRecorder(MediaStreamer);
-    navigator.mediaDevices.getUserMedia({
-      audio: true
-    }).then(() => startRecording(MediaStreamer, lengthInMS))
-    .then(recordedChunks => {
-      let recordedBlob = new Blob(recordedChunks, { type: "application/octet-stream" });
-
-      console.log("Successfully recorded " + recordedBlob.size + " bytes of " + recordedBlob.type + " media.");
-      console.log(recordedBlob);
-      var reader = new FileReader();
-      reader.addEventListener('loadend',() => {
-        fetch(reader.result)
-        .then(res => res.blob())
-        .then(recordedBlob => {
-          console.log("here is your binary: ", recordedBlob);
-          const fetchUrl = '/audio/snapShot?identity=' + dominant.identity + '&room=' + room.name;
-          fetch(fetchUrl, {
-            method: 'POST',
-            body: recordedBlob,
-            headers: {
-              'Content-Type':'application/octet-stream'
-            }
-          }).then(() => {
-            //Update the UI Sentiment to display the most up-to-date sentiment, according to backend
-            fetchVideoSentiment();
-          });
+    navigator.mediaDevices
+      .getUserMedia({
+        audio: true,
+      })
+      .then(() => startRecording(MediaStreamer, lengthInMS))
+      .then((recordedChunks) => {
+        let recordedBlob = new Blob(recordedChunks, {
+          type: "application/octet-stream",
         });
+
+        // console.log(
+        //   "Successfully recorded " +
+        //     recordedBlob.size +
+        //     " bytes of " +
+        //     recordedBlob.type +
+        //     " media."
+        // );
+        // console.log(recordedBlob);
+        var reader = new FileReader();
+        reader.addEventListener("loadend", () => {
+          fetch(reader.result)
+            .then((res) => res.blob())
+            .then((recordedBlob) => {
+              // console.log("here is your binary: ", recordedBlob);
+              const fetchUrl =
+                "/audio/snapShot?identity=" +
+                dominant.identity +
+                "&room=" +
+                room.name;
+              fetch(fetchUrl, {
+                method: "POST",
+                body: recordedBlob,
+                headers: {
+                  "Content-Type": "application/octet-stream",
+                },
+              }).then(() => {
+                //Update the UI Sentiment to display the most up-to-date sentiment, according to backend
+                fetchVideoSentiment();
+              });
+            });
+        });
+        reader.readAsDataURL(recordedBlob);
       });
-      reader.readAsDataURL(recordedBlob);
-    });
   };
 
   function wait(delayInMS) {
-    return new Promise(resolve => setTimeout(resolve, delayInMS));
+    return new Promise((resolve) => setTimeout(resolve, delayInMS));
   }
 
   function stop(stream) {
-    stream.getTracks().forEach(track => track.stop());
+    stream.getTracks().forEach((track) => track.stop());
     console.log("Recording stopped");
   }
 
@@ -205,7 +215,6 @@ const DominantUser = ({ room }) => {
       if (dominant != null) {
         const videoTrack = videoTrackss[0];
         if (videoTrack) {
-          videoTrack.attach(videoref.current);
           takeSnapshot(videoTrack.mediaStreamTrack);
         }
       }
@@ -213,26 +222,39 @@ const DominantUser = ({ room }) => {
     return () => clearInterval(videoSnapshotInterval);
   }, [videoTrackss]);
 
+  useEffect(() => {
+    if (dominant != null) {
+      const videoTrack = videoTrackss[0];
+      if (videoTrack) {
+        videoTrack.attach(videoref.current);
+      }
+      // return () => {
+      //   console.log("User.js detach()");
+      //   videoTrack.detach();
+      // };
+    }
+  }, [videoTrackss]);
+
   //Start a new audio recording interval and stop the old one for parsing every 6 seconds
   useEffect(() => {
     const intervalInMS = 8000;
     const audioSnapshotInterval = setInterval(() => {
       const intervalInMS = 8000;
-      if(dominant != null){
+      if (dominant != null) {
         const audioTrack = audioTrackss[0];
         if (audioTrack) {
-          audioTrack.attach(audioref.current);
+          // audioTrack.attach(audioref.current);
           recordAudio(audioTrack.mediaStreamTrack, intervalInMS);
         }
       }
     }, intervalInMS);
     return () => {
       //TODO: VERIFY THAT stop(audioTrack) ACTUALLY STOPS THE RECORDING OF THE AUDIO TRACK AND RETURNS THE SENTIMENT ANAL OF THE PARTIALLY FININSHED RECORDING WHEN DOMINANT SPEAKER CHANGES
-      if(dominant != null){
-        stop(audioTrackss);
-      }
+      // if (dominant != null) {
+      //   stop(audioTrackss);
+      // }
       clearInterval(audioSnapshotInterval);
-    }
+    };
   }, [audioTrackss]);
 
   //CAN BE UNCOMMENTED TO HAVE UI SENTIMENT REPEATEDLY FORCE REFRESH EVERY 1 SEC (DEBUG/TESTING).
