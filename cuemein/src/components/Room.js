@@ -15,6 +15,7 @@ import {
   faThumbsUp,
   faHeadphones,
   faRssSquare,
+  faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Room = ({ meetingname, token, emotion, logout, test }) => {
@@ -438,6 +439,16 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
                   &#129409;
                 </button>
               </div>
+            </Col>
+          </Row>
+        </div>
+        <div className="reactionsbutton">
+          <Row className="reactions">
+            <Col>
+              <Button type="button" className="btn btn-basic btn-circle btn-xl">
+                REACTIONS
+                <FontAwesomeIcon icon={faThumbsUp} />
+              </Button>
             </Col>
           </Row>
         </div>

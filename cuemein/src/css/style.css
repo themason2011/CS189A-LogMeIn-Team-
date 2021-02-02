@@ -514,6 +514,13 @@ body{
     justify-content: left;
  }
 
+.logoutbutton{
+    margin: 1.5rem 4.1rem;
+    display:flex;
+    flex-direction: row;
+    justify-content: left;
+ }
+
 .toolbar{
    overflow: auto;
    margin: -4.6rem 20rem;
@@ -583,6 +590,7 @@ body{
 .user-camera-reaction{
     height:2rem;
 }
+
 /*Code below is the login page css that we starte*/
 
 /* .header{
