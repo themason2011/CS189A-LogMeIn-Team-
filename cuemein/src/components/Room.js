@@ -15,7 +15,6 @@ import {
   faThumbsUp,
   faHeadphones,
   faRssSquare,
-  faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Room = ({ meetingname, token, emotion, logout, test }) => {
