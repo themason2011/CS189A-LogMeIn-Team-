@@ -14,12 +14,8 @@ import {
   faVideo,
   faThumbsUp,
   faHeadphones,
+  faRssSquare,
 } from "@fortawesome/free-solid-svg-icons";
-import { CIcon } from "@coreui/icons-react";
-
-const helpers = require("./helpers");
-const muteYourAudio = helpers.muteYourAudio;
-const unmuteYourAudio = helpers.unmuteYourAudio;
 
 const Room = ({ meetingname, token, emotion, logout, test }) => {
   const [room, setRoom] = useState(null);
@@ -32,6 +28,20 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
   const [deafenmute, setDeafenmute] = useState(false);
   var intervalID;
   var sentiment_intervalID;
+
+  // const reaction = require("./reaction");
+  // const activateEmojiButtons = reaction.activateEmojiButtons;
+  // const addLocalData = reaction.addLocalData;
+  // activateEmojiButtons();
+  // addLocalData();
+  // const dataTrack = reaction.dataTrack;
+
+  const helpers = require("./helpers");
+  const muteYourAudio = helpers.muteYourAudio;
+  const unmuteYourAudio = helpers.unmuteYourAudio;
+
+  const { LocalDataTrack } = require(`twilio-video`);
+
   console.log("Room.js render");
 
   const takeSnapshot = (room, users) => {
@@ -150,14 +160,64 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
     }).then((room) => {
       console.log("Room.js - line 59 - video.connect", room);
       setRoom(room);
+      // Publishing the local Data Track to the Room
+      // room.localParticipant.publishTrack(dataTrack);
       //intervalID = window.setInterval(takeSnapshot, 10000, room,user);
       room.on("participantConnected", participantConnected);
       room.on("participantDisconnected", participantDisconnected);
       room.on("dominantSpeakerChanged", ParticipantNewDominantSpeaker);
       room.on("trackDisabled", participantRemoteVideoMuted);
+      room.localParticipant.publishTrack(dataTrack);
       room.participants.forEach(participantConnected);
       intervalID = window.setInterval(takeSnapshot, 10000, room, user);
     });
+
+    let dataTrack; // add this at the top with the other variable declarations
+
+    function addToLocalDataLabel(newText) {
+      let localDataLabel = document.getElementById("datalocal");
+      localDataLabel.innerHTML = newText;
+    }
+
+    function sendDataToRoom(data, id) {
+      dataTrack.send(
+        JSON.stringify({
+          emojiData: data,
+          user: id,
+        })
+      );
+    }
+
+    function emojiButtonHandler(event) {
+      let emojiButton = event.target;
+      let emojiText = emojiButton.innerHTML;
+      addToLocalDataLabel(emojiText);
+
+      setRoom((currentRoom) => {
+        console.log("id", currentRoom);
+        sendDataToRoom(emojiText, currentRoom.localParticipant.sid);
+        return currentRoom;
+      });
+      console.log("id", room, "fdsafsadas");
+    }
+
+    function activateEmojiButtons() {
+      let emojiButtonGroup = document.getElementsByClassName("emojibuttons");
+      let emojiButton;
+      for (let i = 0; i < emojiButtonGroup.length; i++) {
+        emojiButton = emojiButtonGroup[i];
+        emojiButton.addEventListener("click", emojiButtonHandler);
+      }
+    }
+
+    activateEmojiButtons();
+
+    function addLocalData() {
+      // Creates a Local Data Track
+      var localDataTrack = new LocalDataTrack();
+      dataTrack = localDataTrack;
+    }
+    addLocalData();
 
     return () => {
       if (intervalID) {
@@ -215,11 +275,16 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
 
   const logoutcallback = useCallback(() => {
     console.log("testing - line 125!!!!!!", room);
-    if (room) {
+    if (room && room.localParticipant.state === "connected") {
       room.localParticipant.tracks.forEach(function (trackPublication) {
-        trackPublication.track.stop();
+        if (
+          trackPublication.track.kind == "video" ||
+          trackPublication.track.kind == "audio"
+        ) {
+          trackPublication.track.stop();
+        }
       });
-      debugger;
+      //debugger;
       room.disconnect();
     }
     logout();
@@ -236,6 +301,7 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
           <Col sm={2} className="local-participant">
             {room ? (
               <div className="local-participant-camera">
+                <div id="datalocal" className="emoji"></div>
                 <User
                   key={room.localParticipant.sid}
                   user={room.localParticipant}
@@ -353,6 +419,25 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
               >
                 <FontAwesomeIcon icon={faDesktop} />
               </Button>
+            </Col>
+            <Col>
+              <div class="emojiPanel">
+                <button id="emoji-wink" class="emojibuttons">
+                  &#128540;
+                </button>
+                <button id="emoji-eyes" class="emojibuttons">
+                  &#128525;
+                </button>
+                <button id="emoji-heart" class="emojibuttons">
+                  &#128151;
+                </button>
+                <button id="emoji-smile" class="emojibuttons">
+                  &#128516;
+                </button>
+                <button id="emoji-lion" class="emojibuttons">
+                  &#129409;
+                </button>
+              </div>
             </Col>
           </Row>
         </div>

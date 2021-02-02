@@ -13,6 +13,7 @@ const User = ({ user, mute, local = "" }) => {
   const [audioTracks, setAudioTracks] = useState([]);
   const [muted, setMute] = useState(false);
   const [vmute, setVmute] = useState(false);
+  const [reaction, setReaction] = useState("");
   // const [emotion, setEmotion] = useState(null);
   // const [emotion_style, setEmotion_Style] = useState("participant-video");
 
@@ -37,6 +38,21 @@ const User = ({ user, mute, local = "" }) => {
       .map((publication) => publication.track)
       .filter((track) => track !== null);
 
+  function attachRemoteDataTrack(div, track) {
+    console.log(div);
+    let d = document.getElementById(div);
+    console.log(d, "user.id DIV");
+    let dataDiv = document.createElement("div");
+    dataDiv.setAttribute("id", track.sid);
+    dataDiv.setAttribute("class", "emoji");
+    d.appendChild(dataDiv);
+  }
+
+  function addToRemoteDataLabel(newText, dataTrackSID) {
+    let remoteDataLabel = document.getElementById(dataTrackSID);
+    remoteDataLabel.innerHTML = newText;
+  }
+
   useEffect(() => {
     setVideoTracks(trackpubsToTracks(user.videoTracks));
     setAudioTracks(trackpubsToTracks(user.audioTracks));
@@ -59,6 +75,20 @@ const User = ({ user, mute, local = "" }) => {
       } else if (track.kind === "audio") {
         setMute(!track.isEnabled);
         setAudioTracks((audioTracks) => [...audioTracks, track]);
+      } else if (track.kind == "data") {
+        // Registering addToRemoteDataLabel(...) event handler Remote Data Track receive
+        track.on("message", (data) => {
+          console.log("DATA REACTION");
+          console.log(JSON.parse(data).emojiData, track.sid);
+          console.log(JSON.parse(data).user, "reaction id");
+          // setReaction(JSON.parse(data).emojiData);
+          attachRemoteDataTrack(JSON.parse(data).user, track);
+          addToRemoteDataLabel(JSON.parse(data).emojiData, track.sid);
+        });
+        // Attaching the data track to a display label
+        //attachRemoteDataTrack(JSON.parse(data).id, track);
+        console.log("TRACK");
+        console.log("TRACK", track);
       }
     };
 
@@ -68,6 +98,9 @@ const User = ({ user, mute, local = "" }) => {
       } else if (track.kind === "audio") {
         setAudioTracks((audioTracks) => audioTracks.filter((a) => a !== track));
       }
+      // else if (track.kind === "data") {
+      //   document.getElementById(track.sid).remove();
+      // }
     };
 
     user.on("trackSubscribed", trackSubscribed);
@@ -110,6 +143,7 @@ const User = ({ user, mute, local = "" }) => {
 
   return (
     <div className="user-camera">
+      <div id={user.sid} className="user-camera-reaction"></div>
       {vmute ? (
         <video className={locals} width="100%" ref={videoref} autoPlay={true} />
       ) : (

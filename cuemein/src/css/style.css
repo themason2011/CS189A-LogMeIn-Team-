@@ -506,11 +506,20 @@ body{
   /* stroke-dasharray: 2,2; */
   stroke-linejoin: round;
 }
+
+.logoutbutton{
+    margin: 1.5rem 4.1rem;
+    display:flex;
+    flex-direction: row;
+    justify-content: left;
+ }
+
 .toolbar{
-   margin: 0 auto;
+   overflow: auto;
+   margin: -4.6rem 20rem;
    display:flex;
    flex-direction: row;
-   justify-content: center;
+   justify-content: left;
 }
 
 .mutebtn{
@@ -522,15 +531,6 @@ body{
     /* background-color: rgb(131, 130, 130); */
     height: 16vh;
 }
-.buttons{
-    display:flex;
-    flex-direction: column;
-}
-
-.navbar {
-    background-color: #C4C4C4;;
-}
-
 .buttons{
     display:flex;
     flex-direction: column;
@@ -577,7 +577,12 @@ body{
     background-color: #040b51
 }
 
-
+.emojiPanel{
+    display:flex;
+}
+.user-camera-reaction{
+    height:2rem;
+}
 /*Code below is the login page css that we starte*/
 
 /* .header{
