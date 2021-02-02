@@ -301,13 +301,13 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
           <Col sm={2} className="local-participant">
             {room ? (
               <div className="local-participant-camera">
-                <div id="datalocal" className="emoji"></div>
                 <User
                   key={room.localParticipant.sid}
                   user={room.localParticipant}
                   mute={deafenmute}
                   local={"i"}
                 />
+                <div id="datalocal" className="emoji"></div>
               </div>
             ) : (
               ""
@@ -348,79 +348,73 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
           </Row>
         </div>
         <div className="toolbar">
-          <Row className="toolbar-items">
-            <Col>
-              {mute ? (
-                <Button
-                  type="button"
-                  className="btn btn-basic btn-rounded btn-xl"
-                  onClick={mutecallback}
-                >
-                  UNMUTE
-                  <FontAwesomeIcon icon={faMicrophoneSlash} />
-                </Button>
-              ) : (
-                <Button
-                  type="button"
-                  className="btn btn-basic btn-rounded btn-xl"
-                  onClick={mutecallback}
-                >
-                  MUTE ME
-                  <FontAwesomeIcon icon={faMicrophone} />
-                </Button>
-              )}
-            </Col>
-            <Col>
-              {videomute ? (
-                <Button
-                  type="button"
-                  className="btn btn-basic btn-rounded btn-xl"
-                  onClick={mutevideocallback}
-                >
-                  CAMERA
-                  <FontAwesomeIcon icon={faVideoSlash} />
-                </Button>
-              ) : (
-                <Button
-                  type="button"
-                  className="btn btn-basic btn-rounded btn-xl far"
-                  onClick={mutevideocallback}
-                >
-                  CAMERA
-                  <FontAwesomeIcon icon={faVideo} />
-                </Button>
-              )}
-            </Col>
-            <Col>
-              {deafenmute ? (
-                <Button
-                  type="button"
-                  className="btn btn-basic btn-rounded btn-xl"
-                  onClick={defeancallback}
-                >
-                  SILENCE
-                  <FontAwesomeIcon icon={faTimes} />
-                </Button>
-              ) : (
-                <Button
-                  type="button"
-                  className="btn btn-basic btn-rounded btn-xl"
-                  onClick={defeancallback}
-                >
-                  SILENCE
-                  <FontAwesomeIcon icon={faHeadphones} />
-                </Button>
-              )}
-            </Col>
-            <Col>
-              <Button
-                type="button"
-                className="btn btn-basic btn-rounded btn-xl"
-              >
-                <FontAwesomeIcon icon={faDesktop} />
-              </Button>
-            </Col>
-            <Col>
+          <div className="toolbar-items">
+            <div className="btns-toolbar">
+              <div className="col-audio">
+                {mute ? (
+                  <Button
+                    type="button"
+                    className="btn btn-basic btn-rounded btn-xl"
+                    onClick={mutecallback}
+                  >
+                    UNMUTE
+                    <FontAwesomeIcon icon={faMicrophoneSlash} />
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    className="btn btn-basic btn-rounded btn-xl"
+                    onClick={mutecallback}
+                  >
+                    MUTE ME
+                    <FontAwesomeIcon icon={faMicrophone} />
+                  </Button>
+                )}
+              </div>
+              <div className="col-video">
+                {videomute ? (
+                  <Button
+                    type="button"
+                    className="btn btn-basic btn-rounded btn-xl"
+                    onClick={mutevideocallback}
+                  >
+                    CAMERA
+                    <FontAwesomeIcon icon={faVideoSlash} />
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    className="btn btn-basic btn-rounded btn-xl far"
+                    onClick={mutevideocallback}
+                  >
+                    CAMERA
+                    <FontAwesomeIcon icon={faVideo} />
+                  </Button>
+                )}
+              </div>
+              <div className="col-silence">
+                {deafenmute ? (
+                  <Button
+                    type="button"
+                    className="btn btn-basic btn-rounded btn-xl"
+                    onClick={defeancallback}
+                  >
+                    SILENCE
+                    <FontAwesomeIcon icon={faTimes} />
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    className="btn btn-basic btn-rounded btn-xl"
+                    onClick={defeancallback}
+                  >
+                    SILENCE
+                    <FontAwesomeIcon icon={faHeadphones} />
+                  </Button>
+                )}
+              </div>
+            </div>
+            <div className="col-emoji">
               <div class="emojiPanel">
                 <button id="emoji-wink" class="emojibuttons">
                   &#128540;
@@ -434,32 +428,9 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
                 <button id="emoji-smile" class="emojibuttons">
                   &#128516;
                 </button>
-                <button id="emoji-lion" class="emojibuttons">
-                  &#129409;
-                </button>
               </div>
-            </Col>
-          </Row>
-        </div>
-        <div className="reactionsbutton">
-          <Row className="reactions">
-            <Col>
-              <Button type="button" className="btn btn-basic btn-circle btn-xl">
-                REACTIONS
-                <FontAwesomeIcon icon={faThumbsUp} />
-              </Button>
-            </Col>
-          </Row>
-        </div>
-        <div className="reactionsbutton">
-          <Row className="reactions">
-            <Col>
-              <Button type="button" className="btn btn-basic btn-circle btn-xl">
-                REACTIONS
-                <FontAwesomeIcon icon={faThumbsUp} />
-              </Button>
-            </Col>
-          </Row>
+            </div>
+          </div>
         </div>
       </Container>
     </div>

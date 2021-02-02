@@ -527,6 +527,7 @@ body{
    display:flex;
    flex-direction: row;
    justify-content: left;
+
 }
 
 .mutebtn{
@@ -586,11 +587,33 @@ body{
 
 .emojiPanel{
     display:flex;
+    font-size: 3rem;
+    
+}
+.col-emoji{
+    
+    
 }
 .user-camera-reaction{
-    height:2rem;
+    
+}
+.emoji{
+    position:absolute;
+    top:0rem;
+    left:0.5rem;
+    font-size: 3rem;
 }
 
+.toolbar-items{
+    display:flex;
+    width:100%;
+    justify-content: space-around;
+}
+.btns-toolbar{
+    display:flex;
+    width:40rem;
+    justify-content: space-around;
+}
 /*Code below is the login page css that we starte*/
 
 /* .header{
