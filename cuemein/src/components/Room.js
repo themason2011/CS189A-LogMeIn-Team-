@@ -125,6 +125,7 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
       console.log("Room.js - particiapnt connected", new_user);
       //add user to array
       setUser((prevusers) => [...prevusers, new_user]);
+
       restartSentiment(user);
     };
 
@@ -133,6 +134,7 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
 
       //remove user from array
       setUser((prevusers) => prevusers.filter((p) => p !== gone_user));
+      // setUser((prevusers) => prevusers.splice(prevusers.indexOf(gone_user), 1));
       restartSentiment(user);
       console.log(user);
     };
@@ -169,7 +171,7 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
       room.on("trackDisabled", participantRemoteVideoMuted);
       room.localParticipant.publishTrack(dataTrack);
       room.participants.forEach(participantConnected);
-      intervalID = window.setInterval(takeSnapshot, 10000, room, user);
+      intervalID = window.setInterval(takeSnapshot, 50000, room, user);
     });
 
     let dataTrack; // add this at the top with the other variable declarations
@@ -177,6 +179,7 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
     function addToLocalDataLabel(newText) {
       let localDataLabel = document.getElementById("datalocal");
       localDataLabel.innerHTML = newText;
+      animateDataLabel(localDataLabel, "appear");
     }
 
     function sendDataToRoom(data, id) {
@@ -218,6 +221,13 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
       dataTrack = localDataTrack;
     }
     addLocalData();
+
+    function animateDataLabel(div, startClass) {
+      setTimeout(function () {
+        div.classList.remove(startClass);
+      }, 1000);
+      div.classList.add(startClass);
+    }
 
     return () => {
       if (intervalID) {
