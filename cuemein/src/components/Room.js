@@ -154,26 +154,6 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
 
     const participantRemotedAudioMuted = (track, user) => {};
 
-    Video.connect(token, {
-      name: meetingname,
-      dominantSpeaker: true,
-      audio: true,
-      video: true,
-    }).then((room) => {
-      console.log("Room.js - line 59 - video.connect", room);
-      setRoom(room);
-      // Publishing the local Data Track to the Room
-      // room.localParticipant.publishTrack(dataTrack);
-      //intervalID = window.setInterval(takeSnapshot, 10000, room,user);
-      room.on("participantConnected", participantConnected);
-      room.on("participantDisconnected", participantDisconnected);
-      room.on("dominantSpeakerChanged", ParticipantNewDominantSpeaker);
-      room.on("trackDisabled", participantRemoteVideoMuted);
-      room.localParticipant.publishTrack(dataTrack);
-      room.participants.forEach(participantConnected);
-      intervalID = window.setInterval(takeSnapshot, 50000, room, user);
-    });
-
     let dataTrack; // add this at the top with the other variable declarations
 
     function addToLocalDataLabel(newText) {
@@ -182,11 +162,12 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
       animateDataLabel(localDataLabel, "appear");
     }
 
-    function sendDataToRoom(data, id) {
+    function sendDataToRoom(data, id, identity) {
       dataTrack.send(
         JSON.stringify({
           emojiData: data,
           user: id,
+          identity: identity,
         })
       );
     }
@@ -198,7 +179,11 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
 
       setRoom((currentRoom) => {
         console.log("id", currentRoom);
-        sendDataToRoom(emojiText, currentRoom.localParticipant.sid);
+        sendDataToRoom(
+          emojiText,
+          currentRoom.localParticipant.sid,
+          currentRoom.identity
+        );
         return currentRoom;
       });
       console.log("id", room, "fdsafsadas");
@@ -228,6 +213,26 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
       }, 1000);
       div.classList.add(startClass);
     }
+
+    Video.connect(token, {
+      name: meetingname,
+      dominantSpeaker: true,
+      audio: true,
+      video: true,
+    }).then((room) => {
+      console.log("Room.js - line 59 - video.connect", room);
+      setRoom(room);
+      // Publishing the local Data Track to the Room
+      // room.localParticipant.publishTrack(dataTrack);
+      //intervalID = window.setInterval(takeSnapshot, 10000, room,user);
+      room.on("participantConnected", participantConnected);
+      room.on("participantDisconnected", participantDisconnected);
+      room.on("dominantSpeakerChanged", ParticipantNewDominantSpeaker);
+      room.on("trackDisabled", participantRemoteVideoMuted);
+      room.localParticipant.publishTrack(dataTrack);
+      room.participants.forEach(participantConnected);
+      intervalID = window.setInterval(takeSnapshot, 50000, room, user);
+    });
 
     return () => {
       if (intervalID) {
@@ -344,99 +349,90 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
         </Row>
       </Container>
       <Container fluid="true">
-        <div className="logoutbutton">
-          <Row className="logoutbtn">
-            <Col>
-              <Button
-                variant="danger"
-                onClick={logoutcallback}
-                style={{ float: "right" }}
-              >
-                LOG OUT
-              </Button>
-            </Col>
-          </Row>
-        </div>
         <div className="toolbar">
           <div className="toolbar-items">
+            <div className="logoutbutton">
+              <button
+                className="logoutbutton-btn danger"
+                onClick={logoutcallback}
+              >
+                LOG OUT
+              </button>
+            </div>
             <div className="btns-toolbar">
               <div className="col-audio">
                 {mute ? (
-                  <Button
-                    type="button"
-                    className="btn btn-basic btn-rounded btn-xl"
-                    onClick={mutecallback}
-                  >
-                    UNMUTE
+                  <button className="btn1 info" onClick={mutecallback}>
+                    <span className="btn2">MUTE</span>
                     <FontAwesomeIcon icon={faMicrophoneSlash} />
-                  </Button>
+                  </button>
                 ) : (
-                  <Button
-                    type="button"
-                    className="btn btn-basic btn-rounded btn-xl"
-                    onClick={mutecallback}
-                  >
-                    MUTE ME
+                  <button className="btn1 info" onClick={mutecallback}>
+                    <span className="btn2">MUTE</span>
                     <FontAwesomeIcon icon={faMicrophone} />
-                  </Button>
+                  </button>
                 )}
               </div>
               <div className="col-video">
                 {videomute ? (
-                  <Button
-                    type="button"
-                    className="btn btn-basic btn-rounded btn-xl"
-                    onClick={mutevideocallback}
-                  >
-                    CAMERA
+                  <button className="btn1 info" onClick={mutevideocallback}>
+                    <span className="btn2">CAMERA</span>
                     <FontAwesomeIcon icon={faVideoSlash} />
-                  </Button>
+                  </button>
                 ) : (
-                  <Button
-                    type="button"
-                    className="btn btn-basic btn-rounded btn-xl far"
-                    onClick={mutevideocallback}
-                  >
-                    CAMERA
+                  <button className="btn1 info" onClick={mutevideocallback}>
+                    <span className="btn2">CAMERA</span>
                     <FontAwesomeIcon icon={faVideo} />
-                  </Button>
+                  </button>
                 )}
               </div>
               <div className="col-silence">
                 {deafenmute ? (
-                  <Button
-                    type="button"
-                    className="btn btn-basic btn-rounded btn-xl"
-                    onClick={defeancallback}
-                  >
-                    SILENCE
+                  <button className="btn1 info" onClick={defeancallback}>
+                    <span className="btn2">SILENCE</span>
                     <FontAwesomeIcon icon={faTimes} />
-                  </Button>
+                  </button>
                 ) : (
-                  <Button
-                    type="button"
-                    className="btn btn-basic btn-rounded btn-xl"
-                    onClick={defeancallback}
-                  >
-                    SILENCE
+                  <button className="btn1 info" onClick={defeancallback}>
+                    <span className="btn2">SILENCE</span>
                     <FontAwesomeIcon icon={faHeadphones} />
-                  </Button>
+                  </button>
                 )}
               </div>
             </div>
             <div className="col-emoji">
-              <div class="emojiPanel">
-                <button id="emoji-wink" class="emojibuttons">
-                  &#128540;
+              <div
+                className="emojiPanel"
+                style={{
+                  padding: "1rem",
+                }}
+              >
+                <button
+                  id="emoji-wink"
+                  className="btn3 warning emojibuttons"
+                  style={{
+                    marginRight: "1rem",
+                  }}
+                >
+                  <span className="reaction-entity">&#128077;</span>
                 </button>
-                <button id="emoji-eyes" class="emojibuttons">
-                  &#128525;
+                <button
+                  id="emoji-eyes"
+                  className="btn3 warning emojibuttons"
+                  style={{
+                    marginRight: "1rem",
+                  }}
+                >
+                  <span className="reaction-entity">&#128078;</span>
                 </button>
-                <button id="emoji-heart" class="emojibuttons">
-                  &#128151;
-                </button>
-                <button id="emoji-smile" class="emojibuttons">
-                  &#128516;
+                <button
+                  id="emoji-heart"
+                  className="btn3 warning emojibuttons"
+                  style={{
+                    marginRight: "1rem",
+                  }}
+                >
+                  <span className="reaction-entity">&#10084;</span>
                 </button>
               </div>
             </div>
