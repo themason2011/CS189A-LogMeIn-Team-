@@ -528,6 +528,7 @@ body{
     font-size: 2rem;
     cursor: pointer;
     font-weight: 700;
+    border-radius: 10%;
  }
 
  .danger {
@@ -539,13 +540,19 @@ body{
     background: #f44336;
     color: #e4e4e4;
   }
+  .danger:focus {
+    background: #f44336;
+    color: #e4e4e4;
+  }
 
 
   .btn1{
     border: 3px solid black;
-    background-color: #e4e4e4;
+    border-radius: 10%;
+    background-color: rgba(30, 158, 255, 0.2);
     color: black;
-    padding: 14px 28px;
+    width: 10rem;
+    height:6rem;
     font-size: 16px;
     cursor: pointer;
   }
@@ -557,8 +564,9 @@ body{
 
   .btn3{
     border: 3px solid black;
-    background-color: #e4e4e4;
+    background-color: rgba(255, 175, 26, 0.2);
     color: black;
+    height:6rem;
    
     font-size: 16px;
     cursor: pointer;
@@ -566,9 +574,14 @@ body{
   .warning {
     border-color: #ff9800;
     color: orange;
+    
   }
   
   .warning:hover {
+    background: #ff9800;
+    color: #e4e4e4;
+  }
+  .warning:focus {
     background: #ff9800;
     color: #e4e4e4;
   }
@@ -576,13 +589,17 @@ body{
   .info {
     border-color: #2196F3;
     color: dodgerblue;
+    
   }
   
   .info:hover {
     background: #2196F3;
     color: white;
   }
-
+  .info:focus{
+    background: #2196F3;
+    color: white;
+  }
 
 .toolbar{
    overflow: auto;
@@ -753,6 +770,15 @@ body{
     font-size: 3.5rem;
     margin: 0 auto;
     display:inline-block;
+}
+
+.emojibuttons{
+    width: 10rem;
+    border-radius: 10%;
+}
+
+.reaction-label1{
+    font-size: 2rem;
 }
 /*Code below is the login page css that we starte*/
 

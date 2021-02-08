@@ -416,6 +416,7 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
                 >
                   <span className="reaction-entity">&#128077;</span>
                 </button>
+
                 <button
                   id="emoji-eyes"
                   className="btn3 warning emojibuttons"
@@ -425,6 +426,7 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
                 >
                   <span className="reaction-entity">&#128078;</span>
                 </button>
+
                 <button
                   id="emoji-heart"
                   className="btn3 warning emojibuttons"
