@@ -237,9 +237,8 @@ const DominantUser = ({ room }) => {
 
   //Start a new audio recording interval and stop the old one for parsing every 6 seconds
   useEffect(() => {
-    const intervalInMS = 8000;
+    const intervalInMS = 10000;
     const audioSnapshotInterval = setInterval(() => {
-      const intervalInMS = 8000;
       if (dominant != null) {
         const audioTrack = audioTrackss[0];
         if (audioTrack) {

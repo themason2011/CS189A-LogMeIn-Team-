@@ -92,6 +92,11 @@ async function ProcessAudio(blob_data) {
                     prediction = key;
                 }
             }
+
+            if(prediction == "joy")    {
+              prediction = "happiness";
+            }
+
             console.log("Here is the audio sentiment's prediction: ");
             console.log(prediction);
             return prediction;
