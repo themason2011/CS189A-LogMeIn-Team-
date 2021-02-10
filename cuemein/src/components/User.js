@@ -47,10 +47,17 @@ const User = ({ user, mute, local = "" }) => {
     dataDiv.setAttribute("class", "emoji");
     d.appendChild(dataDiv);
   }
+  function animateDataLabel(div, startClass) {
+    setTimeout(function () {
+      div.classList.remove(startClass);
+    }, 5000);
+    div.classList.add(startClass);
+  }
 
   function addToRemoteDataLabel(newText, dataTrackSID) {
     let remoteDataLabel = document.getElementById(dataTrackSID);
     remoteDataLabel.innerHTML = newText;
+    animateDataLabel(remoteDataLabel, "appear");
   }
 
   useEffect(() => {

@@ -23,6 +23,22 @@ const DominantUser = ({ room }) => {
   const videoref = useRef();
   const audioref = useRef();
 
+  function attachRemoteDataTrack(div, track) {
+    console.log(div);
+    let d = document.getElementById(div);
+    console.log(d, "user.id DIV");
+    let dataDiv = document.createElement("div");
+    dataDiv.setAttribute("id", track.sid);
+    dataDiv.setAttribute("class", "emoji");
+    d.appendChild(dataDiv);
+  }
+
+  function addToRemoteDataLabel(newText, dataTrackSID) {
+    let remoteDataLabel = document.getElementById(dataTrackSID);
+    remoteDataLabel.innerHTML = newText;
+    // animateDataLabel(remoteDataLabel, "appear");
+  }
+
   useEffect(() => {
     const ParticipantDominantSpeaker = (user) => {
       setDominant(user);
@@ -40,13 +56,28 @@ const DominantUser = ({ room }) => {
 
   useEffect(() => {
     if (dominant != null) {
+      console.log("HELLOOOOOOOOOfdsafdsfs");
       setVideoTrackss(trackpubsToTracks(dominant.videoTracks));
       setAudioTrackss(trackpubsToTracks(dominant.audioTracks));
+
       const trackSubscribed = (track) => {
+        console.log("HELLOOOOOOOOO----------------------");
         if (track.kind === "video") {
+          console.log("HELLOOOOOOOOO----------------------video");
           setVideoTrackss((videoTracks) => [...videoTracks, track]);
         } else if (track.kind === "audio") {
           setAudioTrackss((audioTracks) => [...audioTracks, track]);
+        } else if (track.kind == "data") {
+          track.on("message", (data) => {
+            // attachRemoteDataTrack(JSON.parse(data).user, track);
+            // addToRemoteDataLabel(JSON.parse(data).emojiData, track.sid);
+            console.log(
+              JSON.parse(data).user,
+              JSON.parse(data).emojiData,
+              JSON.parse(data).identity,
+              "Dominant-REACTION"
+            );
+          });
         }
       };
 
@@ -276,7 +307,7 @@ const DominantUser = ({ room }) => {
       // />
 
       <FontAwesomeIcon
-        className={"dominant-emotion-happy"}
+        className={"dominant-emotion-happy emotion"}
         icon={faLaughBeam}
         size="2x"
       />
@@ -286,7 +317,7 @@ const DominantUser = ({ room }) => {
   } else if (emotion.emotion === "anger") {
     emoji = (
       <FontAwesomeIcon
-        className={"dominant-emotion-angry"}
+        className={"dominant-emotion-angry emotion"}
         icon={faAngry}
         size="2x"
       />
@@ -295,7 +326,7 @@ const DominantUser = ({ room }) => {
   } else if (emotion.emotion === "sadness") {
     emoji = (
       <FontAwesomeIcon
-        className={"dominant-emotion-sadness"}
+        className={"dominant-emotion-sadness emotion"}
         icon={faSadTear}
         size="2x"
       />
@@ -304,7 +335,7 @@ const DominantUser = ({ room }) => {
   } else if (emotion.emotion === "fear") {
     emoji = (
       <FontAwesomeIcon
-        className={"dominant-emotion-fear"}
+        className={"dominant-emotion-fear emotion"}
         icon={faFrownOpen}
         size="2x"
       />
@@ -313,7 +344,7 @@ const DominantUser = ({ room }) => {
   } else if (emotion.emotion === "disgust") {
     emoji = (
       <FontAwesomeIcon
-        className={"dominant-emotion-disgust"}
+        className={"dominant-emotion-disgust emotion"}
         icon={faTired}
         size="2x"
       />
@@ -322,7 +353,7 @@ const DominantUser = ({ room }) => {
   } else if (emotion.emotion === "neutral") {
     emoji = (
       <FontAwesomeIcon
-        className={"dominant-emotion-neutral"}
+        className={"dominant-emotion-neutral emotion"}
         icon={faMeh}
         size="2x"
       />
@@ -331,7 +362,7 @@ const DominantUser = ({ room }) => {
   } else if (emotion.emotion === "surprise") {
     emoji = (
       <FontAwesomeIcon
-        className={"dominant-emotion-surprised"}
+        className={"dominant-emotion-surprised emotion"}
         icon={faGrinStars}
         size="2x"
       />
@@ -340,7 +371,7 @@ const DominantUser = ({ room }) => {
   } else if (emotion.emotion === "-") {
     emoji = (
       <FontAwesomeIcon
-        className={"dominant-emotion-undefined"}
+        className={"dominant-emotion-undefined emotion"}
         icon={faMehBlank}
         size="2x"
       />
@@ -350,7 +381,7 @@ const DominantUser = ({ room }) => {
 
   return (
     <Row className="dominant-camera">
-      {/* <span className="hoverclass"> */}
+      <div id={"das"} className="dominant-camera-reaction"></div>
       {dominant ? (
         <video
           className={"participant-video-dominant"}
@@ -362,9 +393,6 @@ const DominantUser = ({ room }) => {
       ) : (
         <div className={"default-video-dominant"}></div>
       )}
-      {/* {dominant ? <h3 className="dominant-name">{dominant.identity}</h3> : ""} */}
-      {/* {emoji} */}
-      {/* </span> */}
 
       <div className="dominant-border-emotion-icon">
         <h3 className="dominant-border-emotion-header">Emotion</h3>
