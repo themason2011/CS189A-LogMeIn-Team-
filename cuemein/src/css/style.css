@@ -534,15 +534,17 @@ body{
  .danger {
     border-color: #f44336;
     color: red;
+    transition: 0.5s;
   }
 
  .danger:hover {
     background: #f44336;
     color: #e4e4e4;
+    transform: scale(1.1);
   }
   .danger:focus {
-    background: #f44336;
-    color: #e4e4e4;
+    outline: 6px solid rgba(21, 16, 0, 0.50);
+
   }
 
 
@@ -574,34 +576,37 @@ body{
   .warning {
     border-color: #ff9800;
     color: orange;
+    transition: 0.5s;
     
   }
   
   .warning:hover {
     background: #ff9800;
     color: #e4e4e4;
+    transform: scale(1.1);
   }
   .warning:focus {
-    background: #ff9800;
-    color: #e4e4e4;
+    outline: 6px solid rgba(21, 16, 0, 0.50);
   }
 
   .info {
     border-color: #2196F3;
     color: dodgerblue;
+    transition: 0.5s;
     
   }
   
   .info:hover {
-    background: #2196F3;
     color: white;
+    background-color: #2196F3;
+    transform: scale(1.1);
   }
   .info:focus{
-    background: #2196F3;
-    color: white;
+    outline: 6px solid rgba(21, 16, 0, 0.50);
   }
 
-.toolbar{
+
+.toolbar{               
    overflow: auto;
    background-color: #e4e4e4;
    display:flex;
@@ -662,7 +667,7 @@ body{
 }
 
 .btn-circle.btn-xl:hover {
-    background-color: #040b51
+    background-color: #040b51   
 }
 
 .emojiPanel{
@@ -779,6 +784,9 @@ body{
 
 .reaction-label1{
     font-size: 2rem;
+}
+.vmute-box{
+    height:100%;
 }
 /*Code below is the login page css that we starte*/
 
