@@ -106,7 +106,6 @@ const DominantUser = ({ room }) => {
     imageCapture
       .grabFrame()
       .then((bitmap) => {
-        // console.log("bitmap :", bitmap);
         let canvas = document.createElement("canvas");
         canvas.width = bitmap.width;
         canvas.height = bitmap.height;
@@ -114,13 +113,11 @@ const DominantUser = ({ room }) => {
 
         context.drawImage(bitmap, 0, 0);
         canvas.toBlob(function (blob) {
-          // console.log(blob);
           var reader = new FileReader();
           reader.addEventListener("loadend", () => {
             fetch(reader.result)
               .then((res) => res.blob())
               .then((blob) => {
-                // console.log("here is your binary: ", blob);
                 const fetchUrl =
                   "/video/snapShot?identity=" +
                   dominant.identity +
@@ -192,21 +189,11 @@ const DominantUser = ({ room }) => {
         let recordedBlob = new Blob(recordedChunks, {
           type: "application/octet-stream",
         });
-
-        // console.log(
-        //   "Successfully recorded " +
-        //     recordedBlob.size +
-        //     " bytes of " +
-        //     recordedBlob.type +
-        //     " media."
-        // );
-        // console.log(recordedBlob);
         var reader = new FileReader();
         reader.addEventListener("loadend", () => {
           fetch(reader.result)
             .then((res) => res.blob())
             .then((recordedBlob) => {
-              // console.log("here is your binary: ", recordedBlob);
               const fetchUrl =
                 "/audio/snapShot?identity=" +
                 dominant.identity +
@@ -260,13 +247,14 @@ const DominantUser = ({ room }) => {
         }
       }
     }, 2000);
-    return () => clearInterval(videoSnapshotInterval);
+    return () => {
+      clearInterval(videoSnapshotInterval);
+    }
   }, [videoTrackss]);
 
   //Start a new audio recording interval and stop the old one for parsing every 6 seconds
   useEffect(() => {
     const intervalInMS = 10000;
-    console.log("New function called");
     const audioSnapshotInterval = setInterval(() => {
       console.log("New function called");
       if (dominant != null && !videoTrackss[0].isEnabled) {
@@ -278,23 +266,12 @@ const DominantUser = ({ room }) => {
       }
     }, intervalInMS);
     return () => {
-      //TODO: VERIFY THAT stop(audioTrack) ACTUALLY STOPS THE RECORDING OF THE AUDIO TRACK AND RETURNS THE SENTIMENT ANAL OF THE PARTIALLY FININSHED RECORDING WHEN DOMINANT SPEAKER CHANGES
-      // if (dominant != null) {
-      //   stop(audioTrackss);
-      // }
       clearInterval(audioSnapshotInterval);
+      //TODO: Place something here that stops the recordAudio function for the previous dominant user
+      //when the dominant user changes. This will allow the interval to restart for the new
+      //dominant user right when the change happens, giving us more accurate audio (hopefully)
     };
   }, [audioTrackss]);
-
-  //CAN BE UNCOMMENTED TO HAVE UI SENTIMENT REPEATEDLY FORCE REFRESH EVERY 1 SEC (DEBUG/TESTING).
-  //Could also be used if we end up updating video and audio sentiment async, to ensure that the latest
-  //sentiment is always being used.
-  // useEffect(() => {
-  //   const refreshSentimentInterval = setInterval(() => {
-  //     fetchSentiment();
-  //   }, 1000);
-  //   return () => clearInterval(refreshSentimentInterval);
-  // }, [videoTrackss]);
 
   let emoji;
   let emotiontext;
