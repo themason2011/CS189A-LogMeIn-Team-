@@ -70,7 +70,7 @@ app.post("/video/snapShot", (req, res) => {
   })();
 });
 
-app.get("/video/emotion", (req, res) => {
+app.get("/emotion", (req, res) => {
   const identity = req.query.identity;
   const room = req.query.room;
   // console.log(emotionsLookup);

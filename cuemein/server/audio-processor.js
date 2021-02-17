@@ -6,8 +6,8 @@ const NaturalLanguageUnderstandingV1 = require("ibm-watson/natural-language-unde
 const { IamAuthenticator } = require("ibm-watson/auth");
 
 async function ProcessAudio(blob_data) {
-  console.log("Got to audio processor");
-  console.log(blob_data);
+  // console.log("Got to audio processor");
+  // console.log(blob_data);
   //Audio Input
   //const filename = "./trump.wav";
 

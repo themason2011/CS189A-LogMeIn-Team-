@@ -56,14 +56,11 @@ const DominantUser = ({ room }) => {
 
   useEffect(() => {
     if (dominant != null) {
-      console.log("HELLOOOOOOOOOfdsafdsfs");
       setVideoTrackss(trackpubsToTracks(dominant.videoTracks));
       setAudioTrackss(trackpubsToTracks(dominant.audioTracks));
 
       const trackSubscribed = (track) => {
-        console.log("HELLOOOOOOOOO----------------------");
         if (track.kind === "video") {
-          console.log("HELLOOOOOOOOO----------------------video");
           setVideoTrackss((videoTracks) => [...videoTracks, track]);
         } else if (track.kind === "audio") {
           setAudioTrackss((audioTracks) => [...audioTracks, track]);
@@ -137,7 +134,7 @@ const DominantUser = ({ room }) => {
                   },
                 }).then(() => {
                   //Update the UI Sentiment to display the most up-to-date sentiment, according to backend
-                  fetchVideoSentiment();
+                  fetchSentiment();
                 });
               });
           });
@@ -149,9 +146,9 @@ const DominantUser = ({ room }) => {
       });
   };
 
-  const fetchVideoSentiment = async () => {
+  const fetchSentiment = async () => {
     const getUrl =
-      "/video/emotion?identity=" + dominant.identity + "&room=" + room.name;
+      "/emotion?identity=" + dominant.identity + "&room=" + room.name;
     const data = await fetch(getUrl, {
       method: "GET",
       headers: {
@@ -223,7 +220,7 @@ const DominantUser = ({ room }) => {
                 },
               }).then(() => {
                 //Update the UI Sentiment to display the most up-to-date sentiment, according to backend
-                fetchVideoSentiment();
+                fetchSentiment();
               });
             });
         });
@@ -240,19 +237,6 @@ const DominantUser = ({ room }) => {
     console.log("Recording stopped");
   }
 
-  //Takes a snapshot, which calls to backend API to update emotion, every time there is a change in who the Dominant User is AND every 2 seconds
-  useEffect(() => {
-    const videoSnapshotInterval = setInterval(() => {
-      if (dominant != null) {
-        const videoTrack = videoTrackss[0];
-        if (videoTrack) {
-          takeSnapshot(videoTrack.mediaStreamTrack);
-        }
-      }
-    }, 2000);
-    return () => clearInterval(videoSnapshotInterval);
-  }, [videoTrackss]);
-
   useEffect(() => {
     if (dominant != null) {
       const videoTrack = videoTrackss[0];
@@ -266,11 +250,26 @@ const DominantUser = ({ room }) => {
     }
   }, [videoTrackss]);
 
+  //Takes a snapshot, which calls to backend API to update emotion, every time there is a change in who the Dominant User is AND every 2 seconds
+  useEffect(() => {
+    const videoSnapshotInterval = setInterval(() => {
+      if (dominant != null && videoTrackss[0].isEnabled) {
+        const videoTrack = videoTrackss[0];
+        if (videoTrack) {
+          takeSnapshot(videoTrack.mediaStreamTrack);
+        }
+      }
+    }, 2000);
+    return () => clearInterval(videoSnapshotInterval);
+  }, [videoTrackss]);
+
   //Start a new audio recording interval and stop the old one for parsing every 6 seconds
   useEffect(() => {
     const intervalInMS = 10000;
+    console.log("New function called");
     const audioSnapshotInterval = setInterval(() => {
-      if (dominant != null) {
+      console.log("New function called");
+      if (dominant != null && !videoTrackss[0].isEnabled) {
         const audioTrack = audioTrackss[0];
         if (audioTrack) {
           // audioTrack.attach(audioref.current);
@@ -292,7 +291,7 @@ const DominantUser = ({ room }) => {
   //sentiment is always being used.
   // useEffect(() => {
   //   const refreshSentimentInterval = setInterval(() => {
-  //     fetchVideoSentiment();
+  //     fetchSentiment();
   //   }, 1000);
   //   return () => clearInterval(refreshSentimentInterval);
   // }, [videoTrackss]);
