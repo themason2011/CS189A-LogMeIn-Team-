@@ -15,10 +15,10 @@ async function ProcessAudio(blob_data) {
   const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
     version: "2020-08-01",
     authenticator: new IamAuthenticator({
-      apikey: "1ondk5D1fddfOtPDIFAjXtPfffZ28PEhOVuH4Bsog2",
+      apikey: "1ondk5D1fddfOtPDIFA_jXtPfffZ28PEhOVuH4Bsog2_",
     }),
     serviceUrl:
-      "https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/2423ad39-07f2-4de8-a497-a78506e5142b",
+      "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/9c217753-d86f-4204-81b7-7b20ad15c7da",
   });
 
   //Set Up Watson Speech to Text Client
@@ -27,7 +27,7 @@ async function ProcessAudio(blob_data) {
       apikey: "RlTeYL1MmjP7XXo-_BQY3_ga3XFVVUHs_Ox4ZXMFbGUv",
     }),
     serviceUrl:
-      "https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/f305cf07-f559-495a-b5fa-8c27fda0393e",
+      "https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/2423ad39-07f2-4de8-a497-a78506e5142b",
   });
 
   //  const registerCallbackParams = {
