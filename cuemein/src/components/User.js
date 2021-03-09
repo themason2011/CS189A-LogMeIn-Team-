@@ -200,7 +200,7 @@ const User = ({ user, mute, local = "" }) => {
       {mute ? (
         <audio ref={audioref} autoPlay={true} muted />
       ) : (
-        <audio ref={audioref} autoPlay={true} muted /> //
+        <audio ref={audioref} autoPlay={true} /> //
       )}
     </div>
   );
