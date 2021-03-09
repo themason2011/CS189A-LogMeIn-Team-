@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 // import {Container, Row, Col, Button} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMicrophoneSlash } from "@fortawesome/free-solid-svg-icons";
+import { faMicrophoneSlash, faCamera } from "@fortawesome/free-solid-svg-icons";
 
 const helpers = require("./helpers");
 const muteYourAudio = helpers.muteYourAudio;
@@ -151,24 +151,36 @@ const User = ({ user, mute, local = "" }) => {
   return (
     <div className="user-camera">
       <div id={user.sid} className="user-camera-reaction"></div>
-      {vmute ? (
-        <video className={locals} width="100%" ref={videoref} autoPlay={true} />
-      ) : (
-        // <video className={"participant-video-empty"} height="120"></video>
-        <video
-          className={"participant-video"}
-          width="100%"
-          ref={videoref}
-          autoPlay={true}
-        />
-      )}
 
-      {/* {vmute ? (
-        <video className={locals} height="100%" ref={videoref} autoPlay={true}/>
-        // <video className={"participant-video-empty"} height="120"></video>
-      ):(
-        <video className={"participant-video"} height="120" ref={videoref} autoPlay={true}/>
-      )} */}
+      <div className="user-camera-box">
+        {vmute ? (
+          <FontAwesomeIcon
+            className={"empty-icon-video"}
+            icon={faCamera}
+            size="2x"
+          />
+        ) : (
+          // <video className={"participant-video-empty"} height="120"></video>
+          ""
+        )}
+
+        {vmute ? (
+          <video
+            className={locals}
+            width="100%"
+            ref={videoref}
+            autoPlay={true}
+          />
+        ) : (
+          // <video className={"participant-video-empty"} height="120"></video>
+          <video
+            className={"participant-video"}
+            width="100%"
+            ref={videoref}
+            autoPlay={true}
+          />
+        )}
+      </div>
 
       <div className="participant-border">
         <div className="participant-border-name">{user.identity}</div>

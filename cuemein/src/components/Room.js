@@ -407,35 +407,44 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
                   padding: "1rem",
                 }}
               >
-                <button
-                  id="emoji-wink"
-                  className="btn3 warning emojibuttons"
-                  style={{
-                    marginRight: "1rem",
-                  }}
-                >
-                  <span className="reaction-entity">&#128077;</span>
-                </button>
+                <div className="reaction-container">
+                  <span className="reaction-label-like">Like</span>
+                  <button
+                    id="emoji-wink"
+                    className="btn3 warning emojibuttons"
+                    style={{
+                      marginRight: "1rem",
+                    }}
+                  >
+                    <span className="reaction-entity">&#128077;</span>
+                  </button>
+                </div>
 
-                <button
-                  id="emoji-eyes"
-                  className="btn3 warning emojibuttons"
-                  style={{
-                    marginRight: "1rem",
-                  }}
-                >
-                  <span className="reaction-entity">&#128078;</span>
-                </button>
+                <div className="reaction-container">
+                  <span className="reaction-label-dislike">Dislike</span>
+                  <button
+                    id="emoji-eyes"
+                    className="btn3 warning emojibuttons"
+                    style={{
+                      marginRight: "1rem",
+                    }}
+                  >
+                    <span className="reaction-entity">&#128078;</span>
+                  </button>
+                </div>
 
-                <button
-                  id="emoji-heart"
-                  className="btn3 warning emojibuttons"
-                  style={{
-                    marginRight: "1rem",
-                  }}
-                >
-                  <span className="reaction-entity">&#10084;</span>
-                </button>
+                <div className="reaction-container">
+                  <span className="reaction-label-love">Love</span>
+                  <button
+                    id="emoji-heart"
+                    className="btn3 warning emojibuttons"
+                    style={{
+                      marginRight: "1rem",
+                    }}
+                  >
+                    <span className="reaction-entity">&#10084;</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

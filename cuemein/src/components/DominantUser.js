@@ -11,6 +11,7 @@ import {
   faSadTear,
   faLaughBeam,
   faAngry,
+  faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 
 const DominantUser = ({ room }) => {
@@ -383,6 +384,7 @@ const DominantUser = ({ room }) => {
   return (
     <Row className="dominant-camera">
       <div id={"das"} className="dominant-camera-reaction"></div>
+
       {dominant ? (
         <video
           className={"participant-video-dominant"}
@@ -392,7 +394,13 @@ const DominantUser = ({ room }) => {
           autoPlay={true}
         />
       ) : (
-        <div className={"default-video-dominant"}></div>
+        <div className={"default-video-dominant"}>
+          <FontAwesomeIcon
+            className={"dominant-camera-default"}
+            icon={faUsers}
+            size="2x"
+          />
+        </div>
       )}
 
       <div className="dominant-border-emotion-icon">
