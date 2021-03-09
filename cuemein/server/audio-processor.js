@@ -6,8 +6,8 @@ const NaturalLanguageUnderstandingV1 = require("ibm-watson/natural-language-unde
 const { IamAuthenticator } = require("ibm-watson/auth");
 
 async function ProcessAudio(blob_data) {
-  console.log("Got to audio processor");
-  console.log(blob_data);
+  // console.log("Got to audio processor");
+  // console.log(blob_data);
   //Audio Input
   //const filename = "./trump.wav";
 
@@ -15,19 +15,19 @@ async function ProcessAudio(blob_data) {
   const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
     version: "2020-08-01",
     authenticator: new IamAuthenticator({
-      apikey: "hJ9YKWBxjhZUkfNXai4YOKY2dvvPsX7pHjoDe1fRbdZI",
+      apikey: "1ondk5D1fddfOtPDIFA_jXtPfffZ28PEhOVuH4Bsog2_",
     }),
     serviceUrl:
-      "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/33ac35e7-3474-4ad4-a93e-d784322b8324",
+      "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/9c217753-d86f-4204-81b7-7b20ad15c7da",
   });
 
   //Set Up Watson Speech to Text Client
   const speechToText = new SpeechToTextV1({
     authenticator: new IamAuthenticator({
-      apikey: "hbnXY943Ap_XdulJxk1P0s2QRNtbbT0mxWFx6m5YQQ5u",
+      apikey: "RlTeYL1MmjP7XXo-_BQY3_ga3XFVVUHs_Ox4ZXMFbGUv",
     }),
     serviceUrl:
-      "https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/f305cf07-f559-495a-b5fa-8c27fda0393e",
+      "https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/2423ad39-07f2-4de8-a497-a78506e5142b",
   });
 
   //  const registerCallbackParams = {
@@ -92,6 +92,11 @@ async function ProcessAudio(blob_data) {
                     prediction = key;
                 }
             }
+
+            if(prediction == "joy")    {
+              prediction = "happiness";
+            }
+
             console.log("Here is the audio sentiment's prediction: ");
             console.log(prediction);
             return prediction;

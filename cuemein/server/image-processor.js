@@ -39,7 +39,7 @@ async function ProcessImage(blob_data) {
             }
     
             if(prediction == "contempt")    {
-                prediction = disgust;
+                prediction = "disgust";
             }
     
             return prediction;

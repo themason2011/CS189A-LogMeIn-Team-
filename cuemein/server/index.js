@@ -54,12 +54,12 @@ app.post("/video/snapShot", (req, res) => {
     const identity = req.query.identity;
     const room = req.query.room;
     const blob = req.body;
-    console.log(blob);
+    // console.log(blob);
     const prediction = await ImageProcessor.ProcessImage(blob);
 
-    console.log(prediction);
-    console.log(typeof prediction);
-    console.log(JSON.stringify({ emotion: prediction }));
+    // console.log(prediction);
+    // console.log(typeof prediction);
+    // console.log(JSON.stringify({ emotion: prediction }));
 
     if (prediction != null) {
       emotionsLookup[room] = emotionsLookup[room] || {};
@@ -70,13 +70,13 @@ app.post("/video/snapShot", (req, res) => {
   })();
 });
 
-app.get("/video/emotion", (req, res) => {
+app.get("/emotion", (req, res) => {
   const identity = req.query.identity;
   const room = req.query.room;
-  console.log(emotionsLookup);
+  // console.log(emotionsLookup);
   var currentRoom = emotionsLookup[room] || {};
   var lastEmotion = currentRoom[identity] || { emotion: "-" };
-  console.log(lastEmotion);
+  // console.log(lastEmotion);
   res.status(200).contentType("application/json").send(lastEmotion);
 });
 
@@ -85,12 +85,12 @@ app.post("/audio/snapShot", (req, res) => {
     const identity = req.query.identity;
     const room = req.query.room;
     const blob = req.body;
-    console.log(blob);
+    // console.log(blob);
     const prediction = await AudioProcessor.ProcessAudio(blob);
 
-    console.log(prediction);
-    console.log(typeof prediction);
-    console.log(JSON.stringify({ emotion: prediction }));
+    // console.log(prediction);
+    // console.log(typeof prediction);
+    // console.log(JSON.stringify({ emotion: prediction }));
 
     if (prediction != null) {
       emotionsLookup[room] = emotionsLookup[room] || {};

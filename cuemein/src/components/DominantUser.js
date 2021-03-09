@@ -57,14 +57,11 @@ const DominantUser = ({ room }) => {
 
   useEffect(() => {
     if (dominant != null) {
-      console.log("HELLOOOOOOOOOfdsafdsfs");
       setVideoTrackss(trackpubsToTracks(dominant.videoTracks));
       setAudioTrackss(trackpubsToTracks(dominant.audioTracks));
 
       const trackSubscribed = (track) => {
-        console.log("HELLOOOOOOOOO----------------------");
         if (track.kind === "video") {
-          console.log("HELLOOOOOOOOO----------------------video");
           setVideoTrackss((videoTracks) => [...videoTracks, track]);
         } else if (track.kind === "audio") {
           setAudioTrackss((audioTracks) => [...audioTracks, track]);
@@ -110,7 +107,6 @@ const DominantUser = ({ room }) => {
     imageCapture
       .grabFrame()
       .then((bitmap) => {
-        // console.log("bitmap :", bitmap);
         let canvas = document.createElement("canvas");
         canvas.width = bitmap.width;
         canvas.height = bitmap.height;
@@ -118,13 +114,11 @@ const DominantUser = ({ room }) => {
 
         context.drawImage(bitmap, 0, 0);
         canvas.toBlob(function (blob) {
-          // console.log(blob);
           var reader = new FileReader();
           reader.addEventListener("loadend", () => {
             fetch(reader.result)
               .then((res) => res.blob())
               .then((blob) => {
-                // console.log("here is your binary: ", blob);
                 const fetchUrl =
                   "/video/snapShot?identity=" +
                   dominant.identity +
@@ -138,7 +132,7 @@ const DominantUser = ({ room }) => {
                   },
                 }).then(() => {
                   //Update the UI Sentiment to display the most up-to-date sentiment, according to backend
-                  fetchVideoSentiment();
+                  fetchSentiment();
                 });
               });
           });
@@ -150,9 +144,9 @@ const DominantUser = ({ room }) => {
       });
   };
 
-  const fetchVideoSentiment = async () => {
+  const fetchSentiment = async () => {
     const getUrl =
-      "/video/emotion?identity=" + dominant.identity + "&room=" + room.name;
+      "/emotion?identity=" + dominant.identity + "&room=" + room.name;
     const data = await fetch(getUrl, {
       method: "GET",
       headers: {
@@ -196,21 +190,11 @@ const DominantUser = ({ room }) => {
         let recordedBlob = new Blob(recordedChunks, {
           type: "application/octet-stream",
         });
-
-        // console.log(
-        //   "Successfully recorded " +
-        //     recordedBlob.size +
-        //     " bytes of " +
-        //     recordedBlob.type +
-        //     " media."
-        // );
-        // console.log(recordedBlob);
         var reader = new FileReader();
         reader.addEventListener("loadend", () => {
           fetch(reader.result)
             .then((res) => res.blob())
             .then((recordedBlob) => {
-              // console.log("here is your binary: ", recordedBlob);
               const fetchUrl =
                 "/audio/snapShot?identity=" +
                 dominant.identity +
@@ -224,7 +208,7 @@ const DominantUser = ({ room }) => {
                 },
               }).then(() => {
                 //Update the UI Sentiment to display the most up-to-date sentiment, according to backend
-                fetchVideoSentiment();
+                fetchSentiment();
               });
             });
         });
@@ -241,19 +225,6 @@ const DominantUser = ({ room }) => {
     console.log("Recording stopped");
   }
 
-  //Takes a snapshot, which calls to backend API to update emotion, every time there is a change in who the Dominant User is AND every 2 seconds
-  useEffect(() => {
-    const videoSnapshotInterval = setInterval(() => {
-      if (dominant != null) {
-        const videoTrack = videoTrackss[0];
-        if (videoTrack) {
-          takeSnapshot(videoTrack.mediaStreamTrack);
-        }
-      }
-    }, 2000);
-    return () => clearInterval(videoSnapshotInterval);
-  }, [videoTrackss]);
-
   useEffect(() => {
     if (dominant != null) {
       const videoTrack = videoTrackss[0];
@@ -267,12 +238,27 @@ const DominantUser = ({ room }) => {
     }
   }, [videoTrackss]);
 
+  //Takes a snapshot, which calls to backend API to update emotion, every time there is a change in who the Dominant User is AND every 2 seconds
+  useEffect(() => {
+    const videoSnapshotInterval = setInterval(() => {
+      if (dominant != null && videoTrackss[0].isEnabled) {
+        const videoTrack = videoTrackss[0];
+        if (videoTrack) {
+          takeSnapshot(videoTrack.mediaStreamTrack);
+        }
+      }
+    }, 2000);
+    return () => {
+      clearInterval(videoSnapshotInterval);
+    }
+  }, [videoTrackss]);
+
   //Start a new audio recording interval and stop the old one for parsing every 6 seconds
   useEffect(() => {
-    const intervalInMS = 8000;
+    const intervalInMS = 10000;
     const audioSnapshotInterval = setInterval(() => {
-      const intervalInMS = 8000;
-      if (dominant != null) {
+      console.log("New function called");
+      if (dominant != null && !videoTrackss[0].isEnabled) {
         const audioTrack = audioTrackss[0];
         if (audioTrack) {
           // audioTrack.attach(audioref.current);
@@ -281,23 +267,12 @@ const DominantUser = ({ room }) => {
       }
     }, intervalInMS);
     return () => {
-      //TODO: VERIFY THAT stop(audioTrack) ACTUALLY STOPS THE RECORDING OF THE AUDIO TRACK AND RETURNS THE SENTIMENT ANAL OF THE PARTIALLY FININSHED RECORDING WHEN DOMINANT SPEAKER CHANGES
-      // if (dominant != null) {
-      //   stop(audioTrackss);
-      // }
       clearInterval(audioSnapshotInterval);
+      //TODO: Place something here that stops the recordAudio function for the previous dominant user
+      //when the dominant user changes. This will allow the interval to restart for the new
+      //dominant user right when the change happens, giving us more accurate audio (hopefully)
     };
   }, [audioTrackss]);
-
-  //CAN BE UNCOMMENTED TO HAVE UI SENTIMENT REPEATEDLY FORCE REFRESH EVERY 1 SEC (DEBUG/TESTING).
-  //Could also be used if we end up updating video and audio sentiment async, to ensure that the latest
-  //sentiment is always being used.
-  // useEffect(() => {
-  //   const refreshSentimentInterval = setInterval(() => {
-  //     fetchVideoSentiment();
-  //   }, 1000);
-  //   return () => clearInterval(refreshSentimentInterval);
-  // }, [videoTrackss]);
 
   let emoji;
   let emotiontext;
