@@ -123,6 +123,15 @@ body{
 .participant-video-empty{
     visibility: hidden;
 }
+
+.black-box{
+    width:100%;
+    height:100%;
+    background-color: black;
+    position:absolute;
+    color:black;
+}
+
 /* .participant-video-emptyi{
     visibility: hidden;
 } */
@@ -856,6 +865,10 @@ body{
 .reaction-container{
     position:relative;
     display: flex;
+}
+
+.black-box{
+    background-color: black;
 }
 
 /*Code below is the login page css that we starte*/

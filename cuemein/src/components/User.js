@@ -19,7 +19,7 @@ const User = ({ user, mute, local = "" }) => {
 
   const videoref = useRef();
   const audioref = useRef();
-  let locals = "";
+  let locals = "black-box";
 
   console.log("User.js", user.identity);
 
@@ -154,6 +154,12 @@ const User = ({ user, mute, local = "" }) => {
 
       <div className="user-camera-box">
         {vmute ? (
+          <div className="black-box">fds</div>
+        ) : (
+          // <video className={"participant-video-empty"} height="120"></video>
+          ""
+        )}
+        {vmute ? (
           <FontAwesomeIcon
             className={"empty-icon-video"}
             icon={faCamera}
@@ -165,12 +171,7 @@ const User = ({ user, mute, local = "" }) => {
         )}
 
         {vmute ? (
-          <video
-            className={locals}
-            width="100%"
-            ref={videoref}
-            autoPlay={true}
-          />
+          <video className={locals} width="100%" ref={videoref} />
         ) : (
           // <video className={"participant-video-empty"} height="120"></video>
           <video
