@@ -171,9 +171,11 @@ body{
 .user-camera{
     position:relative;
 
-    
-    
+
 }
+
+
+
 .user-camera-box{
     transition: all 2s ease;
 }
@@ -696,6 +698,11 @@ body{
 }
 .user-camera-reaction{
     
+    
+}
+
+.emoji{
+    z-index: 1000;
 }
 .emoji{
     position:absolute;
