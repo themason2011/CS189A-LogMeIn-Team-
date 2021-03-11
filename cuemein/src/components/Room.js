@@ -363,39 +363,42 @@ const Room = ({ meetingname, token, emotion, logout, test }) => {
               <div className="col-audio">
                 {mute ? (
                   <button className="btn1 info" onClick={mutecallback}>
-                    <span className="btn2">MUTE</span>
-                    <FontAwesomeIcon icon={faMicrophoneSlash} />
+                    <span className="btn2">Mute</span>
+                    <FontAwesomeIcon
+                      className="btnsize"
+                      icon={faMicrophoneSlash}
+                    />
                   </button>
                 ) : (
                   <button className="btn1 info" onClick={mutecallback}>
-                    <span className="btn2">MUTE</span>
-                    <FontAwesomeIcon icon={faMicrophone} />
+                    <span className="btn2">Mute</span>
+                    <FontAwesomeIcon className="btnsize" icon={faMicrophone} />
                   </button>
                 )}
               </div>
               <div className="col-video">
                 {videomute ? (
                   <button className="btn1 info" onClick={mutevideocallback}>
-                    <span className="btn2">CAMERA</span>
-                    <FontAwesomeIcon icon={faVideoSlash} />
+                    <span className="btn2">Camera</span>
+                    <FontAwesomeIcon className="btnsize" icon={faVideoSlash} />
                   </button>
                 ) : (
                   <button className="btn1 info" onClick={mutevideocallback}>
-                    <span className="btn2">CAMERA</span>
-                    <FontAwesomeIcon icon={faVideo} />
+                    <span className="btn2">Camera</span>
+                    <FontAwesomeIcon className="btnsize" icon={faVideo} />
                   </button>
                 )}
               </div>
               <div className="col-silence">
                 {deafenmute ? (
                   <button className="btn1 info" onClick={defeancallback}>
-                    <span className="btn2">SILENCE</span>
-                    <FontAwesomeIcon icon={faTimes} />
+                    <span className="btn2">Silence</span>
+                    <FontAwesomeIcon className="btnsize" icon={faTimes} />
                   </button>
                 ) : (
                   <button className="btn1 info" onClick={defeancallback}>
-                    <span className="btn2">SILENCE</span>
-                    <FontAwesomeIcon icon={faHeadphones} />
+                    <span className="btn2">Silence</span>
+                    <FontAwesomeIcon className="btnsize" icon={faHeadphones} />
                   </button>
                 )}
               </div>
